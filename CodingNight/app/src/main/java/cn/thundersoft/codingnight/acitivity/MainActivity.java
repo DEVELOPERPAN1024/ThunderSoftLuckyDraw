@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
@@ -27,13 +29,16 @@ public class MainActivity extends AppCompatActivity {
     private Controller mController;
     OnTabItemSelectListener mBottomTabListener = new OnTabItemSelectListener() {
         @Override
-        public void onSelected(int index, Object tag)
-        {
-            mMainViewpager.setCurrentItem(index,false);
+        public void onSelected(int index, Object tag) {
+            mMainViewpager.setCurrentItem(index, false);
         }
 
         @Override
         public void onRepeatClick(int index, Object tag) {
+            //  Glide.with(context)
+            //.load(data.getStandyby())
+            //        .centerCrop()
+            //        .into(bannerImageView);
         }
     };
 
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
     }
+
     private void initView() {
         initBottomTab();
         mMainViewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
@@ -66,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initBottomTab()
-    {
+    private void initBottomTab() {
 
         //用TabItemBuilder构建一个导航按钮
         TabItemBuilder tabItemBuilder = new TabItemBuilder(this).create()
@@ -80,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
         //构建导航栏,得到Controller进行后续控制
         mController = mMainBottomBar.builder()
                 .addTabItem(tabItemBuilder)
-                .addTabItem(android.R.drawable.ic_dialog_email, "two",getResources().getColor(R.color.colorPrimary))
-                .addTabItem(android.R.drawable.ic_dialog_info, "three",getResources().getColor(R.color.colorPrimary))
-                .addTabItem(android.R.drawable.ic_dialog_map, "four",getResources().getColor(R.color.colorPrimary))
-                .setMode(TabLayoutMode.HIDE_TEXT| TabLayoutMode.CHANGE_BACKGROUND_COLOR)
+                .addTabItem(android.R.drawable.ic_dialog_email, "two", getResources().getColor(R.color.colorPrimary))
+                .addTabItem(android.R.drawable.ic_dialog_info, "three", getResources().getColor(R.color.colorPrimary))
+                .addTabItem(android.R.drawable.ic_dialog_map, "four", getResources().getColor(R.color.colorPrimary))
+                .setMode(TabLayoutMode.HIDE_TEXT | TabLayoutMode.CHANGE_BACKGROUND_COLOR)
                 .build();
 
         mController.addTabItemClickListener(mBottomTabListener);
@@ -150,9 +155,9 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         }
 
-        private Bundle getPrivateBundle(String text){
+        private Bundle getPrivateBundle(String text) {
             Bundle bundle = new Bundle();
-            bundle.putString("demo",text);
+            bundle.putString("demo", text);
             return bundle;
         }
     }
