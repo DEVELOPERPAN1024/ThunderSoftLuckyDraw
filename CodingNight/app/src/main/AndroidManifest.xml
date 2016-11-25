@@ -33,7 +33,9 @@
         <activity android:name=".acitivity.LuckyDrawActivity" />
 
         <activity android:name=".acitivity.AwardDetailActivity" />
-        <activity android:name=".acitivity.SearchActivity" />
+        <activity
+            android:name=".acitivity.SearchActivity"
+            android:label="@string/set_data" />
 
         <provider
             android:name=".db.AwardAndEmployeeInfoProvider"

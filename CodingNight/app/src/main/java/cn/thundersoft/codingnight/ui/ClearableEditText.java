@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -44,5 +45,9 @@ public class ClearableEditText extends LinearLayout {
 
     public void addTextWatcher(TextWatcher watcher) {
         mEdit.addTextChangedListener(watcher);
+    }
+
+    public String getText() {
+        return mEdit.getText().toString();
     }
 }

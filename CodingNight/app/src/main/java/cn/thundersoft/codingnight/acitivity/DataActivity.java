@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,9 +34,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
+import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
 
-public class DataActivity extends AppCompatActivity implements View.OnClickListener {
+public class DataActivity extends AppCompatActivity implements View.OnClickListener, Reloadable {
     private static final String TAG = "DataActivity";
 
     private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
@@ -48,7 +52,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.list_person)
     ListView mList;
     @Bind(R.id.btn_import)
-    Button mImportButton;
+    View mImportButton;
 
     private PersonAdapter mAdapter;
 
@@ -62,7 +66,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
                 case WHAT_IMPORT_COMPLETE:
-                    loadData();
+                    reload();
                     break;
                 default:
                     break;
@@ -76,8 +80,14 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_data);
         ButterKnife.bind(this);
         mImportButton.setOnClickListener(this);
-        mList.setEmptyView(mImportButton);
-        loadData();
+        mList.setEmptyView(findViewById(R.id.list_person_empty));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.set_data);
+        }
+
+        reload();
     }
 
     @Override
@@ -90,14 +100,19 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem add = menu.findItem(R.id.menu_add_new_person);
         MenuItem search = menu.findItem(R.id.search);
+        MenuItem reload = menu.findItem(R.id.menu_reload);
         add.setVisible(!(mAdapter == null || mAdapter.isEmpty()));
         search.setVisible(!(mAdapter == null || mAdapter.isEmpty()));
+        reload.setVisible(!(mAdapter == null || mAdapter.isEmpty()));
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.menu_add_new_person:
                 View dialogView = LayoutInflater.from(this)
                         .inflate(R.layout.layout_edit_person, null);
@@ -111,7 +126,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                                 ContentValues cv = new ContentValues();
                                 cv.put("info", newInfo.getText().toString());
                                 getContentResolver().insert(CONTENT_URI, cv);
-                                loadData();
+                                reload();
                             }
                         })
                         .create()
@@ -119,6 +134,11 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.search:
                 startActivity(new Intent(this, SearchActivity.class));
+                break;
+            case R.id.menu_reload:
+                getContentResolver().delete(CONTENT_URI, null, null);
+                reload();
+                mImportButton.performClick();
                 break;
             default:
                 break;
@@ -171,7 +191,6 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                         ContentValues cv = new ContentValues();
                         cv.put("info", line);
                         getContentResolver().insert(DataActivity.this.CONTENT_URI, cv);
-                        // TODO: 2016/11/25 DB
                         Message message = mHandler.obtainMessage(WHAT_UPDATE_IMPORT_DIALOG_MESSAGE,
                                 "Reading...\n" + line);
                         message.sendToTarget();
@@ -193,18 +212,6 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
         }).start();
     }
 
-    public void loadData() {
-        Cursor c = getContentResolver().query(CONTENT_URI, null, null, null, null);
-        if (mAdapter == null) {
-            mAdapter = new PersonAdapter(this, c);
-            mList.setAdapter(mAdapter);
-        } else {
-            mAdapter.changeCursor(c);
-            mAdapter.notifyDataSetChanged();
-        }
-        invalidateOptionsMenu();
-    }
-
     private ProgressDialog getDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -217,5 +224,18 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
         return mProgressDialog;
+    }
+
+    @Override
+    public void reload() {
+        Cursor c = getContentResolver().query(CONTENT_URI, null, null, null, null);
+        if (mAdapter == null) {
+            mAdapter = new PersonAdapter(this, c);
+            mList.setAdapter(mAdapter);
+        } else {
+            mAdapter.changeCursor(c);
+            mAdapter.notifyDataSetChanged();
+        }
+        invalidateOptionsMenu();
     }
 }

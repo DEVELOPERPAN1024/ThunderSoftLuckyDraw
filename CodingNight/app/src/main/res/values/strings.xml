@@ -23,4 +23,9 @@
     <string name="none">无</string>
     <string name="pls_input_info">请输入员工信息</string>
     <string name="input_search_text">输入你想要搜索的东西</string>
+    <string name="get_nothing">没有找到</string>
+    <string name="reload">重新加载</string>
+    <string name="pls_import_data">请导入数据</string>
+    <string name="search">搜索</string>
+    <string name="add">添加</string>
 </resources>

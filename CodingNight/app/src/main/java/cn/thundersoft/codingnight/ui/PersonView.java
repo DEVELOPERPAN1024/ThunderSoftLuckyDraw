@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.acitivity.DataActivity;
+import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
 
 public class PersonView extends FrameLayout implements View.OnClickListener {
@@ -60,7 +61,7 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
             case R.id.btn_delete:
                 getContext().getContentResolver().delete(CONTENT_URI, "_id=?",
                         new String[]{mPerson.getId() + ""});
-                ((DataActivity) getContext()).loadData();
+                ((Reloadable) getContext()).reload();
                 break;
             case R.id.btn_modify:
                 View dialogView = LayoutInflater.from(getContext())
@@ -77,7 +78,7 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
                                 getContext().getContentResolver().update(CONTENT_URI, cv, "_id=?",
                                         new String[]{mPerson.getId() + ""});
                                 toggleBottomLayoutVisibility();
-                                ((DataActivity) getContext()).loadData();
+                                ((Reloadable) getContext()).reload();
                             }
                         })
                         .create()

@@ -3,13 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/search"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="搜索"
+        android:icon="@drawable/ic_magnify"
+        android:title="@string/search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_add_new_person"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="添加"
+        android:title="@string/add"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_reload"
+        android:title="@string/reload"
+        app:showAsAction="never" />
 </menu>

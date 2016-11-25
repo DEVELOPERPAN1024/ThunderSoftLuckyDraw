@@ -12,12 +12,29 @@
         android:divider="@null"
         android:dividerHeight="0dp" />
 
-    <Button
-        android:id="@+id/btn_import"
+    <LinearLayout
+        android:id="@+id/list_person_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/import_data"
-        android:visibility="gone" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pls_import_data"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/btn_import"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/two"
+            android:layout_marginTop="@dimen/one"
+            android:background="@drawable/data_import_button"
+            android:elevation="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </LinearLayout>
 </RelativeLayout>

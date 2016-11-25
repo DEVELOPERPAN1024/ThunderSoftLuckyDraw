@@ -9,22 +9,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
+import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.ui.ClearableEditText;
 
-public class SearchActivity extends AppCompatActivity implements TextWatcher {
+public class SearchActivity extends AppCompatActivity implements TextWatcher, Reloadable {
 
     @Bind(R.id.list_result)
     ListView mList;
+    @Bind(R.id.tv_search_empty)
+    TextView mEmpty;
 
     private PersonAdapter mAdapter;
 
@@ -35,6 +38,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        mList.setEmptyView(mEmpty);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -56,6 +60,14 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
@@ -65,9 +77,16 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        String search = s.toString().trim();
-        if (TextUtils.isEmpty(s)) return;
-        Uri uri = Uri.parse("content://tscodingnight/search/" + search);
+        String searchString = s.toString().trim();
+        if (TextUtils.isEmpty(s)) {
+            mAdapter.changeCursor(null);
+            return;
+        }
+        search(searchString);
+    }
+
+    private void search(String searchString) {
+        Uri uri = Uri.parse("content://tscodingnight/search/" + searchString);
         Cursor c = getContentResolver().query(uri, null, null, null, null);
         if (mAdapter == null) {
             mAdapter = new PersonAdapter(this, c);
@@ -75,5 +94,10 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher {
         } else {
             mAdapter.changeCursor(c);
         }
+    }
+
+    @Override
+    public void reload() {
+        search(clearEdit.getText());
     }
 }
