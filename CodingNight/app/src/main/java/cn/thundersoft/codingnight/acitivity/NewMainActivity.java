@@ -1,5 +1,6 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,7 +58,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         int id = v.getId();
         switch (id) {
             case R.id.main_data_cv: {
-
+                startActivity(new Intent(this, DataActivity.class));
             }
             case R.id.main_award_cv: {
 
