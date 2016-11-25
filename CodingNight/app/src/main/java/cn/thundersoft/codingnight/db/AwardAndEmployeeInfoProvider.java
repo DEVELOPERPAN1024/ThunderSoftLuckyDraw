@@ -122,8 +122,16 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
             case WIN_ALL:
                 return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
+//                String query = "select info._id,award.name,award.detail,award.picuri,award.count\n" +
+//                        "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
+//                        "where info._id = ?";
+//                String wid = uri.getPathSegments().get(0);
+//                return db.rawQuery(query,new String[] {wid});
                 String wid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD, null, "id = ?", new String[]{wid}, null, null, null);
+                String q = "select wininfo._id,info.info\n" +
+                        "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
+                        "where wininfo.award_id = ?";
+                return db.rawQuery(q,new String[]{wid});
         }
         return null;
     }
@@ -131,6 +139,17 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        switch (sUriMatcher.match(uri)) {
+            case AWARD_ALL:
+            case AWARD_ID:
+            case INFO_ID:
+            case WIN_ALL:
+            case WIN_ID:
+                break;
+            case INFO_ALL:
+                return db.update(TABLE_INFO, values, selection, selectionArgs);
+        }
         return 0;
     }
 }

@@ -22,6 +22,12 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
                     ");";
     private static final String CREATE_INFO =
             "CREATE TABLE info (_id INTEGER PRIMARY KEY AUTOINCREMENT, info CHAR (256) NOT NULL, award_id INTEGER);";
+    private static final String CREATE_WIN_INFO =
+            "CREATE TABLE wininfo (\n" +
+                    "    _id      INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    info_id  INTEGER,\n" +
+                    "    award_id INTEGER\n" +
+                    ");";
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
             sInstance = new InfoDatabaseHelper(context);
@@ -38,6 +44,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
         Log.d("TS", "onCreate: " + "create database");
         db.execSQL(CREATE_AWARDINFO);
         db.execSQL(CREATE_INFO);
+        db.execSQL(CREATE_WIN_INFO);
     }
 
     @Override
