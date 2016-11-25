@@ -3,7 +3,10 @@
     <string name="set_data">设置数据</string>
     <string name="set_award">设置奖项</string>
     <string name="begin_lucky_draw">开始抽奖</string>
-
     <string name="lucky_draw_prize">奖项</string>
     <string name="lucky_draw_select_count">选择抽奖次数</string>
+    <string name="add_award_name">奖项名称</string>
+    <string name="add_award_count">获奖人数</string>
+    <string name="add_award_detail">奖品名称及描述</string>
+    <string name="add_award_picurl">点击下方加号添加奖品图片</string>
 </resources>

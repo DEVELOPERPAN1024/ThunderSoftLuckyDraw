@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.models.Award;
 
 /**
  * Created by pandroid on 11/25/16.
@@ -59,12 +60,16 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         switch (id) {
             case R.id.main_data_cv: {
                 startActivity(new Intent(this, DataActivity.class));
+                break;
             }
             case R.id.main_award_cv: {
-
+                Intent intent = new Intent(this, AwardActivity.class);
+                startActivity(intent);
+                break;
             }
             case R.id.main_luckydraw_cv: {
                 startActivity(new Intent(this, LuckyDrawActivity.class));
+                break;
             }
             default:
                 break;
