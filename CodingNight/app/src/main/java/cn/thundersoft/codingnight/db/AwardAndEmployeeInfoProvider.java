@@ -29,6 +29,8 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
             new UriMatcher(UriMatcher.NO_MATCH);
 
 
+    private static final int SEARACH_INFO = 6;
+
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
         sUriMatcher.addURI(AUTH, "award/#", AWARD_ID);
@@ -36,6 +38,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
         sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
         sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
+        sUriMatcher.addURI(AUTH, "search",SEARACH_INFO);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -132,6 +135,10 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
                         "where wininfo.award_id = ?";
                 return db.rawQuery(q,new String[]{wid});
+            case SEARACH_INFO:
+                String sid = uri.getPathSegments().get(0);
+                String searchQuery = "select * from info where info like %?%";
+                return db.rawQuery(searchQuery,new String[]{sid});
         }
         return null;
     }
