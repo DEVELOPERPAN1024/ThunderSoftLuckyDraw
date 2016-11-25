@@ -36,13 +36,13 @@ public class AwardDetailActivity extends AppCompatActivity {
 
     private Award mMainBean;
 
-    private Handler mHandler = new Handler(new Handler.Callback() {
+    private Handler mHandler = new Handler(){
         @Override
-        public boolean handleMessage(Message msg) {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             mPeopleListTV.setText(msg.getData().getString("peoplelist"));
-            return false;
         }
-    });
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

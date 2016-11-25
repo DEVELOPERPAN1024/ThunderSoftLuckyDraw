@@ -72,7 +72,7 @@ public class MyRandom implements Runnable {
         double rs = getRandom_0_1();
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            list.add(((int) (rs)) % max);
+            list.add((int) (rs * max));
         }
         return list;
     }

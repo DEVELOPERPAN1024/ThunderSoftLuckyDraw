@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -102,12 +103,14 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mTvAwardDetail = (TextView) findViewById(R.id.lucky_draw_award_detail);
         mTvAwardNames = (TextView) findViewById(R.id.lucky_draw_award_names);
         mTvAwardNames.setLineSpacing(1, 2);
+        mTvAwardNames.setMovementMethod(new ScrollingMovementMethod());
 
         mSpAwards = (Spinner) findViewById(R.id.lucky_draw_award_spinner);
         mSpDrawTimes = (Spinner) findViewById(R.id.lucky_draw_count_spinner);
         mIvAwardImage = (ImageView) findViewById(R.id.lucky_draw_award_image);
         mBtnStart = (Button) findViewById(R.id.lucky_draw_award_start_button);
         mBottomLayout = (LinearLayout) findViewById(R.id.lucky_draw_award_bottom_linear);
+
         /*mAwardListLayout = (RelativeLayout) findViewById(R.id.lucky_draw_award_list);*/
     }
 
@@ -121,7 +124,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 showToast("Spinner1: position=" + position + " id=" + id);
                 mTotalAwards = mAwards.get(position).getCount();
-                mAwardID = position;
+                mAwardID = mAwards.get(position).getId();
                 showToast("position is " + position + "  award count is " + mTotalAwards);
                 setAwardDetails(position);
                 mBottomLayout.setVisibility(View.VISIBLE);
@@ -180,7 +183,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     }
 
     private void showToast(CharSequence msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void onStartDraw() {
@@ -218,7 +221,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
                         mPersonAwarded.add(mPersons.get(randoms.get(i)));
                     }
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -283,7 +286,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private void setAwardDetails(int index) {
         mTvAwardDetail.setText(mAwards.get(index).getDetial());
 
-        Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
+        if(mAwards.get(index).getPicUrl()!=null) {
+            Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
+        }
     }
 
 

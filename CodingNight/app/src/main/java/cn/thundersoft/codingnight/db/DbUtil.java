@@ -35,9 +35,9 @@ public class DbUtil {
 
     public static List<Person> getAllPerson(Context context) {
         List<Person> list = new ArrayList<>();
-        Uri u = Uri.withAppendedPath(uri,"info");
-        Cursor c = context.getContentResolver().query(u,null,null,null,null);
-        if(c != null) {
+        Uri u = Uri.withAppendedPath(uri, "info");
+        Cursor c = context.getContentResolver().query(u, null, null, null, null);
+        if (c != null) {
             while (c.moveToNext()) {
                 Person person = new Person(c.getString(1));
                 person.setId(c.getInt(0));
@@ -48,11 +48,11 @@ public class DbUtil {
     }
 
     public static void insertWinner(Context context, Integer winnerId, Integer awardId) {
-        Uri u=Uri.withAppendedPath(uri,"wininfo");
+        Uri u = Uri.withAppendedPath(uri, "wininfo");
         ContentValues cv = new ContentValues();
-        cv.put("info_id",winnerId);
-        cv.put("award_id",awardId);
-        context.getContentResolver().insert(uri,cv);
+        cv.put("info_id", winnerId);
+        cv.put("award_id", awardId);
+        context.getContentResolver().insert(u, cv);
     }
 
 
@@ -86,13 +86,13 @@ public class DbUtil {
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
-                sb.append(c.getString(1)+"\n");
+                sb.append(c.getString(1) + "\n");
             }
         }
         return sb.toString();
     }
 
-    public static void updatePersonInfo(Context context, Person person){
+    public static void updatePersonInfo(Context context, Person person) {
 
 
     }

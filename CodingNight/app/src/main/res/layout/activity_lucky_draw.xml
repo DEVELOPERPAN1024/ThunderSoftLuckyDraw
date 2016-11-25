@@ -11,48 +11,61 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cn.thundersoft.codingnight.acitivity.LuckyDrawActivity">
 
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/lucky_draw_top_left_linear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_margin="@dimen/one"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/three"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="@dimen/two"
-                android:text="@string/lucky_draw_prize"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorMainTitle"
-                android:textSize="@dimen/textSizeLarge" />
-
-            <Spinner
-                android:id="@+id/lucky_draw_award_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/four"
-                android:layout_marginBottom="@dimen/two"></Spinner>
-
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/six"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/lucky_draw_top_left_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/three"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/lucky_draw_select_count"
-                    android:textAlignment="center"
+                    android:layout_marginBottom="@dimen/two"
+                    android:text="@string/lucky_draw_prize"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorMainTitle"
                     android:textSize="@dimen/textSizeLarge" />
+
+                <Spinner
+                    android:id="@+id/lucky_draw_award_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/four"
+                    android:layout_marginBottom="@dimen/two"></Spinner>
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/lucky_draw_select_count"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorMainTitle"
+                        android:textSize="@dimen/textSizeLarge" />
+
+                    <Spinner
+                        android:id="@+id/lucky_draw_count_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/four"
+                        android:layout_gravity="center_vertical">
+
+                    </Spinner>
+                </Li-->nearLayout>
 
                 <Spinner
                     android:id="@+id/lucky_draw_count_spinner"
@@ -61,72 +74,74 @@
                     android:layout_gravity="center_vertical">
 
                 </Spinner>
-            </Li-->nearLayout>
 
-            <Spinner
-                android:id="@+id/lucky_draw_count_spinner"
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/lucky_draw_award_start_button"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/four"
-                android:layout_gravity="center_vertical">
+                android:layout_height="150dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:color/transparent"
+                android:text="@string/lucky_draw_button_start"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="@dimen/textSizeForDrawButton" />
 
-            </Spinner>
 
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 
-        <Button
-            android:id="@+id/lucky_draw_award_start_button"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:background="@android:color/transparent"
-            android:text="@string/lucky_draw_button_start"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="@dimen/textSizeForDrawButton" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lucky_draw_award_bottom_linear"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/one"
-            android:layout_marginTop="@dimen/one"
-            android:text="@string/lucky_draw_prize_title"
-            android:textColor="@color/colorMainTitle"
-            android:textSize="@dimen/textSizeSuperLarge" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/one">
 
         <LinearLayout
+            android:id="@+id/lucky_draw_award_bottom_linear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/lucky_draw_award_image"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_launcher" />
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/one"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/lucky_draw_award_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="This is a test description of this prize"
-                android:textColor="@color/colorSubTitle" />
+                android:layout_marginBottom="@dimen/one"
+                android:layout_marginTop="@dimen/one"
+                android:text="@string/lucky_draw_prize_title"
+                android:textColor="@color/colorMainTitle"
+                android:textSize="@dimen/textSizeSuperLarge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/lucky_draw_award_image"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/lucky_draw_award_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/one"
+                    android:text="This is a test description of this prize"
+                    android:textColor="@color/colorSubTitle" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <TextView
         android:id="@+id/lucky_draw_award_names"
