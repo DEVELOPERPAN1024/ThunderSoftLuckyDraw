@@ -38,7 +38,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
         sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
         sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
-        sUriMatcher.addURI(AUTH, "search",SEARACH_INFO);
+        sUriMatcher.addURI(AUTH, "search/#",SEARACH_INFO);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -55,7 +55,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 Log.d(DEBUG_TAG, "delete: " + uri.getPathSegments().get(0));
                 break;
             case INFO_ALL:
-                db.delete(TABLE_INFO, null, null);
+                db.delete(TABLE_INFO, selection, selectionArgs);
                 break;
             case INFO_ID:
                 break;
@@ -136,9 +136,10 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "where wininfo.award_id = ?";
                 return db.rawQuery(q,new String[]{wid});
             case SEARACH_INFO:
-                String sid = uri.getPathSegments().get(0);
-                String searchQuery = "select * from info where info like %?%";
-                return db.rawQuery(searchQuery,new String[]{sid});
+                String sid = uri.getPathSegments().get(1);
+                String searchQuery = "select * from info where info like '%" + sid +"%'";
+                Log.d(DEBUG_TAG, "query: " + searchQuery);
+                return db.rawQuery(searchQuery,null);
         }
         return null;
     }
