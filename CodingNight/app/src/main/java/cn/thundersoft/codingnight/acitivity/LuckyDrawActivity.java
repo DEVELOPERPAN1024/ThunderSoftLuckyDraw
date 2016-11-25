@@ -46,6 +46,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private boolean mIsDrawing;
     private int mTotalAwards;
     private int mTotalPersons;
+    private int mCurrentShowCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,38 +184,54 @@ public class LuckyDrawActivity extends AppCompatActivity {
         }
     }
 
+    private Thread myThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (mIsDrawing) {
+                List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
+                ArrayList<String> al = new ArrayList<>();
+                if (mTotalPersons > 0)
+                    for (int i = 0; i < mCurrentShowCount; ++i) {
+                        al.add(mPersons.get(randoms.get(i)).getInfo());
+
+                    }
+
+                showNames(al);
+            }
+        }
+    });
 
 
     private void getNameList() {
         mPersons = DbUtil.getAllPerson(this);
         mTotalPersons = mPersons.size();
-        int showCount;
         if (mTotalDrawCount != 1) {
-            showCount = mTotalAwards / mTotalDrawCount;
+            mCurrentShowCount = mTotalAwards / mTotalDrawCount;
         } else {
-            showCount = mTotalAwards / mTotalDrawCount + mTotalAwards % mTotalDrawCount;
+            mCurrentShowCount = mTotalAwards / mTotalDrawCount + mTotalAwards % mTotalDrawCount;
         }
 
-        while (mIsDrawing) {
-            List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, showCount);
+        /*while (mIsDrawing) {
+            List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
             ArrayList<String> al = new ArrayList<>();
             if (mTotalPersons > 0)
-                for (int i = 0; i < showCount; ++i) {
+                for (int i = 0; i < mCurrentShowCount; ++i) {
                     al.add(mPersons.get(randoms.get(i)).getInfo());
 
                 }
 
             showNames(al);
 
-            /*try {
+            *//*try {
                 Thread.sleep(200);
             } catch (Exception e) {
 
-            }*/
+            }*//*
 
-        }
+        }*/
+        myThread.start();
 
     }
 
