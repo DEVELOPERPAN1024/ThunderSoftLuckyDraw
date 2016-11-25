@@ -11,10 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".acitivity.MainActivity">
-
-        </activity>
-
+        <activity android:name=".acitivity.MainActivity"></activity>
         <activity
             android:name=".acitivity.NewMainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -33,6 +30,8 @@
         </activity>
 
         <activity android:name=".acitivity.DataActivity" />
+        <activity android:name=".acitivity.LuckyDrawActivity"></activity>
+
     </application>
 
 </manifest>
