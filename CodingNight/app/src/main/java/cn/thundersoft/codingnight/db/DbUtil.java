@@ -33,6 +33,24 @@ public class DbUtil {
 
     }
 
+    public static List<Person> getAllPerson(Context context) {
+        List<Person> list = new ArrayList<>();
+        Uri u = Uri.withAppendedPath(uri,"info");
+        Cursor c = context.getContentResolver().query(u,null,null,null,null);
+        if(c != null) {
+            while (c.moveToNext()) {
+                Person person = new Person(c.getString(1));
+                person.setId(c.getInt(0));
+                list.add(person);
+            }
+        }
+        return list;
+    }
+
+    public static void insertWinner() {
+        
+    }
+
 
     private static void fillAward(Award award, Cursor c) {
         award.setId(c.getInt(0));
