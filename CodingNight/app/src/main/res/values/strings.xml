@@ -21,4 +21,6 @@
     <string name="delete">删除</string>
     <string name="modify">修改</string>
     <string name="none">无</string>
+    <string name="pls_input_info">请输入员工信息</string>
+    <string name="input_search_text">输入你想要搜索的东西</string>
 </resources>

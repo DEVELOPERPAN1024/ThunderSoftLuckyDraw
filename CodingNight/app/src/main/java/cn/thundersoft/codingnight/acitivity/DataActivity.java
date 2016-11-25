@@ -9,12 +9,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,11 +36,12 @@ import cn.thundersoft.codingnight.models.Person;
 public class DataActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "DataActivity";
 
+    private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
+
     private static final int REQUEST_SELECT_FILE = 0;
 
     private static final int WHAT_UPDATE_IMPORT_DIALOG_MESSAGE = 0;
-    private static final int WHAT_UPDATE_QUERY_DIALOG_MESSAGE = 1;
-    private static final int WHAT_IMPORT_COMPLETE = 2;
+    private static final int WHAT_IMPORT_COMPLETE = 1;
 
     private ProgressDialog mProgressDialog;
 
@@ -56,8 +60,6 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                     if (mProgressDialog != null) {
                         mProgressDialog.setMessage((String) msg.obj);
                     }
-                    break;
-                case WHAT_UPDATE_QUERY_DIALOG_MESSAGE:
                     break;
                 case WHAT_IMPORT_COMPLETE:
                     loadData();
@@ -86,8 +88,41 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem add = menu.findItem(R.id.menu_add);
-        add.setVisible(mImportButton.getVisibility() != View.VISIBLE);
+        MenuItem add = menu.findItem(R.id.menu_add_new_person);
+        MenuItem search = menu.findItem(R.id.search);
+        add.setVisible(!(mAdapter == null || mAdapter.isEmpty()));
+        search.setVisible(!(mAdapter == null || mAdapter.isEmpty()));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add_new_person:
+                View dialogView = LayoutInflater.from(this)
+                        .inflate(R.layout.layout_edit_person, null);
+                final EditText newInfo = (EditText) dialogView.findViewById(R.id.et_input_info);
+                new AlertDialog.Builder(this)
+                        .setView(dialogView)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ContentValues cv = new ContentValues();
+                                cv.put("info", newInfo.getText().toString());
+                                getContentResolver().insert(CONTENT_URI, cv);
+                                loadData();
+                            }
+                        })
+                        .create()
+                        .show();
+                break;
+            case R.id.search:
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
+            default:
+                break;
+        }
         return true;
     }
 
@@ -133,10 +168,9 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                     while ((line = br.readLine()) != null) {
                         Person p = new Person(line);
                         data.add(p);
-                        Uri insertUri = Uri.parse("content://tscodingnight/info");
                         ContentValues cv = new ContentValues();
                         cv.put("info", line);
-                        getContentResolver().insert(insertUri, cv);
+                        getContentResolver().insert(DataActivity.this.CONTENT_URI, cv);
                         // TODO: 2016/11/25 DB
                         Message message = mHandler.obtainMessage(WHAT_UPDATE_IMPORT_DIALOG_MESSAGE,
                                 "Reading...\n" + line);
@@ -159,11 +193,15 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
         }).start();
     }
 
-    private void loadData() {
-        Uri uri = Uri.parse("content://tscodingnight/info");
-        Cursor c = getContentResolver().query(uri, null, null, null, null);
-        mAdapter = new PersonAdapter(this, c);
-        mList.setAdapter(mAdapter);
+    public void loadData() {
+        Cursor c = getContentResolver().query(CONTENT_URI, null, null, null, null);
+        if (mAdapter == null) {
+            mAdapter = new PersonAdapter(this, c);
+            mList.setAdapter(mAdapter);
+        } else {
+            mAdapter.changeCursor(c);
+            mAdapter.notifyDataSetChanged();
+        }
         invalidateOptionsMenu();
     }
 

@@ -6,6 +6,7 @@ public class Person {
     private int id;
     private String info;
     private String prize;
+    private boolean isShowMenu = false;
 
     private Person() {
     }
@@ -46,6 +47,14 @@ public class Person {
 
     public void setPrize(String prize) {
         this.prize = prize;
+    }
+
+    public boolean isShowMenu() {
+        return isShowMenu;
+    }
+
+    public void setShowMenu(boolean showMenu) {
+        isShowMenu = showMenu;
     }
 
     @Override
