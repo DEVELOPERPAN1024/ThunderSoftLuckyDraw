@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by wy on 16-11-25.
  */
 
-public class InfoDatabaseHelper extends SQLiteOpenHelper{
+public class InfoDatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 2;
     private static InfoDatabaseHelper sInstance;
     private static final String CREATE_AWARDINFO =
@@ -28,14 +28,16 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
                     "    info_id  INTEGER,\n" +
                     "    award_id INTEGER\n" +
                     ");";
+
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
             sInstance = new InfoDatabaseHelper(context);
         }
         return sInstance;
     }
+
     private InfoDatabaseHelper(Context context) {
-        super(context,"tscn",null,VERSION);
+        super(context, "tscn", null, VERSION);
 
     }
 

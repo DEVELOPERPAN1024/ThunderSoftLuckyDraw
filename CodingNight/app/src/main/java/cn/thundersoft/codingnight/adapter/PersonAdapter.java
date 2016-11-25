@@ -14,13 +14,11 @@ import cn.thundersoft.codingnight.models.Person;
 import cn.thundersoft.codingnight.ui.PersonView;
 
 public class PersonAdapter extends CursorAdapter {
-    private Context mContext;
     private LayoutInflater mInflater;
     private HashMap<Integer, Person> personCache;
 
     public PersonAdapter(Context context, Cursor c) {
         super(context, c, true);
-        mContext = context;
         mInflater = LayoutInflater.from(context);
         personCache = new HashMap<>();
     }

@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Objects;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
@@ -46,7 +48,6 @@ public class AddAwardActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add("保存");
-        item.setIcon(android.R.drawable.ic_menu_save);
         item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
@@ -63,7 +64,7 @@ public class AddAwardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("保存")) {
+        if (Objects.equals(item.getTitle(), "保存")) {
             if (mAwardNameEdt.getText().length() < 1 || mAwardCountEdt.getText().length() < 1
                     || mAwardDetailEdit.getText().length() < 1) {
                 Toast.makeText(this, "必要数据为空，请再次检查输入", Toast.LENGTH_SHORT).show();

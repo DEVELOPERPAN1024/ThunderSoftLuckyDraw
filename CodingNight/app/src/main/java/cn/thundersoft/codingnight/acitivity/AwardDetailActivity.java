@@ -7,21 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
-import cn.thundersoft.codingnight.models.Person;
-
-/**
- * Created by pandroid on 11/26/16.
- */
 
 public class AwardDetailActivity extends AppCompatActivity {
 
@@ -36,7 +30,7 @@ public class AwardDetailActivity extends AppCompatActivity {
 
     private Award mMainBean;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -62,10 +56,10 @@ public class AwardDetailActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this,mMainBean);
+                String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this, mMainBean);
                 Message msg = new Message();
                 Bundle bundle = new Bundle();
-                bundle.putString("peoplelist",peopleList);
+                bundle.putString("peoplelist", peopleList);
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
             }
@@ -81,7 +75,7 @@ public class AwardDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("删除")) {
+        if (Objects.equals(item.getTitle(), "删除")) {
             DbUtil.deleteAward(this, mMainBean);
             finish();
             return true;

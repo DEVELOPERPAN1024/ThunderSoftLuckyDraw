@@ -14,11 +14,6 @@ import android.widget.LinearLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
-import cn.thundersoft.codingnight.models.Award;
-
-/**
- * Created by pandroid on 11/25/16.
- */
 
 public class NewMainActivity extends AppCompatActivity implements View.OnClickListener {
 

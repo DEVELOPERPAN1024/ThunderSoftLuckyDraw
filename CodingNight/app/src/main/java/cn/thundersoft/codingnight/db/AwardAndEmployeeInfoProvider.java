@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
-import java.util.List;
-
 public class AwardAndEmployeeInfoProvider extends ContentProvider {
     SQLiteOpenHelper databaseHelper;
     public static final String URI = "content://tscodingnight";

@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import cn.thundersoft.codingnight.R;
-import cn.thundersoft.codingnight.acitivity.DataActivity;
 import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
 
@@ -27,8 +26,6 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
     private TextView mPersonInfo;
     private TextView mPrizeInfo;
     private View mBottomLayout;
-    private View mDeleteButton;
-    private View mModifyButton;
 
     public PersonView(Context context) {
         this(context, null, 0);
@@ -49,9 +46,9 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
         mPersonInfo = (TextView) findViewById(R.id.tv_person_info);
         mPrizeInfo = (TextView) findViewById(R.id.tv_win_prize_info);
         mBottomLayout = findViewById(R.id.ll_person_item_bottom);
-        mDeleteButton = findViewById(R.id.btn_delete);
+        View mDeleteButton = findViewById(R.id.btn_delete);
         if (mDeleteButton != null) mDeleteButton.setOnClickListener(this);
-        mModifyButton = findViewById(R.id.btn_modify);
+        View mModifyButton = findViewById(R.id.btn_modify);
         if (mModifyButton != null) mModifyButton.setOnClickListener(this);
     }
 
@@ -101,7 +98,6 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
             mBottomLayout.startAnimation(out);
             mBottomLayout.setVisibility(GONE);
         }
-//        mBottomLayout.setVisibility(isShow ? VISIBLE : GONE);
         mPerson.setShowMenu(isShow);
     }
 
@@ -119,9 +115,5 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
         setPersonInfo(p.getInfo());
         setWinPrize(p.getPrize());
         mBottomLayout.setVisibility(p.isShowMenu() ? VISIBLE : GONE);
-    }
-
-    public Person getPerson() {
-        return mPerson;
     }
 }

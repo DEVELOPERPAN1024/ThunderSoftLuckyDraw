@@ -60,7 +60,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             showNames(mLastRandomList);
-            if(!mIsDrawing){
+            if (!mIsDrawing) {
                 for (int i = 0; i < mCurrentShowCount; i++) {
                     DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
                 }
@@ -293,7 +293,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private void setAwardDetails(int index) {
         mTvAwardDetail.setText(mAwards.get(index).getDetial());
 
-        if(mAwards.get(index).getPicUrl()!=null) {
+        if (mAwards.get(index).getPicUrl() != null) {
             Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
         }
     }
