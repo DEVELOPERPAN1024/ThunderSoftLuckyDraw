@@ -130,7 +130,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 //                        "where info._id = ?";
 //                String wid = uri.getPathSegments().get(0);
 //                return db.rawQuery(query,new String[] {wid});
-                String wid = uri.getPathSegments().get(0);
+                String wid = uri.getPathSegments().get(1);
                 String q = "select wininfo._id,info.info\n" +
                         "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
                         "where wininfo.award_id = ?";
