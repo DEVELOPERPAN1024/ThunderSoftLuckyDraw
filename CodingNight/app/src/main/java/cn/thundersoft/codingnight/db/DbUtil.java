@@ -47,8 +47,12 @@ public class DbUtil {
         return list;
     }
 
-    public static void insertWinner() {
-        
+    public static void insertWinner(Context context, Integer winnerId, Integer awardId) {
+        Uri u=Uri.withAppendedPath(uri,"wininfo");
+        ContentValues cv = new ContentValues();
+        cv.put("info_id",winnerId);
+        cv.put("award_id",awardId);
+        context.getContentResolver().insert(uri,cv);
     }
 
 
