@@ -1,6 +1,8 @@
 package cn.thundersoft.codingnight.acitivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -39,14 +41,31 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private List<Award> mAwards = new ArrayList<>();
     private List<Person> mPersons = new ArrayList<>();
     private ArrayList<String> mArrayCount = new ArrayList<>();
-
-
+    private List<Person> mPersonAwarded = new ArrayList<>();
 
     private int mTotalDrawCount;
     private boolean mIsDrawing;
     private int mTotalAwards;
     private int mTotalPersons;
     private int mCurrentShowCount;
+    private int mAwardID;
+
+    private ArrayList<String> mLastRandomList = new ArrayList<>();
+    private boolean mThreadAlive = false;
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            showNames(mLastRandomList);
+            if(!mIsDrawing){
+                for (int i = 0; i < mCurrentShowCount; i++) {
+                    DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
+                }
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +121,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 showToast("Spinner1: position=" + position + " id=" + id);
                 mTotalAwards = mAwards.get(position).getCount();
+                mAwardID = position;
                 showToast("position is " + position + "  award count is " + mTotalAwards);
                 setAwardDetails(position);
                 mBottomLayout.setVisibility(View.VISIBLE);
@@ -190,14 +210,19 @@ public class LuckyDrawActivity extends AppCompatActivity {
             while (mIsDrawing) {
                 List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
-                ArrayList<String> al = new ArrayList<>();
+                mLastRandomList.clear();
+                mPersonAwarded.clear();
                 if (mTotalPersons > 0)
                     for (int i = 0; i < mCurrentShowCount; ++i) {
-                        al.add(mPersons.get(randoms.get(i)).getInfo());
-
+                        mLastRandomList.add(mPersons.get(randoms.get(i)).getInfo());
+                        mPersonAwarded.add(mPersons.get(randoms.get(i)));
                     }
-
-                showNames(al);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(1);
             }
         }
     });
@@ -231,7 +256,10 @@ public class LuckyDrawActivity extends AppCompatActivity {
             }*//*
 
         }*/
-        myThread.start();
+        if (!mThreadAlive) {
+            myThread.start();
+            mThreadAlive = true;
+        }
 
     }
 
@@ -249,7 +277,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private int getRandomSeed() {
         if (mTotalPersons == 0)
             return 0;
-        return (int)(System.nanoTime() / Math.PI) % mTotalPersons;
+        return (int) (System.nanoTime() / Math.PI) % mTotalPersons;
     }
 
     private void setAwardDetails(int index) {
@@ -257,7 +285,6 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
         Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
     }
-
 
 
 }
