@@ -165,6 +165,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (mTotalPersons <= 0)
+                    return;
+
                 if (mTotalAwards < mTotalDrawCount) {
                     showToast("奖项数目比抽奖次数少，没时间优化了");
                     return;
@@ -212,7 +215,8 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
     /*private Thread myThread = new Thread(new Runnable() {
         @Override
-        public void run() {
+        public void run() { mLastRandomList.add(mPersons.get(randoms.get(i)).getInfo());
+                                mPersonAwarded.add(mPersons.get(randoms.get(i)));
             while (mIsDrawing) {
                 List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
