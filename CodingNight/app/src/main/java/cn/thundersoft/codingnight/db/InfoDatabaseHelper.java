@@ -10,6 +10,8 @@ import android.util.Log;
  */
 
 public class InfoDatabaseHelper extends SQLiteOpenHelper{
+    private static final int VERSION = 2;
+    private static InfoDatabaseHelper sInstance;
     private static final String CREATE_AWARDINFO =
             "CREATE TABLE award (\n" +
                     "    _id    INTEGER      PRIMARY KEY AUTOINCREMENT,\n" +
@@ -18,8 +20,14 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
                     "    detail CHAR (256),\n" +
                     "    picuri CHAR (256) \n" +
                     ");";
-    public InfoDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public static InfoDatabaseHelper getsInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new InfoDatabaseHelper(context);
+        }
+        return sInstance;
+    }
+    private InfoDatabaseHelper(Context context) {
+        super(context,"tscn",null,VERSION);
 
     }
 

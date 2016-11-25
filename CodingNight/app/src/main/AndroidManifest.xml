@@ -32,6 +32,10 @@
         <activity android:name=".acitivity.DataActivity" />
         <activity android:name=".acitivity.LuckyDrawActivity"></activity>
 
+        <provider
+            android:authorities="tscodingnight"
+            android:name=".db.AwardAndEmployeeInfoProvider">
+        </provider>
     </application>
 
 </manifest>
