@@ -60,6 +60,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         switch (id) {
             case R.id.main_data_cv: {
                 startActivity(new Intent(this, DataActivity.class));
+                break;
             }
             case R.id.main_award_cv: {
                 Intent intent = new Intent(this, AwardActivity.class);
@@ -68,6 +69,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
             }
             case R.id.main_luckydraw_cv: {
                 startActivity(new Intent(this, LuckyDrawActivity.class));
+                break;
             }
             default:
                 break;
