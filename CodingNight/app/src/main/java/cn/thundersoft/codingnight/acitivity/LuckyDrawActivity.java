@@ -22,6 +22,7 @@ import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.models.Person;
+import cn.thundersoft.codingnight.util.MyRandom;
 
 public class LuckyDrawActivity extends AppCompatActivity {
 
@@ -182,6 +183,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     private void getNameList() {
         mPersons = DbUtil.getAllPerson(this);
         mTotalPersons = mPersons.size();
@@ -192,15 +196,26 @@ public class LuckyDrawActivity extends AppCompatActivity {
             showCount = mTotalAwards / mTotalDrawCount + mTotalAwards % mTotalDrawCount;
         }
 
+        while (mIsDrawing) {
+            List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, showCount);
 
-        ArrayList<String> al = new ArrayList<>();
-        if (mTotalPersons > 0)
-            for (int i = 0; i < showCount; ++i) {
-                al.add(mPersons.get(i).getInfo());
+            ArrayList<String> al = new ArrayList<>();
+            if (mTotalPersons > 0)
+                for (int i = 0; i < showCount; ++i) {
+                    al.add(mPersons.get(randoms.get(i)).getInfo());
 
-            }
+                }
 
-        showNames(al);
+            showNames(al);
+
+            /*try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+
+            }*/
+
+        }
+
     }
 
     private void showNames(ArrayList<String> list) {
@@ -225,5 +240,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
         Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
     }
+
+
 
 }
