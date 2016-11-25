@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.util.BitmapTools;
 
@@ -84,7 +85,8 @@ public class AddAwardActivity extends AppCompatActivity {
             if (mPicurlPath != null) {
                 bean.setPicUrl(mPicurlPath);
             }
-            //
+            DbUtil.insertAward(this, bean);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
