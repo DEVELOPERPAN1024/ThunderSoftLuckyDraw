@@ -11,7 +11,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".acitivity.MainActivity"></activity>
         <activity
             android:name=".acitivity.NewMainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -22,16 +21,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".acitivity.AwardActivity">
-
-        </activity>
-        <activity android:name=".acitivity.AddAwardActivity">
-
-        </activity>
+        <activity android:name=".acitivity.AwardActivity" />
+        <activity android:name=".acitivity.AddAwardActivity" />
 
         <activity android:name=".acitivity.DataActivity" />
         <activity android:name=".acitivity.LuckyDrawActivity" />
-
         <activity android:name=".acitivity.AwardDetailActivity" />
         <activity
             android:name=".acitivity.SearchActivity"
@@ -39,7 +33,7 @@
 
         <provider
             android:name=".db.AwardAndEmployeeInfoProvider"
-            android:authorities="tscodingnight"></provider>
+            android:authorities="tscodingnight" />
     </application>
 
 </manifest>

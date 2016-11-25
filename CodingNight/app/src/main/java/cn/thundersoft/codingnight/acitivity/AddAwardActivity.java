@@ -2,11 +2,8 @@ package cn.thundersoft.codingnight.acitivity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +21,6 @@ import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
-import cn.thundersoft.codingnight.util.BitmapTools;
-
-/**
- * Created by pandroid on 11/25/16.
- */
 
 public class AddAwardActivity extends AppCompatActivity {
 
@@ -103,10 +95,6 @@ public class AddAwardActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             mPicurlPath = cursor.getString(columnIndex);
             Glide.with(this).load(mPicurlPath).centerCrop().into(mAwardPicurlImageV);
-//            Bitmap bitmap = BitmapTools.getBitmap(mPicurlPath,200,200);
-//            Bitmap mBitmap = BitmapFactory.decodeFile(mPicurlPath);
-//            Bitmap mBitmap = BitmapFactory.decodeFile(mPicurlPath);
-//            mAwardPicurlImageV.setImageBitmap(bitmap);
             cursor.close();
         }
     }
