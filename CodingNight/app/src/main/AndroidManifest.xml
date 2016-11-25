@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.thundersoft.codingnight" >
+    package="cn.thundersoft.codingnight">
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".acitivity.MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".acitivity.MainActivity">
+
+        </activity>
+
+        <activity
+            android:name=".acitivity.NewMainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
