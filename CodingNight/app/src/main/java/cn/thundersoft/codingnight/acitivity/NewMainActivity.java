@@ -47,7 +47,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.enter_from_right);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.enter_from_down30);
         LayoutAnimationController controller = new LayoutAnimationController(animation);
         controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
         mMainItemLL.setLayoutAnimation(controller);
@@ -60,15 +60,18 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         switch (id) {
             case R.id.main_data_cv: {
                 startActivity(new Intent(this, DataActivity.class));
+                overridePendingTransition(R.anim.enter_from_left, R.anim.out_same);
                 break;
             }
             case R.id.main_award_cv: {
                 Intent intent = new Intent(this, AwardActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.out_same);
                 break;
             }
             case R.id.main_luckydraw_cv: {
                 startActivity(new Intent(this, LuckyDrawActivity.class));
+                overridePendingTransition(R.anim.enter_from_right, R.anim.out_same);
                 break;
             }
             default:
