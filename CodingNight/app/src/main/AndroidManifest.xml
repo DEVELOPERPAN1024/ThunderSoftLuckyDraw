@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".acitivity.AwardActivity">
+
+        </activity>
+        <activity android:name=".acitivity.AddAwardActivity">
+
+        </activity>
     </application>
 
 </manifest>

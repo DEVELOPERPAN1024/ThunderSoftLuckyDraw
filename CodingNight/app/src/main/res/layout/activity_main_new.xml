@@ -6,7 +6,6 @@
     android:background="#eee"
     >
 
-
     <LinearLayout
         android:id="@+id/main_item_ll"
         android:layout_width="match_parent"
