@@ -19,4 +19,6 @@
     <dimen name="textSizeSmall">12sp</dimen>
     <dimen name="textSizeMiddle">14sp</dimen>
     <dimen name="textSizeLarge">16sp</dimen>
+    <dimen name="textSizeSuperLarge">18sp</dimen>
+    <dimen name="textSizeForDrawButton">48sp</dimen>
 </resources>

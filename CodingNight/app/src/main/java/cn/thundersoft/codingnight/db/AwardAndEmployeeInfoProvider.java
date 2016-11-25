@@ -29,6 +29,8 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
             new UriMatcher(UriMatcher.NO_MATCH);
 
 
+    private static final int SEARACH_INFO = 6;
+
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
         sUriMatcher.addURI(AUTH, "award/#", AWARD_ID);
@@ -36,6 +38,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
         sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
         sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
+        sUriMatcher.addURI(AUTH, "search",SEARACH_INFO);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -122,8 +125,20 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
             case WIN_ALL:
                 return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
+//                String query = "select info._id,award.name,award.detail,award.picuri,award.count\n" +
+//                        "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
+//                        "where info._id = ?";
+//                String wid = uri.getPathSegments().get(0);
+//                return db.rawQuery(query,new String[] {wid});
                 String wid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD, null, "id = ?", new String[]{wid}, null, null, null);
+                String q = "select wininfo._id,info.info\n" +
+                        "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
+                        "where wininfo.award_id = ?";
+                return db.rawQuery(q,new String[]{wid});
+            case SEARACH_INFO:
+                String sid = uri.getPathSegments().get(0);
+                String searchQuery = "select * from info where info like %?%";
+                return db.rawQuery(searchQuery,new String[]{sid});
         }
         return null;
     }
@@ -131,6 +146,17 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        switch (sUriMatcher.match(uri)) {
+            case AWARD_ALL:
+            case AWARD_ID:
+            case INFO_ID:
+            case WIN_ALL:
+            case WIN_ID:
+                break;
+            case INFO_ALL:
+                return db.update(TABLE_INFO, values, selection, selectionArgs);
+        }
         return 0;
     }
 }
