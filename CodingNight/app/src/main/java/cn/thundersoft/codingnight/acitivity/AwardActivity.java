@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.async.AwardLoader;
 import cn.thundersoft.codingnight.models.Award;
 
 /**
@@ -35,14 +36,12 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private AwardAdapter mMainAdapter;
     private List<Award> mDataList;
-    private boolean isFirstLoad = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_award_layout);
-        getSupportLoaderManager().initLoader(100, null, this).forceLoad();
-        isFirstLoad = true;
+        getSupportLoaderManager().initLoader(0, null, this).forceLoad();
         ButterKnife.bind(this);
         initView();
     }
@@ -50,19 +49,18 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     protected void onResume() {
         super.onResume();
-        if(isFirstLoad) {
-            getSupportLoaderManager().initLoader(100, null, this).forceLoad();
-            isFirstLoad = false;
-        }
+        getSupportLoaderManager().initLoader(0, null, this).forceLoad();
     }
 
-    private void initView(){
+    private void initView() {
         mMainAdapter = new AwardAdapter(mDataList);
         mMainListView.setAdapter(mMainAdapter);
         mMainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(AwardActivity.this, AwardDetailActivity.class);
+                intent.putExtra("bean", mDataList.get(position));
+                startActivity(intent);
             }
         });
     }
@@ -87,12 +85,13 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public Loader<List<Award>> onCreateLoader(int id, Bundle args) {
-        return null;
+        return new AwardLoader(AwardActivity.this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Award>> loader, List<Award> data) {
         mDataList = data;
+        mMainAdapter.setDataList(data);
         mMainAdapter.notifyDataSetChanged();
     }
 

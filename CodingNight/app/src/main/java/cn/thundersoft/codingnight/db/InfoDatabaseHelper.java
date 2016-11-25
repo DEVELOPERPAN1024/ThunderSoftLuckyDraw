@@ -20,6 +20,8 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
                     "    detail CHAR (256),\n" +
                     "    picuri CHAR (256) \n" +
                     ");";
+    private static final String CREATE_INFO =
+            "CREATE TABLE info (_id INTEGER PRIMARY KEY AUTOINCREMENT, info CHAR (256) NOT NULL, award_id INTEGER);";
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
             sInstance = new InfoDatabaseHelper(context);
@@ -35,6 +37,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         Log.d("TS", "onCreate: " + "create database");
         db.execSQL(CREATE_AWARDINFO);
+        db.execSQL(CREATE_INFO);
     }
 
     @Override

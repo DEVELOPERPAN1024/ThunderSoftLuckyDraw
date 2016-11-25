@@ -32,10 +32,11 @@
         <activity android:name=".acitivity.DataActivity" />
         <activity android:name=".acitivity.LuckyDrawActivity"></activity>
 
+        <activity android:name=".acitivity.AwardDetailActivity" />
+
         <provider
-            android:authorities="tscodingnight"
-            android:name=".db.AwardAndEmployeeInfoProvider">
-        </provider>
+            android:name=".db.AwardAndEmployeeInfoProvider"
+            android:authorities="tscodingnight"></provider>
     </application>
 
 </manifest>

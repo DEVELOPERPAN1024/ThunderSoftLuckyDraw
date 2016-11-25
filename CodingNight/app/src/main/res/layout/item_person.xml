@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.thundersoft.codingnight.ui.PersonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half"
+        android:layout_marginLeft="@dimen/one"
+        android:layout_marginRight="@dimen/one"
+        android:layout_marginTop="@dimen/half"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/half"
+        app:cardElevation="@dimen/half">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/one">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_info" />
+
+            <TextView
+                android:id="@+id/tv_person_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/one"
+                android:layout_marginTop="@dimen/one"
+                android:text="张三6,006,ATAP6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/one"
+                android:text="@string/win_prize_info" />
+
+            <TextView
+                android:id="@+id/tv_win_prize_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/one"
+                android:layout_marginTop="@dimen/one"
+                android:text="无" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_person_item_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#BDDD"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/two"
+            android:paddingRight="@dimen/two"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/person_item_delete_button_background"
+                    android:text="@string/delete"
+                    android:textColor="#FFF"
+                    android:textSize="17sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_modify"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/person_item_modify_button_background"
+                    android:text="@string/modify"
+                    android:textColor="#FFF"
+                    android:textSize="17sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</cn.thundersoft.codingnight.ui.PersonView>

@@ -1,10 +1,11 @@
 package cn.thundersoft.codingnight.async;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.List;
 
+import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 
 /**
@@ -14,7 +15,8 @@ import cn.thundersoft.codingnight.models.Award;
 public class AwardLoader extends AsyncTaskLoader<List<Award>> {
 
     private Context mContext;
-    public AwardLoader(Context context){
+
+    public AwardLoader(Context context) {
         super(context);
         this.mContext = context;
     }
@@ -22,6 +24,6 @@ public class AwardLoader extends AsyncTaskLoader<List<Award>> {
     @Override
     public List<Award> loadInBackground() {
 
-        return null;
+        return DbUtil.getAwards(mContext);
     }
 }

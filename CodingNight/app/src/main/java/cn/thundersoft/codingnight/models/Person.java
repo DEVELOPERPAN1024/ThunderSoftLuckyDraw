@@ -1,38 +1,55 @@
 package cn.thundersoft.codingnight.models;
 
-import android.util.SparseArray;
-
-import cn.thundersoft.codingnight.App;
+import android.database.Cursor;
 
 public class Person {
-    public static final String SP_COLUMN_COUNT = "SP_COLUMN_COUNT";
+    private int id;
+    private String info;
+    private String prize;
 
-    private SparseArray<String> data;
+    private Person() {
+    }
 
     public Person(String line) {
-        data = new SparseArray<>();
-        String[] s = line.split("[\t ,;]");
-        int savedColumn = App.getInstance().getSharedPreferences().getInt(SP_COLUMN_COUNT, -1);
-        int columnCount = savedColumn == -1 ? s.length : savedColumn;
-        for (int i = 0; i < columnCount; i++) {
-            data.put(i, s[i]);
-        }
+        setId(0);
+        setInfo(line);
+        setPrize("");
     }
 
-    public void setProp(int index, String value) {
-        data.put(index, value);
+    public static Person bindCursor(Cursor c) {
+        Person p = new Person();
+        p.setId(Integer.valueOf(c.getString(0)));
+        p.setInfo(c.getString(1));
+        p.setPrize(c.getString(2));
+        return p;
     }
 
-    public String getProp(int index) {
-        return data.get(index);
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getPrize() {
+        return prize;
+    }
+
+    public void setPrize(String prize) {
+        this.prize = prize;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < data.size(); i++) {
-            sb.append(i).append(", ").append(data.get(i)).append("\n");
-        }
-        return sb.toString();
+        return "id = " + id + ", info = " + info + ", prize = " + prize;
     }
 }

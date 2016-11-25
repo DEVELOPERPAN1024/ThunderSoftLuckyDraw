@@ -1,10 +1,12 @@
 package cn.thundersoft.codingnight.models;
 
+import java.io.Serializable;
+
 /**
  * Created by pandroid on 11/25/16.
  */
 
-public class Award {
+public class Award implements Serializable{
 
     private int id;
     private String name;

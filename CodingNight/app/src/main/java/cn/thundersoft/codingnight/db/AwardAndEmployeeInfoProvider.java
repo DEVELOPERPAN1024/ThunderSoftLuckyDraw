@@ -13,9 +13,10 @@ import java.util.List;
 
 public class AwardAndEmployeeInfoProvider extends ContentProvider {
     SQLiteOpenHelper databaseHelper;
+    public static final String URI = "content://tscodingnight";
     public static final String DEBUG_TAG = "TS";
     public static final String AUTH = "tscodingnight";
-    private static final String TABLE_AWARD  = "award";
+    private static final String TABLE_AWARD = "award";
     private static final String TABLE_WIN_INFO = "wininfo";
     private static final String TABLE_INFO = "info";
     private static final int AWARD_ALL = 0;
@@ -29,13 +30,14 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 
 
     static {
-        sUriMatcher.addURI(AUTH,"award", AWARD_ALL);
-        sUriMatcher.addURI(AUTH,"award/#", AWARD_ID);
-        sUriMatcher.addURI(AUTH,"info", INFO_ALL);
-        sUriMatcher.addURI(AUTH,"info/#", INFO_ID);
-        sUriMatcher.addURI(AUTH,"wininfo",WIN_ALL);
-        sUriMatcher.addURI(AUTH,"wininfo/#",WIN_ID);
+        sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
+        sUriMatcher.addURI(AUTH, "award/#", AWARD_ID);
+        sUriMatcher.addURI(AUTH, "info", INFO_ALL);
+        sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
+        sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
+        sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
     }
+
     public AwardAndEmployeeInfoProvider() {
     }
 
@@ -44,12 +46,13 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
-                db.delete(TABLE_AWARD, null,null);
+                db.delete(TABLE_AWARD, selection, selectionArgs);
                 break;
             case AWARD_ID:
                 Log.d(DEBUG_TAG, "delete: " + uri.getPathSegments().get(0));
                 break;
             case INFO_ALL:
+                db.delete(TABLE_INFO, null, null);
                 break;
             case INFO_ID:
                 break;
@@ -89,7 +92,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 break;
         }
         if (table != null) {
-            db.insert(table,null,values);
+            db.insert(table, null, values);
         }
         return uri;
     }
@@ -107,20 +110,20 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
-                return db.query(TABLE_AWARD,null,null,null,null,null,null);
+                return db.query(TABLE_AWARD, null, null, null, null, null, null);
             case AWARD_ID:
                 String aid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD,null,"id = ?",new String[]{aid},null,null,null);
+                return db.query(TABLE_AWARD, null, "id = ?", new String[]{aid}, null, null, null);
             case INFO_ALL:
-                return db.query(TABLE_INFO,null,null,null,null,null,null);
+                return db.query(TABLE_INFO, null, null, null, null, null, null);
             case INFO_ID:
                 String iid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD,null,"id = ?",new String[]{iid},null,null,null);
+                return db.query(TABLE_AWARD, null, "id = ?", new String[]{iid}, null, null, null);
             case WIN_ALL:
-                return db.query(TABLE_WIN_INFO,null,null,null,null,null,null);
+                return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
                 String wid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD,null,"id = ?",new String[]{wid},null,null,null);
+                return db.query(TABLE_AWARD, null, "id = ?", new String[]{wid}, null, null, null);
         }
         return null;
     }
