@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:textColor="@color/colorMainTitle">
+    android:paddingBottom="@dimen/one"
+    android:paddingLeft="@dimen/one"
+    android:paddingRight="@dimen/one"
+    android:paddingTop="@dimen/one"
+    android:textColor="@color/colorSubTitle">
 
 </CheckedTextView>
