@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -45,6 +44,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private List<Person> mPersonAwarded = new ArrayList<>();
 
     private int mTotalDrawCount;
+    private int mTotalDrawCountStatic;
     private boolean mIsDrawing;
     private int mTotalAwards;
     private int mTotalPersons;
@@ -53,6 +53,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
     private ArrayList<String> mLastRandomList = new ArrayList<>();
     private boolean mThreadAlive = false;
+    private boolean mThreadFirst = true;
 
     Handler mHandler = new Handler() {
         @Override
@@ -128,6 +129,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 showToast("position is " + position + "  award count is " + mTotalAwards);
                 setAwardDetails(position);
                 mBottomLayout.setVisibility(View.VISIBLE);
+                mIvAwardImage.setVisibility(View.VISIBLE);
                 /*mAwardListLayout.setVisibility(View.GONE);
                 mAwardListLayout.removeAllViews();*/
                 mTvAwardNames.setVisibility(View.INVISIBLE);
@@ -147,6 +149,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 showToast("Spinner2: position=" + position + " id=" + id);
                 mTotalDrawCount = position + 1;
+                mTotalDrawCountStatic = mTotalDrawCount;
                 mBtnStart.setEnabled(true);
                 mBtnStart.setText(R.string.lucky_draw_button_start);
             }
@@ -207,7 +210,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         }
     }
 
-    private Thread myThread = new Thread(new Runnable() {
+    /*private Thread myThread = new Thread(new Runnable() {
         @Override
         public void run() {
             while (mIsDrawing) {
@@ -228,41 +231,45 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 mHandler.sendEmptyMessage(1);
             }
         }
-    });
+    });*/
 
 
     private void getNameList() {
         mPersons = DbUtil.getAllPerson(this);
+
         mTotalPersons = mPersons.size();
-        if (mTotalDrawCount != 1) {
-            mCurrentShowCount = mTotalAwards / mTotalDrawCount;
+        if (mTotalDrawCount > 1) {
+            Log.d("DBW", "mTotalDrawCount > 1  " + mTotalDrawCount);
+            mCurrentShowCount = mTotalAwards / mTotalDrawCountStatic;
         } else {
-            mCurrentShowCount = mTotalAwards / mTotalDrawCount + mTotalAwards % mTotalDrawCount;
+            Log.d("DBW", "mTotalDrawCount " + mTotalDrawCount);
+            mCurrentShowCount = mTotalAwards / mTotalDrawCountStatic + mTotalAwards % mTotalDrawCountStatic;
         }
+        Log.d("DBW", "mCurrentShowCount" + mCurrentShowCount);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mIsDrawing) {
 
-        /*while (mIsDrawing) {
-            List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
-            ArrayList<String> al = new ArrayList<>();
-            if (mTotalPersons > 0)
-                for (int i = 0; i < mCurrentShowCount; ++i) {
-                    al.add(mPersons.get(randoms.get(i)).getInfo());
+                    List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
 
+                    mLastRandomList.clear();
+                    mPersonAwarded.clear();
+                    if (mTotalPersons > 0)
+                        for (int i = 0; i < mCurrentShowCount; ++i) {
+                            mLastRandomList.add(mPersons.get(randoms.get(i)).getInfo());
+                            mPersonAwarded.add(mPersons.get(randoms.get(i)));
+                        }
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mHandler.sendEmptyMessage(1);
                 }
-
-            showNames(al);
-
-            *//*try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-
-            }*//*
-
-        }*/
-        if (!mThreadAlive) {
-            myThread.start();
-            mThreadAlive = true;
-        }
+            }
+        }).start();
 
     }
 
