@@ -52,8 +52,6 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private int mAwardID;
 
     private ArrayList<String> mLastRandomList = new ArrayList<>();
-    private boolean mThreadAlive = false;
-    private boolean mThreadFirst = true;
 
     Handler mHandler = new Handler() {
         @Override
@@ -61,7 +59,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             super.handleMessage(msg);
             showNames(mLastRandomList);
             if (!mIsDrawing) {
-                for (int i = 0; i < mCurrentShowCount; i++) {
+                for (int i = 0; i < mPersonAwarded.size(); i++) {
                     DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
                 }
 

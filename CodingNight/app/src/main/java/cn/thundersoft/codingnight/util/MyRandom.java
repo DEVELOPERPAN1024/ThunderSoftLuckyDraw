@@ -76,9 +76,4 @@ public class MyRandom implements Runnable {
         }
         return list;
     }
-
-    public static void main(String[] args) {
-        double rs = getRandom_0_1();
-        System.out.println(rs);
-    }
 }
