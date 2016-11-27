@@ -42,8 +42,8 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:layout_width="@dimen/five"
-                android:layout_height="@dimen/five"
+                android:layout_width="@dimen/four"
+                android:layout_height="@dimen/four"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/five"
                 android:src="@drawable/ic_clipboard_text" />
@@ -67,8 +67,8 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:layout_width="@dimen/five"
-                android:layout_height="@dimen/five"
+                android:layout_width="@dimen/four"
+                android:layout_height="@dimen/four"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/five"
                 android:src="@drawable/ic_wallet_giftcard" />
@@ -92,10 +92,10 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:layout_width="@dimen/five"
-                android:layout_height="@dimen/five"
+                android:layout_width="@dimen/four"
+                android:layout_height="@dimen/four"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/six"
+                android:layout_marginLeft="@dimen/five"
                 android:src="@drawable/ic_shuffle" />
         </android.support.v7.widget.CardView>
     </LinearLayout>

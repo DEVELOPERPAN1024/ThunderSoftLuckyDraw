@@ -13,7 +13,7 @@
     <string name="add_award_name">奖项名称</string>
     <string name="add_award_count">获奖人数</string>
     <string name="add_award_detail">奖品名称及描述</string>
-    <string name="add_award_picurl">点击下方加号添加奖品图片</string>
+    <string name="add_award_picurl">点击下面白色方块添加奖品图片</string>
 
     <string name="import_data">导入数据</string>
     <string name="person_info">员工信息:</string>

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class AwardDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mPeopleListTV.setMovementMethod(new ScrollingMovementMethod());
         mAwardDetailTV.setText(mMainBean.getDetial());
         mAwardNameTV.setText(mMainBean.getName());
         mAwardCountTV.setText("共" + mMainBean.getCount() + "个");
