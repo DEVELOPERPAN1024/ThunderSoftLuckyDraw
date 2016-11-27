@@ -65,7 +65,6 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 for (int i = 0; i < mPersonAwarded.size(); i++) {
                     DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
                 }
-
             }
         }
     };
@@ -112,8 +111,10 @@ public class LuckyDrawActivity extends AppCompatActivity {
         fillAwards();
 
         mTotalDrawCount = 1;
-        mTotalAwards = 10;
-
+        //mTotalAwards = 10;
+        mTotalAwards = mAwards.get(0).getCount();
+        mAwardID = mAwards.get(0).getId();
+        mPersons = DbUtil.getAllPerson(this);
         mIsDrawing = false;
     }
 
@@ -183,8 +184,8 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (mTotalPersons <= 0)
-                    return;
+                //if (mTotalPersons <= 0)
+                //    return;
 
                 if (mTotalAwards < mTotalDrawCount) {
                     showToast("奖项数目比抽奖次数少，没时间优化了");
@@ -257,7 +258,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
 
     private void getNameList() {
-        mPersons = DbUtil.getAllPerson(this);
+        //mPersons = DbUtil.getAllPerson(this);
 
         mTotalPersons = mPersons.size();
         if (mTotalDrawCount > 1) {
@@ -315,9 +316,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private void setAwardDetails(int index) {
         mTvAwardDetail.setText(mAwards.get(index).getDetial());
 
-        if (mAwards.get(index).getPicUrl() != null) {
+        //if (mAwards.get(index).getPicUrl() != null) {
             Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
-        }
+        //}
     }
 
 
