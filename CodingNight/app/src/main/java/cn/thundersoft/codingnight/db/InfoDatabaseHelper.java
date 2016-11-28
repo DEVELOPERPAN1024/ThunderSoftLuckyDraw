@@ -21,7 +21,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    picuri CHAR (256) \n" +
                     ");";
     private static final String CREATE_INFO =
-            "CREATE TABLE info (_id INTEGER PRIMARY KEY AUTOINCREMENT, info CHAR (256) NOT NULL, award_id INTEGER);";
+            "CREATE TABLE info (_id INTEGER PRIMARY KEY AUTOINCREMENT, info CHAR (256) NOT NULL, award_id INTEGER DEFAULT(0));";
     private static final String CREATE_WIN_INFO =
             "CREATE TABLE wininfo (\n" +
                     "    _id      INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -35,7 +35,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
             "    UPDATE info\n" +
             "       SET award_id = new.award_id\n" +
             "    WHERE new.info_id = info._id;\n" +
-            "END;"
+            "END;";
 
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {

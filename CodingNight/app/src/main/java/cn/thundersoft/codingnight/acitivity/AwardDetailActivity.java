@@ -71,6 +71,7 @@ public class AwardDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add("删除");
+        item.setIcon(R.drawable.ic_delete);
         item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }

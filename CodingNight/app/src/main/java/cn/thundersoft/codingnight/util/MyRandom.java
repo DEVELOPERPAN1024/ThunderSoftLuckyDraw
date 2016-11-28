@@ -79,7 +79,7 @@ public class MyRandom implements Runnable {
             double rs = getRandom_0_1();
             int randomPosition = ((int) (rs * max));
             //如果已经获奖了,则这次的循环没有用
-            if (allPersons.get(randomPosition).getPrize() != null) {
+            if (allPersons.get(randomPosition).getPrize() != 0) {
                 i--;
                 continue;
             } else {

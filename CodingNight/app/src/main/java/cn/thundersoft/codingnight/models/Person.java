@@ -5,7 +5,7 @@ import android.database.Cursor;
 public class Person {
     private int id;
     private String info;
-    private String prize;
+    private int prize;
     private boolean isShowMenu = false;
 
     private Person() {
@@ -14,14 +14,14 @@ public class Person {
     public Person(String line) {
         setId(0);
         setInfo(line);
-        setPrize("");
+        setPrize(0);
     }
 
     public static Person bindCursor(Cursor c) {
         Person p = new Person();
         p.setId(Integer.valueOf(c.getString(0)));
         p.setInfo(c.getString(1));
-        p.setPrize(c.getString(2));
+        p.setPrize(c.getInt(2));
         return p;
     }
 
@@ -41,11 +41,11 @@ public class Person {
         this.info = info;
     }
 
-    public String getPrize() {
+    public int getPrize() {
         return prize;
     }
 
-    public void setPrize(String prize) {
+    public void setPrize(int prize) {
         this.prize = prize;
     }
 

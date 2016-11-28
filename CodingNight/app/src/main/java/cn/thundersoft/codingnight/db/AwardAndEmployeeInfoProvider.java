@@ -30,7 +30,6 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
             new UriMatcher(UriMatcher.NO_MATCH);
 
 
-
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
         sUriMatcher.addURI(AUTH, "award/#", AWARD_ID);
@@ -147,13 +146,13 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "from info\n" +
                         "where info._id not in\n" +
                         "(select info_id\n" +
-                        "from wininfo);");
+                        "from wininfo);", null);
             case WINNER:
                 return db.rawQuery("select *\n" +
                         "from info\n" +
                         "where info._id in\n" +
                         "(select info_id\n" +
-                        "from wininfo);");
+                        "from wininfo);", null);
         }
         return null;
     }
