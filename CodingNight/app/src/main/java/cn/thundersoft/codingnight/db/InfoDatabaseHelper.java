@@ -39,6 +39,25 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
             "       SET award_id = new.award_id\n" +
             "    WHERE new.info_id = info._id;\n" +
             "END;";
+    private static final String CREATE_TRIGGER_AFTER_AWARD_DELETE=
+            "CREATE TRIGGER update_info_wininfo_after_award_delete\n" +
+            "AFTER DELETE\n" +
+            "ON award\n" +
+            "BEGIN\n" +
+            "    UPDATE info\n" +
+            "       SET award_id = 0\n" +
+            "     WHERE info.award_id = old._id;\n" +
+            "    DELETE FROM wininfo\n" +
+            "          WHERE wininfo.award_id = old._id;\n" +
+            "END;\n";
+    private static final String CREATE_TRIGGER_AFTER_INFO_DELETE=
+            "CREATE TRIGGER delete_wininfo_after_info_delete\n" +
+                    "         AFTER DELETE\n" +
+                    "            ON info\n" +
+                    "BEGIN\n" +
+                    "    DELETE FROM wininfo\n" +
+                    "          WHERE info_id = old._id;\n" +
+                    "END;\n";
 
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
@@ -67,6 +86,8 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_INFO);
         db.execSQL(CREATE_WIN_INFO);
         db.execSQL(CREATE_WININFO_TRIGGER);
+        db.execSQL(CREATE_TRIGGER_AFTER_AWARD_DELETE);
+        db.execSQL(CREATE_TRIGGER_AFTER_INFO_DELETE);
     }
 
     @Override
