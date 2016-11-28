@@ -11,7 +11,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,15 +21,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
-import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.ui.ClearableEditText;
+import cn.thundersoft.codingnight.ui.PersonView;
+import cn.thundersoft.codingnight.ui.ScrollBarView;
 
-public class SearchActivity extends AppCompatActivity implements TextWatcher, Reloadable {
+public class SearchActivity extends AppCompatActivity implements TextWatcher,
+        PersonView.Reloadable, AbsListView.OnScrollListener,
+        ScrollBarView.OnProgressChangeListener {
 
     @Bind(R.id.list_result)
     ListView mList;
     @Bind(R.id.tv_search_empty)
     TextView mEmpty;
+    @Bind(R.id.scroll_bar)
+    ScrollBarView mScrollBar;
 
     private PersonAdapter mAdapter;
 
@@ -39,6 +46,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Re
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         mList.setEmptyView(mEmpty);
+        mList.setOnScrollListener(this);
+        mScrollBar.setOnProgressChangeListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -84,6 +93,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Re
             return;
         }
         search(searchString);
+        mScrollBar.setVisibility(mAdapter != null && !mAdapter.isEmpty() ?
+                View.VISIBLE : View.GONE);
     }
 
     private void search(String searchString) {
@@ -100,5 +111,21 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Re
     @Override
     public void reload() {
         search(clearEdit.getText());
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        double percent = (double) firstVisibleItem / (totalItemCount - visibleItemCount);
+        mScrollBar.setProgress(percent);
+    }
+
+    @Override
+    public void onProgressChange(double percent) {
+        if (mAdapter == null) return;
+        mList.setSelection((int) (mAdapter.getCount() * percent + 0.5));
     }
 }

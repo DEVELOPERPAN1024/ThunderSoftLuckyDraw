@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import cn.thundersoft.codingnight.R;
-import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
 
 public class PersonView extends FrameLayout implements View.OnClickListener {
@@ -115,5 +114,9 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
         setPersonInfo(p.getInfo());
         setWinPrize(p.getPrizeName());
         mBottomLayout.setVisibility(p.isShowMenu() ? VISIBLE : GONE);
+    }
+
+    public interface Reloadable {
+        void reload();
     }
 }

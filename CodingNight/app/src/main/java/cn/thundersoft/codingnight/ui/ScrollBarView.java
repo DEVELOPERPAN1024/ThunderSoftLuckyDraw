@@ -83,7 +83,7 @@ public class ScrollBarView extends RelativeLayout implements View.OnTouchListene
             case MotionEvent.ACTION_MOVE:
                 double percent;
                 float y = event.getY();
-                if (y <= mSlider.getHeight() / 2) {
+                if (y < (mSlider.getHeight() + 0.5) / 2) {
                     percent = 0;
                 } else if (y >= getHeight() - getPaddingTop() - getPaddingBottom() - mSlider.getHeight() / 2) {
                     percent = 1;

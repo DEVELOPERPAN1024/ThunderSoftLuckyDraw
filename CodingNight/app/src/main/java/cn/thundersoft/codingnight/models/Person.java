@@ -12,13 +12,6 @@ public class Person {
     private Person() {
     }
 
-    public void setPrizeName(String prizeName) {
-        this.prizeName = prizeName;
-    }
-
-    public String getPrizeName() {
-        return prizeName;
-    }
     public Person(String line) {
         setId(0);
         setInfo(line);
@@ -56,6 +49,14 @@ public class Person {
 
     public void setPrize(int prize) {
         this.prize = prize;
+    }
+
+    public void setPrizeName(String prizeName) {
+        this.prizeName = prizeName;
+    }
+
+    public String getPrizeName() {
+        return prizeName;
     }
 
     public boolean isShowMenu() {

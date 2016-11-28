@@ -32,18 +32,21 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
-import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
+import cn.thundersoft.codingnight.ui.PersonView;
 import cn.thundersoft.codingnight.ui.ScrollBarView;
 
-public class DataActivity extends AppCompatActivity implements View.OnClickListener, Reloadable,
-        AbsListView.OnScrollListener, ScrollBarView.OnProgressChangeListener {
+public class DataActivity extends AppCompatActivity implements View.OnClickListener,
+        PersonView.Reloadable, AbsListView.OnScrollListener,
+        ScrollBarView.OnProgressChangeListener {
     private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
 
     private static final int REQUEST_SELECT_FILE = 0;
 
     private static final int WHAT_UPDATE_IMPORT_DIALOG_MESSAGE = 0;
     private static final int WHAT_IMPORT_COMPLETE = 1;
+
+    private boolean isReload = false;
 
     private ProgressDialog mProgressDialog;
 
@@ -138,7 +141,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, SearchActivity.class));
                 break;
             case R.id.menu_reload:
-                getContentResolver().delete(CONTENT_URI, null, null);
+                isReload = true;
                 reload();
                 mImportButton.performClick();
                 break;
@@ -166,6 +169,10 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         if (requestCode == REQUEST_SELECT_FILE) {
+            if (isReload) {
+                getContentResolver().delete(CONTENT_URI, null, null);
+                isReload = false;
+            }
             Uri uri = data.getData();
             readFile(uri);
         }
@@ -238,6 +245,8 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.changeCursor(c);
             mAdapter.notifyDataSetChanged();
         }
+        mScrollBar.setVisibility(mAdapter != null && !mAdapter.isEmpty() ?
+                View.VISIBLE : View.GONE);
         invalidateOptionsMenu();
     }
 
