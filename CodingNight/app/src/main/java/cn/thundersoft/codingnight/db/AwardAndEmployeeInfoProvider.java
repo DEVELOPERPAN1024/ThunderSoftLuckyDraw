@@ -50,14 +50,12 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
-                db.delete(TABLE_AWARD, selection, selectionArgs);
-                break;
+                return db.delete(TABLE_AWARD, selection, selectionArgs);
             case AWARD_ID:
                 Log.d(DEBUG_TAG, "delete: " + uri.getPathSegments().get(0));
                 break;
             case INFO_ALL:
-                db.delete(TABLE_INFO, selection, selectionArgs);
-                break;
+                return db.delete(TABLE_INFO, selection, selectionArgs);
             case INFO_ID:
                 break;
             case WIN_ALL:
