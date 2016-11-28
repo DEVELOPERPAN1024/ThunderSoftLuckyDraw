@@ -142,7 +142,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:padding="@dimen/one"
-                    android:text="This is a test description of this prize"
+                    android:text="这里是奖品描述"
                     android:textColor="@color/colorSubTitle" />
 
             </LinearLayout>

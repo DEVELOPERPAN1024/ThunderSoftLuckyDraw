@@ -51,17 +51,17 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private int mTotalDrawCountStatic;
     private boolean mIsDrawing;
     private int mTotalAwards;
-    private int mTotalPersons;
     private int mCurrentShowCount;
     private int mAwardID;
 
-    private ArrayList<String> mLastRandomList = new ArrayList<>();
+//    private ArrayList<String> mLastRandomList = new ArrayList<>();
 
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            showNames(mLastRandomList);
+//            showNames(mLastRandomList);
+            showNames(mPersonAwarded);
             if (!mIsDrawing) {
                 for (int i = 0; i < mPersonAwarded.size(); i++) {
                     setLocalPersonAwardState(mPersonAwarded.get(i));
@@ -139,10 +139,10 @@ public class LuckyDrawActivity extends AppCompatActivity {
     }
 
     private void clearData() {
-        mTotalDrawCount = 0;
+        mTotalDrawCountStatic = 0;
         mTotalAwards = 0;
-        mSpAwards.setSelection(0, true);
-        mSpDrawTimes.setSelection(0, true);
+//        mSpAwards.setSelection(0, true);
+//        mSpDrawTimes.setSelection(0, true);
     }
 
     private void initViews() {
@@ -169,15 +169,15 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mSpAwards.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                showToast("Spinner1: position=" + position + " id=" + id);
+//                showToast("Spinner1: position=" + position + " id=" + id);
                 if (0 == position) {
                     mTotalAwards = 0;
                     return;
                 }
-                mTotalAwards = mAwards.get(position).getCount();
-                mAwardID = mAwards.get(position).getId();
+                mTotalAwards = mAwards.get(position-1).getCount();
+                mAwardID = mAwards.get(position-1).getId();
                 showToast("position is " + position + "  award count is " + mTotalAwards);
-                setAwardDetails(position);
+                setAwardDetails(position-1);
                 mBottomLayout.setVisibility(View.VISIBLE);
                 mIvAwardImage.setVisibility(View.VISIBLE);
                 /*mAwardListLayout.setVisibility(View.GONE);
@@ -197,7 +197,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mSpDrawTimes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                showToast("Spinner2: position=" + position + " id=" + id);
+//                showToast("Spinner2: position=" + position + " id=" + id);
                 mTotalDrawCount = position;
                 mTotalDrawCountStatic = mTotalDrawCount;
                 mBtnStart.setEnabled(true);
@@ -217,7 +217,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
                 //if (mTotalPersons <= 0)
                 //    return;
-                if (0 == mTotalDrawCount) {
+                if (0 == mTotalDrawCountStatic) {
                     showToast("请先选择抽奖次数^_^");
                     return;
                 }
@@ -227,8 +227,8 @@ public class LuckyDrawActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (mTotalAwards < mTotalDrawCount) {
-                    showToast("奖项数目比抽奖次数少，没时间优化了");
+                if (mTotalAwards < mTotalDrawCountStatic) {
+                    showToast("奖项数目比抽奖次数少,请重新设置");
                     return;
                 }
 
@@ -299,9 +299,6 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
 
     private void getNameList() {
-        //mPersons = DbUtil.getAllPerson(this);
-
-        mTotalPersons = mPersons.size();
         if (mTotalDrawCount > 1) {
             Log.d("DBW", "mTotalDrawCount > 1  " + mTotalDrawCount);
             mCurrentShowCount = mTotalAwards / mTotalDrawCountStatic;
@@ -314,45 +311,30 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while (mIsDrawing) {
-
-
-                    List<Person> mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
-
-                    mLastRandomList.clear();
-           //         mPersonAwarded.clear();
-                    if (mTotalPersons > 0)
-                        for (int i = 0; i < mCurrentShowCount; ++i) {
-                            mLastRandomList.add(mPersonAwarded.get(i).getInfo());
-               //             mPersonAwarded.add(mPersons.get(randoms.get(i)));
-                        }
+                    mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
+                    mHandler.sendEmptyMessage(1);
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    mHandler.sendEmptyMessage(1);
                 }
             }
         }).start();
 
     }
 
-    private void showNames(ArrayList<String> list) {
+    private void showNames(List<Person> list) {
         Log.d("draw", list.size() + "");
         String str = "";
         for (int i = 0; i < list.size(); ++i) {
 
-            str += (list.get(i) + "\n");
+            str += (list.get(i).getInfo() + "\n");
         }
         Log.d("draw", str);
         mTvAwardNames.setText(str);
     }
 
-    private int getRandomSeed() {
-        if (mTotalPersons == 0)
-            return 0;
-        return (int) (System.nanoTime() / Math.PI) % mTotalPersons;
-    }
 
     private void setAwardDetails(int index) {
         mTvAwardDetail.setText(mAwards.get(index).getDetial());
