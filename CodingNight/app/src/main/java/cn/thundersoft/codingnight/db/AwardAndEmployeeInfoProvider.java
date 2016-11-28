@@ -119,10 +119,15 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 String aid = uri.getPathSegments().get(0);
                 return db.query(TABLE_AWARD, null, "id = ?", new String[]{aid}, null, null, null);
             case INFO_ALL:
-                return db.query(TABLE_INFO, null, null, null, null, null, null);
+                return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
+                        "from info join award on (info.award_id=award._id)",null);
+                //return db.query(TABLE_INFO, null, null, null, null, null, null);
             case INFO_ID:
                 String iid = uri.getPathSegments().get(0);
-                return db.query(TABLE_AWARD, null, "id = ?", new String[]{iid}, null, null, null);
+                //return db.query(TABLE_AWARD, null, "id = ?", new String[]{iid}, null, null, null);
+                return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
+                        "from info join award on (info.award_id=award._id)\n" +
+                        "where id=?",new String[]{iid});
             case WIN_ALL:
                 return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
@@ -132,7 +137,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 //                String wid = uri.getPathSegments().get(0);
 //                return db.rawQuery(query,new String[] {wid});
                 String wid = uri.getPathSegments().get(1);
-                String q = "select wininfo._id,info.info\n" +
+                String q = "select wininfo._id,info.info,award.name\n" +
                         "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
                         "where wininfo.award_id = ?";
                 return db.rawQuery(q, new String[]{wid});

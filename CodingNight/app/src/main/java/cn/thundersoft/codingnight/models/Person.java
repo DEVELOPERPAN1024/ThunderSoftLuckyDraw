@@ -6,11 +6,19 @@ public class Person {
     private int id;
     private String info;
     private int prize;
+    private String prizeName;
     private boolean isShowMenu = false;
 
     private Person() {
     }
 
+    public void setPrizeName(String prizeName) {
+        this.prizeName = prizeName;
+    }
+
+    public String getPrizeName() {
+        return prizeName;
+    }
     public Person(String line) {
         setId(0);
         setInfo(line);
@@ -22,6 +30,7 @@ public class Person {
         p.setId(Integer.valueOf(c.getString(0)));
         p.setInfo(c.getString(1));
         p.setPrize(c.getInt(2));
+        p.setPrizeName(c.getString(3));
         return p;
     }
 

@@ -113,6 +113,7 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
     public void bindPerson(Person p) {
         mPerson = p;
         setPersonInfo(p.getInfo());
+        setWinPrize(p.getPrizeName());
         mBottomLayout.setVisibility(p.isShowMenu() ? VISIBLE : GONE);
     }
 }
