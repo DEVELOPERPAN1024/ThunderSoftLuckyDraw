@@ -69,11 +69,39 @@ public class MyRandom implements Runnable {
     }
 
     public static List<Integer> getRandomList(int max, int count) {
-        double rs = getRandom_0_1();
+        //默认需要重新查询
+        boolean isReload = true;
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            list.add((int) (rs * max));
+            //除了第一次都需要重新reload
+            if (i != 0) {
+                isReload = false;
+            }
+            //获取随机数
+            double rs = getRandom_0_1();
+            int randomPosition = ((int) (rs * max));
+            //check and 获取
+            if (checkIfAlreadyLucky(randomPosition, isReload)) {
+                i--;
+                continue;
+            } else {
+                list.add(randomPosition);
+            }
         }
         return list;
+    }
+
+    private static boolean checkIfAlreadyLucky(int position, boolean isReload) {
+        List<Integer> mAlreadyLuckyList = new ArrayList<>();
+        if (isReload) {
+            //重新查询已经中奖的名单
+            mAlreadyLuckyList.add(1);
+        }
+        for (int i = 0; i < mAlreadyLuckyList.size(); i++) {
+            if (position == mAlreadyLuckyList.get(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
