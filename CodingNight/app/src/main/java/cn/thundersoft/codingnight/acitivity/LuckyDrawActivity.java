@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +39,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private Button mBtnStart;
     private ImageView mIvAwardImage;
     private LinearLayout mBottomLayout;
+    private ScrollView mScrollView;
     /*private RelativeLayout mAwardListLayout;*/
 
     private ArrayList<String> mArrayAward = new ArrayList<>();
@@ -149,13 +150,14 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mTvAwardDetail = (TextView) findViewById(R.id.lucky_draw_award_detail);
         mTvAwardNames = (TextView) findViewById(R.id.lucky_draw_award_names);
         mTvAwardNames.setLineSpacing(1, 2);
-        mTvAwardNames.setMovementMethod(new ScrollingMovementMethod());
+        //mTvAwardNames.setMovementMethod(new ScrollingMovementMethod());
 
         mSpAwards = (Spinner) findViewById(R.id.lucky_draw_award_spinner);
         mSpDrawTimes = (Spinner) findViewById(R.id.lucky_draw_count_spinner);
         mIvAwardImage = (ImageView) findViewById(R.id.lucky_draw_award_image);
         mBtnStart = (Button) findViewById(R.id.lucky_draw_award_start_button);
         mBottomLayout = (LinearLayout) findViewById(R.id.lucky_draw_award_bottom_linear);
+        mScrollView = (ScrollView) findViewById(R.id.lucky_draw_scrollview);
 
         /*mAwardListLayout = (RelativeLayout) findViewById(R.id.lucky_draw_award_list);*/
     }
@@ -181,7 +183,8 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 mIvAwardImage.setVisibility(View.VISIBLE);
                 /*mAwardListLayout.setVisibility(View.GONE);
                 mAwardListLayout.removeAllViews();*/
-                mTvAwardNames.setVisibility(View.INVISIBLE);
+                //mTvAwardNames.setVisibility(View.INVISIBLE);
+                mScrollView.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -259,7 +262,8 @@ public class LuckyDrawActivity extends AppCompatActivity {
             if (mIsDrawing) {
                 mBottomLayout.setVisibility(View.GONE);
                 /*mAwardListLayout.setVisibility(View.VISIBLE);*/
-                mTvAwardNames.setVisibility(View.VISIBLE);
+                //mTvAwardNames.setVisibility(View.VISIBLE);
+                mScrollView.setVisibility(View.VISIBLE);
 
                 getNameList();
                 mTotalDrawCount--;
