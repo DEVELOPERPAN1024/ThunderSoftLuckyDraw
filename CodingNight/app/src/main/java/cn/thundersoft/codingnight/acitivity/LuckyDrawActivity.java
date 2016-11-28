@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -98,6 +99,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        mArrayCount.add(getString(R.string.lucky_draw_spinner_draw_count_tint));
         mArrayCount.add("索性1次全抽了");
         mArrayCount.add("抽2次意思意思");
         mArrayCount.add("比抽2次多一次");
@@ -110,12 +112,18 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mArrayAward.add("简陋的三等奖");*/
         fillAwards();
 
-        mTotalDrawCount = 1;
-        //mTotalAwards = 10;
-        mTotalAwards = mAwards.get(0).getCount();
+        mTotalDrawCount = 0;
+        mTotalAwards = 0;
         mAwardID = mAwards.get(0).getId();
         mPersons = DbUtil.getAllPerson(this);
         mIsDrawing = false;
+    }
+
+    private void clearData() {
+        mTotalDrawCount = 0;
+        mTotalAwards = 0;
+        mSpAwards.setSelection(0, true);
+        mSpDrawTimes.setSelection(0, true);
     }
 
     private void initViews() {
@@ -143,6 +151,10 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 showToast("Spinner1: position=" + position + " id=" + id);
+                if (0 == position) {
+                    mTotalAwards = 0;
+                    return;
+                }
                 mTotalAwards = mAwards.get(position).getCount();
                 mAwardID = mAwards.get(position).getId();
                 showToast("position is " + position + "  award count is " + mTotalAwards);
@@ -167,7 +179,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 showToast("Spinner2: position=" + position + " id=" + id);
-                mTotalDrawCount = position + 1;
+                mTotalDrawCount = position;
                 mTotalDrawCountStatic = mTotalDrawCount;
                 mBtnStart.setEnabled(true);
                 mBtnStart.setText(R.string.lucky_draw_button_start);
@@ -186,6 +198,15 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
                 //if (mTotalPersons <= 0)
                 //    return;
+                if (0 == mTotalDrawCount) {
+                    showToast("请先选择抽奖次数^_^");
+                    return;
+                }
+
+                if (0 == mTotalAwards) {
+                    showToast("请先选择奖品^_^");
+                    return;
+                }
 
                 if (mTotalAwards < mTotalDrawCount) {
                     showToast("奖项数目比抽奖次数少，没时间优化了");
@@ -201,6 +222,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     }
 
     private void fillAwards() {
+        mArrayAward.add(getString(R.string.lucky_draw_spinner_prize_tint));
         mAwards = DbUtil.getAwards(this);
         for (Award award : mAwards) {
             mArrayAward.add(award.getName());
@@ -208,7 +230,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
     }
 
     private void showToast(CharSequence msg) {
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void onStartDraw() {
@@ -228,7 +250,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             mBtnStart.setText(R.string.lucky_draw_button_no_chance);
             mBtnStart.setEnabled(false);
             mSpDrawTimes.setEnabled(true);
-
+            clearData();
         }
     }
 
@@ -317,7 +339,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mTvAwardDetail.setText(mAwards.get(index).getDetial());
 
         //if (mAwards.get(index).getPicUrl() != null) {
-            Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
+        Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
         //}
     }
 

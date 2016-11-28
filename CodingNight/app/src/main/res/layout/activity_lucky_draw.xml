@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:background="@android:color/transparent"
+                android:background="?android:attr/selectableItemBackground"
                 android:text="@string/lucky_draw_button_start"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="@dimen/textSizeForDrawButton" />
