@@ -50,6 +50,14 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("TS", "onCreate: " + "create database");
         db.execSQL(CREATE_AWARDINFO);
