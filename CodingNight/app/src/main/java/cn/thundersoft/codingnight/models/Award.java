@@ -54,4 +54,6 @@ public class Award implements Serializable {
         this.picUrl = picUrl;
     }
 
+
+
 }

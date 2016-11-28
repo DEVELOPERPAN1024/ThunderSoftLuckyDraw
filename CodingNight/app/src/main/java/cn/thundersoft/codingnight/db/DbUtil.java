@@ -93,6 +93,15 @@ public class DbUtil {
         return sb.toString();
     }
 
+    public static Award getAwardById(Context context, int id) {
+        Uri u = Uri.withAppendedPath(uri,"award/" + id);
+        Cursor c = context.getContentResolver().query(u,null,null,null,null);
+        Award ad = new Award();
+        if (c != null && c.getCount() > 0)
+            fillAward(ad,c);
+        return ad;
+    }
+
     public static void updatePersonInfo(Context context, Person person) {
 
 
