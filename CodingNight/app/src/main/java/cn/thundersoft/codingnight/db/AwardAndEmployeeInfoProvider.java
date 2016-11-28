@@ -23,11 +23,13 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int INFO_ID = 3;
     private static final int WIN_ALL = 4;
     private static final int WIN_ID = 5;
+    private static final int SEARACH_INFO = 6;
+    private static final int UNAWARD = 7;
+    private static final int WINNER = 8;
     private static final UriMatcher sUriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);
 
 
-    private static final int SEARACH_INFO = 6;
 
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
@@ -36,7 +38,9 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
         sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
         sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
-        sUriMatcher.addURI(AUTH, "search/#", SEARACH_INFO);
+        sUriMatcher.addURI(AUTH, "search/*", SEARACH_INFO);
+        sUriMatcher.addURI(AUTH, "unaward", UNAWARD);
+        sUriMatcher.addURI(AUTH, "winner", WINNER);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -138,6 +142,18 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 String searchQuery = "select * from info where info like '%" + sid + "%'";
                 Log.d(DEBUG_TAG, "query: " + searchQuery);
                 return db.rawQuery(searchQuery, null);
+            case UNAWARD:
+                return db.rawQuery("select *\n" +
+                        "from info\n" +
+                        "where info._id not in\n" +
+                        "(select info_id\n" +
+                        "from wininfo);");
+            case WINNER:
+                return db.rawQuery("select *\n" +
+                        "from info\n" +
+                        "where info._id in\n" +
+                        "(select info_id\n" +
+                        "from wininfo);");
         }
         return null;
     }

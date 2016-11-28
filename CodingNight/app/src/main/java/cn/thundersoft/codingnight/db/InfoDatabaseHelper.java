@@ -28,6 +28,14 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    info_id  INTEGER,\n" +
                     "    award_id INTEGER\n" +
                     ");";
+    private static final String CREATE_WININFO_TRIGGER="CREATE TRIGGER wininfo_trigger\n" +
+            "AFTER INSERT\n" +
+            "ON wininfo\n" +
+            "BEGIN\n" +
+            "    UPDATE info\n" +
+            "       SET award_id = new.award_id\n" +
+            "    WHERE new.info_id = info._id;\n" +
+            "END;"
 
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
@@ -47,6 +55,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_AWARDINFO);
         db.execSQL(CREATE_INFO);
         db.execSQL(CREATE_WIN_INFO);
+        db.execSQL(CREATE_WININFO_TRIGGER);
     }
 
     @Override

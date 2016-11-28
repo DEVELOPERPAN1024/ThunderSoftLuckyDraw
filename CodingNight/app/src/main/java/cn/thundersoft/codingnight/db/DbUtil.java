@@ -41,6 +41,7 @@ public class DbUtil {
             while (c.moveToNext()) {
                 Person person = new Person(c.getString(1));
                 person.setId(c.getInt(0));
+                person.setPrize(c.getInt(2));
                 list.add(person);
             }
         }
