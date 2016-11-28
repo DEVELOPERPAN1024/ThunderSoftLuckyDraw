@@ -3,6 +3,8 @@ package cn.thundersoft.codingnight.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.thundersoft.codingnight.models.Person;
+
 /**
  * Created by pandroid on 11/26/16.
  */
@@ -68,40 +70,23 @@ public class MyRandom implements Runnable {
         return ran;
     }
 
-    public static List<Integer> getRandomList(int max, int count) {
-        //默认需要重新查询
-        boolean isReload = true;
-        List<Integer> list = new ArrayList<>();
+    public static List<Person> getRandomList(List<Person> allPersons, int count) {
+
+        int max = allPersons.size() - 1;
+        List<Person> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            //除了第一次都需要重新reload
-            if (i != 0) {
-                isReload = false;
-            }
             //获取随机数
             double rs = getRandom_0_1();
             int randomPosition = ((int) (rs * max));
-            //check and 获取
-            if (checkIfAlreadyLucky(randomPosition, isReload)) {
+            //如果已经获奖了,则这次的循环没有用
+            if (allPersons.get(randomPosition).getPrize() != null) {
                 i--;
                 continue;
             } else {
-                list.add(randomPosition);
+                list.add(allPersons.get(randomPosition));
             }
         }
         return list;
     }
 
-    private static boolean checkIfAlreadyLucky(int position, boolean isReload) {
-        List<Integer> mAlreadyLuckyList = new ArrayList<>();
-        if (isReload) {
-            //重新查询已经中奖的名单
-            mAlreadyLuckyList.add(1);
-        }
-        for (int i = 0; i < mAlreadyLuckyList.size(); i++) {
-            if (position == mAlreadyLuckyList.get(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
