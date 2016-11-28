@@ -64,11 +64,20 @@ public class LuckyDrawActivity extends AppCompatActivity {
             showNames(mLastRandomList);
             if (!mIsDrawing) {
                 for (int i = 0; i < mPersonAwarded.size(); i++) {
+                    setLocalPersonAwardState(mPersonAwarded.get(i));
                     DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
                 }
             }
         }
     };
+
+    private void setLocalPersonAwardState(Person p) {
+        for (Person person : mPersons) {
+            if (person.getId() == p.getId()) {
+                person.setPrize(mAwardID);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +123,18 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
         mTotalDrawCount = 0;
         mTotalAwards = 0;
-        mAwardID = mAwards.get(0).getId();
+        if (mAwards.size() <= 0) {
+            mAwardID = -1;
+            showToast(getString(R.string.lucky_draw_award_data_null_tint));
+        } else {
+            mAwardID = mAwards.get(0).getId();
+        }
+
         mPersons = DbUtil.getAllPerson(this);
+        if (mPersons.size() <= 0) {
+            showToast(getString(R.string.lucky_draw_person_data_null_tint));
+        }
+
         mIsDrawing = false;
     }
 
@@ -297,14 +316,14 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 while (mIsDrawing) {
 
 
-                    List<Integer> randoms = MyRandom.getRandomList(mTotalPersons, mCurrentShowCount);
+                    List<Person> mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
 
                     mLastRandomList.clear();
-                    mPersonAwarded.clear();
+           //         mPersonAwarded.clear();
                     if (mTotalPersons > 0)
                         for (int i = 0; i < mCurrentShowCount; ++i) {
-                            mLastRandomList.add(mPersons.get(randoms.get(i)).getInfo());
-                            mPersonAwarded.add(mPersons.get(randoms.get(i)));
+                            mLastRandomList.add(mPersonAwarded.get(i).getInfo());
+               //             mPersonAwarded.add(mPersons.get(randoms.get(i)));
                         }
                     try {
                         Thread.sleep(20);
@@ -342,6 +361,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
         Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
         //}
     }
+
+
+
 
 
 }

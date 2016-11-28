@@ -11,6 +11,8 @@
     <string name="lucky_draw_button_no_chance">抽完啦！</string>
     <string name="lucky_draw_spinner_prize_tint">请选择奖品</string>
     <string name="lucky_draw_spinner_draw_count_tint">请选择抽奖次数</string>
+    <string name="lucky_draw_award_data_null_tint">请设置奖品</string>
+    <string name="lucky_draw_person_data_null_tint">请设置参与抽奖名单</string>
 
     <string name="add_award_name">奖项名称</string>
     <string name="add_award_count">获奖人数</string>
