@@ -177,7 +177,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 }
                 mTotalAwards = mAwards.get(position-1).getCount();
                 mAwardID = mAwards.get(position-1).getId();
-                showToast("position is " + position + "  award count is " + mTotalAwards);
+                //showToast("position is " + position + "  award count is " + mTotalAwards);
                 setAwardDetails(position-1);
                 mBottomLayout.setVisibility(View.VISIBLE);
                 mIvAwardImage.setVisibility(View.VISIBLE);
@@ -189,7 +189,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                showToast("Spinner1: unselected");
+                //showToast("Spinner1: unselected");
             }
         });
 
@@ -208,7 +208,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                showToast("Spinner2: unselected");
+                //showToast("Spinner2: unselected");
             }
         });
 
@@ -259,6 +259,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         if (mTotalDrawCount > 0) {
             mBtnStart.setText(mIsDrawing ? R.string.lucky_draw_button_end : R.string.lucky_draw_button_start);
             mSpDrawTimes.setEnabled(false);
+            mSpAwards.setEnabled(false);
             if (mIsDrawing) {
                 mBottomLayout.setVisibility(View.GONE);
                 /*mAwardListLayout.setVisibility(View.VISIBLE);*/
@@ -272,6 +273,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
             mBtnStart.setText(R.string.lucky_draw_button_no_chance);
             mBtnStart.setEnabled(false);
             mSpDrawTimes.setEnabled(true);
+            mSpAwards.setEnabled(true);
             clearData();
         }
     }
