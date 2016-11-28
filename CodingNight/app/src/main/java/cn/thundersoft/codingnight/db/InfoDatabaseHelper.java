@@ -24,7 +24,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE info (" +
                     "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "info CHAR (256) NOT NULL, " +
-                    "award_id INTEGER REFERENCES award (_id) ON DELETE SET NULL DEFAULT(0));";
+                    "award_id INTEGER DEFAULT(0));";
     private static final String CREATE_WIN_INFO =
             "CREATE TABLE wininfo (\n" +
                     "    _id      INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
