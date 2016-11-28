@@ -143,9 +143,12 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 return db.rawQuery(q, new String[]{wid});
             case SEARACH_INFO:
                 String sid = uri.getPathSegments().get(1);
-                String searchQuery = "select * from info where info like '%" + sid + "%'";
-                Log.d(DEBUG_TAG, "query: " + searchQuery);
-                return db.rawQuery(searchQuery, null);
+                //String searchQuery = "select * from info where info like '%" + sid + "%'";
+                return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
+                        "from info left join award on (info.award_id=award._id)\n" +
+                        "where info like '%" + sid + "%'", null);
+                //Log.d(DEBUG_TAG, "query: " + searchQuery);
+                //return db.rawQuery(searchQuery, null);
             case UNAWARD:
                 return db.rawQuery("select *\n" +
                         "from info\n" +
