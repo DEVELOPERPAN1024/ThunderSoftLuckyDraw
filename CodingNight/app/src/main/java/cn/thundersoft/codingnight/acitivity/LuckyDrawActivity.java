@@ -120,6 +120,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
         mArrayAward.add("凑合的二等奖");
         mArrayAward.add("简陋的三等奖");*/
         fillAwards();
+        mPersons = DbUtil.getAllPerson(this);
 
         mTotalDrawCount = 0;
         mTotalAwards = 0;
@@ -128,11 +129,9 @@ public class LuckyDrawActivity extends AppCompatActivity {
             showToast(getString(R.string.lucky_draw_award_data_null_tint));
         } else {
             mAwardID = mAwards.get(0).getId();
-        }
-
-        mPersons = DbUtil.getAllPerson(this);
-        if (mPersons.size() <= 0) {
-            showToast(getString(R.string.lucky_draw_person_data_null_tint));
+            if (mPersons.size() <= 0) {
+                showToast(getString(R.string.lucky_draw_person_data_null_tint));
+            }
         }
 
         mIsDrawing = false;
