@@ -62,7 +62,7 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
                 break;
             case R.id.btn_modify:
                 View dialogView = LayoutInflater.from(getContext())
-                        .inflate(R.layout.layout_edit_person, null);
+                        .inflate(R.layout.dialog_edit_person, null);
                 final EditText newInfo = (EditText) dialogView.findViewById(R.id.et_input_info);
                 new AlertDialog.Builder(getContext())
                         .setView(dialogView)
@@ -102,18 +102,17 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setPersonInfo(String info) {
-        mPersonInfo.setText(TextUtils.isEmpty(info) ? getContext().getString(R.string.none) : info);
+        mPersonInfo.setText(TextUtils.isEmpty(info) ? getContext().getString(R.string.data_none) : info);
     }
 
     public void setWinPrize(String prize) {
         mPrizeInfo.setText(TextUtils.isEmpty(prize) ?
-                getContext().getString(R.string.none) : prize);
+                getContext().getString(R.string.data_none) : prize);
     }
 
     public void bindPerson(Person p) {
         mPerson = p;
         setPersonInfo(p.getInfo());
-        setWinPrize(p.getPrize());
         mBottomLayout.setVisibility(p.isShowMenu() ? VISIBLE : GONE);
     }
 }

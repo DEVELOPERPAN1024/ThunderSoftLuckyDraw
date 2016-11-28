@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,8 +34,10 @@ import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
 import cn.thundersoft.codingnight.adapter.Reloadable;
 import cn.thundersoft.codingnight.models.Person;
+import cn.thundersoft.codingnight.ui.ScrollBarView;
 
-public class DataActivity extends AppCompatActivity implements View.OnClickListener, Reloadable {
+public class DataActivity extends AppCompatActivity implements View.OnClickListener, Reloadable,
+        AbsListView.OnScrollListener, ScrollBarView.OnProgressChangeListener {
     private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
 
     private static final int REQUEST_SELECT_FILE = 0;
@@ -48,6 +51,8 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
     ListView mList;
     @Bind(R.id.btn_import)
     View mImportButton;
+    @Bind(R.id.scroll_bar)
+    ScrollBarView mScrollBar;
 
     private PersonAdapter mAdapter;
 
@@ -76,6 +81,8 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         mImportButton.setOnClickListener(this);
         mList.setEmptyView(findViewById(R.id.list_person_empty));
+        mList.setOnScrollListener(this);
+        mScrollBar.setOnProgressChangeListener(this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -110,7 +117,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.menu_add_new_person:
                 View dialogView = LayoutInflater.from(this)
-                        .inflate(R.layout.layout_edit_person, null);
+                        .inflate(R.layout.dialog_edit_person, null);
                 final EditText newInfo = (EditText) dialogView.findViewById(R.id.et_input_info);
                 new AlertDialog.Builder(this)
                         .setView(dialogView)
@@ -232,5 +239,21 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.notifyDataSetChanged();
         }
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        double percent = (double) firstVisibleItem / (totalItemCount - visibleItemCount);
+        mScrollBar.setProgress(percent);
+    }
+
+    @Override
+    public void onProgressChange(double percent) {
+        if (mAdapter == null) return;
+        mList.setSelection((int) (mAdapter.getCount() * percent + 0.5));
     }
 }

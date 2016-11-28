@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/eight"
-        android:text="@string/get_nothing"
+        android:text="@string/search_get_nothing"
         android:visibility="gone" />
 
 </LinearLayout>

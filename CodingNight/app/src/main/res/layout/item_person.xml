@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/person_info" />
+                android:text="@string/data_person_info" />
 
             <TextView
                 android:id="@+id/tv_person_info"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/one"
-                android:text="@string/win_prize_info" />
+                android:text="@string/data_win_prize_info" />
 
             <TextView
                 android:id="@+id/tv_win_prize_info"
@@ -72,7 +72,7 @@
                     android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:background="@drawable/person_item_delete_button_background"
-                    android:text="@string/delete"
+                    android:text="@string/data_delete"
                     android:textColor="#FFF"
                     android:textSize="17sp" />
             </FrameLayout>
@@ -88,7 +88,7 @@
                     android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:background="@drawable/person_item_modify_button_background"
-                    android:text="@string/modify"
+                    android:text="@string/data_modify"
                     android:textColor="#FFF"
                     android:textSize="17sp" />
             </FrameLayout>

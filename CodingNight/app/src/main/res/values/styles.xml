@@ -13,4 +13,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.CustomActionBar" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/NonSpaceActionBar</item>
+        <item name="actionBarStyle">@style/NonSpaceActionBar</item>
+    </style>
+
+    <style name="NonSpaceActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="android:contentInsetStart">0dp</item>
+        <item name="android:contentInsetEnd">0dp</item>
+    </style>
+
 </resources>

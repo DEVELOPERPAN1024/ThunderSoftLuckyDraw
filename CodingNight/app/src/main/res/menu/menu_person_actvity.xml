@@ -4,17 +4,17 @@
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_magnify"
-        android:title="@string/search"
+        android:title="@string/data_search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_add_new_person"
         android:icon="@drawable/ic_plus"
-        android:title="@string/add"
+        android:title="@string/data_add"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_reload"
-        android:title="@string/reload"
+        android:title="@string/data_reload"
         app:showAsAction="never" />
 </menu>

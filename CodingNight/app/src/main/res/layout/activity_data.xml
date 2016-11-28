@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:divider="@android:color/transparent" />
+        android:divider="@android:color/transparent"
+        android:scrollbars="none" />
 
     <LinearLayout
         android:id="@+id/list_person_empty"
@@ -23,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pls_import_data"
+            android:text="@string/data_pls_import_data"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="20sp" />
 
@@ -37,4 +38,11 @@
             android:elevation="10dp"
             android:src="@drawable/ic_arrow_right" />
     </LinearLayout>
+
+    <cn.thundersoft.codingnight.ui.ScrollBarView
+        android:id="@+id/scroll_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/one" />
 </RelativeLayout>

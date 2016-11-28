@@ -19,17 +19,17 @@
     <string name="add_award_detail">奖品名称及描述</string>
     <string name="add_award_picurl">点击下面白色方块添加奖品图片</string>
 
-    <string name="import_data">导入数据</string>
-    <string name="person_info">员工信息:</string>
-    <string name="win_prize_info">中奖信息:</string>
-    <string name="delete">删除</string>
-    <string name="modify">修改</string>
-    <string name="none">无</string>
-    <string name="pls_input_info">请输入员工信息</string>
-    <string name="input_search_text">输入你想要搜索的东西</string>
-    <string name="get_nothing">没有找到</string>
-    <string name="reload">重新加载</string>
-    <string name="pls_import_data">请导入数据</string>
-    <string name="search">搜索</string>
-    <string name="add">添加</string>
+    <string name="data_person_info">员工信息:</string>
+    <string name="data_win_prize_info">中奖信息:</string>
+    <string name="data_delete">删除</string>
+    <string name="data_modify">修改</string>
+    <string name="data_none">无</string>
+    <string name="data_pls_input_info">请输入员工信息</string>
+    <string name="data_reload">重新加载</string>
+    <string name="data_search">搜索</string>
+    <string name="data_pls_import_data">请导入数据</string>
+    <string name="data_add">添加</string>
+
+    <string name="search_input_search_text">输入你想要搜索的东西</string>
+    <string name="search_get_nothing">没有找到</string>
 </resources>

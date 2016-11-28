@@ -47,7 +47,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Re
             actionBar.setDisplayUseLogoEnabled(false);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
-            clearEdit = (ClearableEditText) LayoutInflater.from(this).inflate(R.layout.clear_edit, null);
+            clearEdit = (ClearableEditText) LayoutInflater.from(this)
+                    .inflate(R.layout.view_clear_edit, null);
             ActionBar.LayoutParams lp = new ActionBar
                     .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

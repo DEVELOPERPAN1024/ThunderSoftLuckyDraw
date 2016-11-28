@@ -26,9 +26,7 @@
         <activity android:name=".acitivity.DataActivity" />
         <activity android:name=".acitivity.LuckyDrawActivity" />
         <activity android:name=".acitivity.AwardDetailActivity" />
-        <activity
-            android:name=".acitivity.SearchActivity"
-            android:label="@string/set_data" />
+        <activity android:name=".acitivity.SearchActivity" />
 
         <provider
             android:name=".db.AwardAndEmployeeInfoProvider"
