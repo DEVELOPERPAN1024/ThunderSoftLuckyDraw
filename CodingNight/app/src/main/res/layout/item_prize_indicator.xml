@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.thundersoft.codingnight.ui.PrizeIndicatorItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:animateLayoutChanges="true"
+    android:focusable="false"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#888" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/two">
+
+        <ImageView
+            android:id="@+id/prize_item_image"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="#F00"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
+
+        <TextView
+            android:id="@+id/prize_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="啊实打实的"
+            android:textColor="#FFF" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#888" />
+
+</cn.thundersoft.codingnight.ui.PrizeIndicatorItem>

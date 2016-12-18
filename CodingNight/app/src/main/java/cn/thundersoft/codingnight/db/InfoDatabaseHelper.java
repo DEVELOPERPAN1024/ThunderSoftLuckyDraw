@@ -12,7 +12,7 @@ import android.util.Log;
 public class InfoDatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 2;
     private static InfoDatabaseHelper sInstance;
-    private static final String CREATE_AWARDINFO =
+    private static final String CREATE_AWARD_INFO =
             "CREATE TABLE award (\n" +
                     "    _id    INTEGER      PRIMARY KEY AUTOINCREMENT,\n" +
                     "    name   CHAR (128)   NOT NULL,\n" +
@@ -82,7 +82,7 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("TS", "onCreate: " + "create database");
-        db.execSQL(CREATE_AWARDINFO);
+        db.execSQL(CREATE_AWARD_INFO);
         db.execSQL(CREATE_INFO);
         db.execSQL(CREATE_WIN_INFO);
         db.execSQL(CREATE_WININFO_TRIGGER);

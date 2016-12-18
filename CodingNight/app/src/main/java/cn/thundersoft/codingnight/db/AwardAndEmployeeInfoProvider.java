@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 public class AwardAndEmployeeInfoProvider extends ContentProvider {
@@ -26,9 +27,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int SEARACH_INFO = 6;
     private static final int UNAWARD = 7;
     private static final int WINNER = 8;
-    private static final UriMatcher sUriMatcher =
-            new UriMatcher(UriMatcher.NO_MATCH);
-
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
@@ -46,7 +45,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
@@ -67,12 +66,12 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         Log.d("TS", "insert: " + uri);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         String table = null;
@@ -106,7 +105,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         Log.d("TS", "query: " + uri);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
@@ -118,14 +117,14 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 return db.query(TABLE_AWARD, null, "id = ?", new String[]{aid}, null, null, null);
             case INFO_ALL:
                 return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
-                        "from info left join award on (info.award_id=award._id)",null);
-                //return db.query(TABLE_INFO, null, null, null, null, null, null);
+                        "from info left join award on (info.award_id=award._id)", null);
+            //return db.query(TABLE_INFO, null, null, null, null, null, null);
             case INFO_ID:
                 String iid = uri.getPathSegments().get(0);
                 //return db.query(TABLE_AWARD, null, "id = ?", new String[]{iid}, null, null, null);
                 return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
                         "from info left join award on (info.award_id=award._id)\n" +
-                        "where id=?",new String[]{iid});
+                        "where id=?", new String[]{iid});
             case WIN_ALL:
                 return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
@@ -145,8 +144,8 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 return db.rawQuery("select info._id as _id, info.info as info, info.award_id as award_id, award.name as name\n" +
                         "from info left join award on (info.award_id=award._id)\n" +
                         "where info like '%" + sid + "%'", null);
-                //Log.d(DEBUG_TAG, "query: " + searchQuery);
-                //return db.rawQuery(searchQuery, null);
+            //Log.d(DEBUG_TAG, "query: " + searchQuery);
+            //return db.rawQuery(searchQuery, null);
             case UNAWARD:
                 return db.rawQuery("select *\n" +
                         "from info\n" +
@@ -164,7 +163,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection,
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         switch (sUriMatcher.match(uri)) {

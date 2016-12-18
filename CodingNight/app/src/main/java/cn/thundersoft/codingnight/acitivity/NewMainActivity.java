@@ -65,7 +65,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case R.id.main_luckydraw_cv: {
-                startActivity(new Intent(this, LuckyDrawActivity.class));
+                startActivity(new Intent(this, LuckyDrawActivityNew.class));
                 overridePendingTransition(R.anim.enter_from_left, R.anim.out_same);
                 break;
             }

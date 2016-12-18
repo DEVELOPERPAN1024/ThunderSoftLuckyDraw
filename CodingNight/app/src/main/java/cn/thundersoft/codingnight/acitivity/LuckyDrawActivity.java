@@ -348,9 +348,4 @@ public class LuckyDrawActivity extends AppCompatActivity {
         Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);
         //}
     }
-
-
-
-
-
 }

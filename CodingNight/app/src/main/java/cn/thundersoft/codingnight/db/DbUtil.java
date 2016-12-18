@@ -16,11 +16,11 @@ import cn.thundersoft.codingnight.models.Person;
  */
 
 public class DbUtil {
-    private static Uri uri = Uri.parse(AwardAndEmployeeInfoProvider.URI);
+    private static Uri URI = Uri.parse(AwardAndEmployeeInfoProvider.URI);
 
     public static List<Award> getAwards(Context context) {
         List<Award> list = new ArrayList<>();
-        Uri u = Uri.withAppendedPath(uri, "award");
+        Uri u = Uri.withAppendedPath(URI, "award");
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
@@ -28,6 +28,7 @@ public class DbUtil {
                 fillAward(award, c);
                 list.add(award);
             }
+            c.close();
         }
         return list;
 
@@ -35,7 +36,7 @@ public class DbUtil {
 
     public static List<Person> getAllPerson(Context context) {
         List<Person> list = new ArrayList<>();
-        Uri u = Uri.withAppendedPath(uri, "info");
+        Uri u = Uri.withAppendedPath(URI, "info");
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
@@ -44,12 +45,13 @@ public class DbUtil {
                 person.setPrize(c.getInt(2));
                 list.add(person);
             }
+            c.close();
         }
         return list;
     }
 
     public static void insertWinner(Context context, Integer winnerId, Integer awardId) {
-        Uri u = Uri.withAppendedPath(uri, "wininfo");
+        Uri u = Uri.withAppendedPath(URI, "wininfo");
         ContentValues cv = new ContentValues();
         cv.put("info_id", winnerId);
         cv.put("award_id", awardId);
@@ -72,38 +74,37 @@ public class DbUtil {
         values.put("count", bean.getCount());
         values.put("detail", bean.getDetial());
         values.put("picuri", bean.getPicUrl());
-        Uri u = Uri.withAppendedPath(uri, "award");
+        Uri u = Uri.withAppendedPath(URI, "award");
         context.getContentResolver().insert(u, values);
     }
 
     public static void deleteAward(Context context, Award bean) {
-        Uri u = Uri.withAppendedPath(uri, "award");
+        Uri u = Uri.withAppendedPath(URI, "award");
         context.getContentResolver().delete(u, "_id=?", new String[]{bean.getId() + ""});
     }
 
     public static String getAwardPeopleList(Context context, Award bean) {
-        StringBuffer sb = new StringBuffer();
-        Uri u = Uri.withAppendedPath(uri, "wininfo/" + bean.getId());
+        StringBuilder sb = new StringBuilder();
+        Uri u = Uri.withAppendedPath(URI, "wininfo/" + bean.getId());
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
-                sb.append(c.getString(1) + "\n");
+                sb.append(c.getString(1)).append("\n");
             }
+            c.close();
         }
         return sb.toString();
     }
 
     public static Award getAwardById(Context context, int id) {
-        Uri u = Uri.withAppendedPath(uri,"award/" + id);
-        Cursor c = context.getContentResolver().query(u,null,null,null,null);
+        Uri u = Uri.withAppendedPath(URI, "award/" + id);
+        Cursor c = context.getContentResolver().query(u, null, null, null, null);
         Award ad = new Award();
         if (c != null && c.getCount() > 0)
-            fillAward(ad,c);
+            fillAward(ad, c);
         return ad;
     }
 
     public static void updatePersonInfo(Context context, Person person) {
-
-
     }
 }
