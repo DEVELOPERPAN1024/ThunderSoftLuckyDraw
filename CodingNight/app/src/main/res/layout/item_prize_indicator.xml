@@ -23,9 +23,7 @@
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
-            android:background="#F00"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:background="#F00" />
 
         <TextView
             android:id="@+id/prize_item_name"

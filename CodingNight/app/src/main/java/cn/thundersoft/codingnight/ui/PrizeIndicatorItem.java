@@ -1,6 +1,7 @@
 package cn.thundersoft.codingnight.ui;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,24 +44,10 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
         mName = (TextView) findViewById(R.id.prize_item_name);
     }
 
-    @Override
-    public void dispatchSetSelected(boolean selected) {
-        super.dispatchSetSelected(selected);
-        if (mImage == null) {
-            return;
-        }
-        if (mIsSelected) {
-            mImage.setScaleX(1f);
-            mImage.setScaleY(1f);
-        } else {
-            mImage.setScaleX(0.5f);
-            mImage.setScaleY(0.5f);
-        }
-    }
-
     public void bindPrize(Prize prize) {
         mImage.setImageURI(prize.getImgUri());
         mName.setText(prize.getName());
+        ViewCompat.setTransitionName(mImage, prize.getName());
     }
 
     @Override
@@ -78,7 +65,7 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
         isChecked = !isChecked;
     }
 
-    public interface OnCheckedChangeListener {
-        void onCheckedChanged(boolean isChecked);
+    public String getName() {
+        return mName.getText().toString();
     }
 }

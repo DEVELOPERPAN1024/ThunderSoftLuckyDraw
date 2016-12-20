@@ -1,66 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".acitivity.LuckyDrawActivityNew">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/prizes"
-        android:layout_width="150dp"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_prize_indicator" />
-
-    <RelativeLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/lucky_draw_award_image"
+        <FrameLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#eee"
-            android:minHeight="240dp" />
+            android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/two"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lucky_draw_award"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="一等奖"
-                android:textColor="#000"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/lucky_draw_award_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="简介"
-                android:textColor="#000"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/lucky_draw_award_start_button"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/four"
-            android:background="@drawable/person_item_delete_button_background"
-            android:elevation="@dimen/half"
-            android:text="抽"
-            android:textColor="#FFF"
-            android:textSize="35sp" />
-    </RelativeLayout>
-</LinearLayout>
+        <ListView
+            android:id="@+id/prizes"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#EEE"
+            android:choiceMode="singleChoice"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_prize_indicator" />
+    </android.support.v4.widget.DrawerLayout>
+</FrameLayout>
