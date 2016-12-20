@@ -30,13 +30,13 @@ public class CircularAnimatorFragment extends Fragment {
     public CircularAnimatorFragment() {
     }
 
-    public CircularAnimatorFragment(Point touchPoint, CircularAnimatorListener listener) {
+    private CircularAnimatorFragment(Point touchPoint, CircularAnimatorListener listener) {
         mTouchPoint = touchPoint;
         mListener = listener;
     }
 
     public static void startAnimator(FragmentManager fm, Point touchPoint,
-                                     CircularAnimatorListener listener) {
+            CircularAnimatorListener listener) {
         Fragment fragment = fm.findFragmentByTag(TAG);
         if (fragment == null) {
             fm.beginTransaction()
@@ -56,7 +56,7 @@ public class CircularAnimatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_circle_animation, container, false);
     }
 

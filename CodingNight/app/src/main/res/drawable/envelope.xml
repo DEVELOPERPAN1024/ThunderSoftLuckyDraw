@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:height="290dp"
-        android:drawable="@drawable/envelope_square" />
-    <item
-        android:drawable="@drawable/envelope_lid"
-        android:gravity="top" />
-</layer-list>

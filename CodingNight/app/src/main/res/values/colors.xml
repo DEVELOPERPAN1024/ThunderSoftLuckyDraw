@@ -6,4 +6,6 @@
 
     <color name="colorMainTitle">#555</color>
     <color name="colorSubTitle">#777</color>
+
+    <color name="envelope_back">#EEE</color>
 </resources>

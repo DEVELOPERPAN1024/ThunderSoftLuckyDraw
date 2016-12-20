@@ -34,6 +34,7 @@ import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PrizeListAdapter;
 import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
 import cn.thundersoft.codingnight.fragment.CircularAnimatorFragment;
+import cn.thundersoft.codingnight.fragment.EnvelopeAnimatorFragment;
 import cn.thundersoft.codingnight.fragment.PrizeFragment;
 import cn.thundersoft.codingnight.fragment.PrizeWelcomeFragment;
 
@@ -77,11 +78,18 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
                     @Override
                     public void onCircularFinish() {
                         mDrawerLayout.closeDrawer(GravityCompat.START, false);
-                        Fragment fragment = fm.findFragmentByTag("prize");
                         FragmentTransaction ft = fm.beginTransaction();
+//                        Fragment fragment = fm.findFragmentByTag("prize");
+//                        if (fragment == null) {
+//                            fragment = new PrizeFragment();
+//                            ft.add(R.id.content, fragment, "prize");
+//                        } else {
+//                            ft.show(fragment);
+//                        }
+                        Fragment fragment = fm.findFragmentByTag("envelope");
                         if (fragment == null) {
-                            fragment = new PrizeFragment();
-                            ft.add(R.id.content, fragment, "prize");
+                            fragment = new EnvelopeAnimatorFragment();
+                            ft.add(R.id.content, fragment, "envelope");
                         } else {
                             ft.show(fragment);
                         }

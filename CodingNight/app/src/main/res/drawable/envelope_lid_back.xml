@@ -6,15 +6,29 @@
     android:viewportWidth="500">
 
     <path
-        android:fillColor="#F33"
+        android:fillColor="#C00"
         android:pathData="
         M1.5,0
         V10 L10,30
         Q16,45,30,50
         L190,100 h140 L470,50
         Q484,45,490,30
-        L498.5,10 v-10 Z
+        L498.5,10 v-10
+        Z
         "
         android:strokeColor="#F19709"
         android:strokeWidth="3" />
+
+    <path
+        android:fillColor="@color/envelope_back"
+        android:pathData="
+        L10,0 l15,30 L190,82 h140 L475,30 l15,-30 L500,0
+        "
+        android:strokeColor="#F19709"
+        android:strokeWidth="3" />
+
+    <path
+        android:pathData="h500"
+        android:strokeColor="#DDD"
+        android:strokeWidth="4" />
 </vector>

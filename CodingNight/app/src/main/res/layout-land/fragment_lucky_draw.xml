@@ -33,10 +33,4 @@
             android:textColor="#000"
             android:textSize="20sp" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="290dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/envelope" />
 </RelativeLayout>
