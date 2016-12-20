@@ -32,4 +32,6 @@
 
     <string name="search_input_search_text">输入你想要搜索的东西</string>
     <string name="search_get_nothing">没有找到</string>
+
+    <string name="img_transition_name">img_transition_name</string>
 </resources>

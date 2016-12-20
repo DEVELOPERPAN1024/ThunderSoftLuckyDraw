@@ -1,14 +1,9 @@
 package cn.thundersoft.codingnight.acitivity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Point;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,9 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,8 +28,8 @@ import cn.thundersoft.codingnight.adapter.PrizeListAdapter;
 import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
 import cn.thundersoft.codingnight.fragment.CircularAnimatorFragment;
 import cn.thundersoft.codingnight.fragment.EnvelopeAnimatorFragment;
-import cn.thundersoft.codingnight.fragment.PrizeFragment;
 import cn.thundersoft.codingnight.fragment.PrizeWelcomeFragment;
+import cn.thundersoft.codingnight.models.Prize;
 
 public class LuckyDrawActivityNew extends AppCompatActivity implements
         AdapterView.OnItemClickListener, View.OnTouchListener {
@@ -53,7 +46,6 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_lucky_draw_new);
         ButterKnife.bind(this);
 
@@ -71,6 +63,8 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
         prizeList.setItemChecked(position, !prizeList.isItemChecked(position));
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, mAdapter.getPrize(position));
         CircularAnimatorFragment.startAnimator(getSupportFragmentManager(), mTouchPoint,
                 new CircularAnimatorFragment.CircularAnimatorListener() {
                     FragmentManager fm = getSupportFragmentManager();
@@ -89,6 +83,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
                         Fragment fragment = fm.findFragmentByTag("envelope");
                         if (fragment == null) {
                             fragment = new EnvelopeAnimatorFragment();
+                            fragment.setArguments(bundle);
                             ft.add(R.id.content, fragment, "envelope");
                         } else {
                             ft.show(fragment);

@@ -18,7 +18,6 @@ import cn.thundersoft.codingnight.models.Prize;
  */
 
 public class PrizeIndicatorItem extends LinearLayout implements Checkable {
-    private boolean mIsSelected = false;
     private ImageView mImage;
     private TextView mName;
 
@@ -34,7 +33,6 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
 
     public PrizeIndicatorItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mIsSelected = isSelected();
     }
 
     @Override

@@ -7,49 +7,106 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.models.Prize;
 
 /**
  * @author GreenShadow
  */
 
 public class EnvelopeAnimatorFragment extends Fragment {
-    private View envelop;
+    private RelativeLayout envelop;
+    private View lidBackStatic;
     private View lid;
     private View lidTop, lidBack;
+    private ImageView imagePreview;
+
+    private Prize mPrize;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_envelope_animation, null, false);
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_envelope_animation, container, false);
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        envelop = view.findViewById(R.id.envelope);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setSharedElementEnterTransition(null);
+        setSharedElementReturnTransition(null);
+        setEnterTransition(null);
+        setExitTransition(new Fade().setInterpolator(new DecelerateInterpolator()));
+
+        envelop = (RelativeLayout) view.findViewById(R.id.envelope);
+        lidBackStatic = view.findViewById(R.id.lid_back_static);
         lid = view.findViewById(R.id.lid);
         lidTop = lid.findViewById(R.id.lid_top);
         lidBack = lid.findViewById(R.id.lid_back);
-        view.setOnClickListener(new View.OnClickListener() {
+        imagePreview = (ImageView) view.findViewById(R.id.image_preview);
+        ViewCompat.setTransitionName(imagePreview, "imagePreview");
+        envelop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                envelop.setOnClickListener(null);
                 Animator animator = getAnimator();
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        view.setOnClickListener(null);
+                        changeFragment();
                     }
                 });
                 animator.start();
             }
         });
+    }
+
+    private void changeFragment() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment prizeFragment = fm.findFragmentByTag("prize");
+        if (prizeFragment == null) {
+            prizeFragment = new PrizeFragment();
+            Bundle b = new Bundle();
+            b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);
+            prizeFragment.setArguments(b);
+        }
+        prizeFragment.setSharedElementEnterTransition(new DetailTransition()
+                .setInterpolator(new AccelerateInterpolator()));
+        prizeFragment.setSharedElementReturnTransition(null);
+        prizeFragment.setEnterTransition(new Fade().setInterpolator(new AccelerateInterpolator()));
+        prizeFragment.setExitTransition(null);
+        fm.beginTransaction()
+                .replace(R.id.content, prizeFragment, "prize")
+                .addSharedElement(imagePreview, getString(R.string.img_transition_name))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+        mPrize = args.getParcelable(Prize.PRIZE_BUNDLE_KEY);
+    }
+
+    @Override
+    public void onResume() {
+        if (mPrize == null) {
+            imagePreview.setVisibility(View.GONE);
+        } else {
+            imagePreview.setVisibility(View.VISIBLE);
+            imagePreview.setImageURI(mPrize.getImgUri());
+        }
+        super.onResume();
     }
 
     private Animator getAnimator() {
@@ -81,16 +138,30 @@ public class EnvelopeAnimatorFragment extends Fragment {
         AnimatorSet setIn = new AnimatorSet();
         setIn.playTogether(flipIn, scaleIn);
         setIn.setInterpolator(new DecelerateInterpolator());
-
         AnimatorSet flip = new AnimatorSet();
         flip.playSequentially(setOut, setIn);
 
-        Animator move = ObjectAnimator.ofFloat(envelop, "translationY", 0f, 400f);
-        move.setDuration(700);
-        move.setStartDelay(300);
+        Animator envMove = ObjectAnimator.ofFloat(envelop, "translationY", 0f, 400f);
+        envMove.setDuration(700);
+        envMove.setStartDelay(300);
 
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(flip, move);
-        return animatorSet;
+        AnimatorSet openEnvelope = new AnimatorSet();
+        openEnvelope.playTogether(flip, envMove);
+        openEnvelope.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lid.setVisibility(View.GONE);
+                lidBackStatic.setVisibility(View.VISIBLE);
+            }
+        });
+
+        Animator picMove = ObjectAnimator.ofFloat(imagePreview, "translationY", 0f, -440);
+        picMove.setDuration(500);
+        picMove.setInterpolator(new DecelerateInterpolator());
+
+        AnimatorSet animator = new AnimatorSet();
+        animator.playSequentially(openEnvelope, picMove);
+
+        return animator;
     }
 }

@@ -4,19 +4,40 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="@dimen/six">
+    android:clipToPadding="false">
 
     <RelativeLayout
         android:id="@+id/envelope"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="650dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@color/envelope_back">
+
+        <ImageView
+            android:id="@+id/lid_back_static"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="-138dp"
+            android:scaleY="-1"
+            android:src="@drawable/envelope_lid_back"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="30dp"
+            android:scaleType="centerCrop" />
 
         <View
+            android:id="@+id/env_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/envelope_open_back" />
+            android:background="@drawable/envelope_square"
+            android:elevation="@dimen/half" />
 
         <FrameLayout
             android:id="@+id/lid"
