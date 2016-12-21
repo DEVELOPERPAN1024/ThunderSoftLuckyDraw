@@ -37,7 +37,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_envelope_animation, container, false);
     }
 
@@ -72,6 +72,9 @@ public class EnvelopeAnimatorFragment extends Fragment {
     }
 
     private void changeFragment() {
+        if (getActivity() == null) {
+            return;
+        }
         FragmentManager fm = getActivity().getSupportFragmentManager();
         Fragment prizeFragment = fm.findFragmentByTag("prize");
         if (prizeFragment == null) {

@@ -1,12 +1,17 @@
 package cn.thundersoft.codingnight.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.models.Prize;
@@ -15,24 +20,59 @@ import cn.thundersoft.codingnight.models.Prize;
  * @author GreenShadow
  */
 
-public class PrizeFragment extends Fragment {
+public class PrizeFragment extends Fragment implements View.OnClickListener {
+    private View contentContainer;
     private ImageView prizeImage;
+    private TextView name, detail;
+    private FrameLayout fabContainer;
+    private ImageView fabStart;
+
     private Prize mPrize;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lucky_draw, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        contentContainer = view.findViewById(R.id.content_container);
         prizeImage = (ImageView) view.findViewById(R.id.lucky_draw_award_image);
+        name = (TextView) view.findViewById(R.id.lucky_draw_award_name);
+        detail = (TextView) view.findViewById(R.id.lucky_draw_award_detail);
+        fabContainer = (FrameLayout) view.findViewById(R.id.fab_container);
+        fabStart = (ImageView) view.findViewById(R.id.fab_start);
+
         Bundle b = getArguments();
         mPrize = b == null ? null : (Prize) b.getParcelable(Prize.PRIZE_BUNDLE_KEY);
         if (mPrize != null) {
             prizeImage.setImageURI(mPrize.getImgUri());
+            name.setText(mPrize.getName());
+            detail.setText(mPrize.getDetail());
         }
+
+        fabStart.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        startRandomRolling();
+    }
+
+    private void startRandomRolling() {
+        int width = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        Animator fabMove = ObjectAnimator.ofFloat(fabContainer, "translationX",
+                (width - fabContainer.getWidth()) / 2 - 100);
+        Animator contentMoveX = ObjectAnimator.ofFloat(contentContainer, "translationX",
+                contentContainer.getWidth() * -1);
+        Animator contentMoveY = ObjectAnimator.ofFloat(contentContainer, "translationY",
+                contentContainer.getHeight() * -1);
+
+        AnimatorSet animator = new AnimatorSet();
+        animator.playTogether(fabMove, contentMoveX, contentMoveY);
+        animator.setDuration(333);
+        animator.start();
     }
 }
