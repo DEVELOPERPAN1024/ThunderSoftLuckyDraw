@@ -11,6 +11,23 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/main_titile_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:transitionName="shareTitle"
+                android:gravity="center"
+                android:text="ThunderSoft"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

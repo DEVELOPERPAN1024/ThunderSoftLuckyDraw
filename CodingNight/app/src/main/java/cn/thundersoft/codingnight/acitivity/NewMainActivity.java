@@ -1,5 +1,6 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +27,8 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
     CardView mMainLuckyDrawCV;
     @Bind(R.id.main_item_ll)
     LinearLayout mMainItemLL;
+    @Bind(R.id.main_titile_tv)
+    TextView mMainTitleTV;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,8 +69,8 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case R.id.main_luckydraw_cv: {
-                startActivity(new Intent(this, LuckyDrawActivityNew.class));
-                overridePendingTransition(R.anim.enter_from_left, R.anim.out_same);
+                Intent intent = new Intent(this, LuckyDrawActivityNew.class);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this,mMainTitleTV,"shareTitle").toBundle());
                 break;
             }
             default:

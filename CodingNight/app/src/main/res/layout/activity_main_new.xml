@@ -6,15 +6,15 @@
     android:background="#eee">
 
     <LinearLayout
-        android:id="@+id/main_item_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/four"
         android:layout_marginRight="@dimen/four"
         android:layout_marginTop="@dimen/eight"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/main_titile_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/two"
@@ -24,80 +24,89 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/main_data_cv"
+        <LinearLayout
+            android:id="@+id/main_item_ll"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/eleven"
-            android:layout_margin="@dimen/two"
-            app:cardBackgroundColor="#00bcd4"
-            app:cardCornerRadius="@dimen/half"
-            app:cardElevation="@dimen/half">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/set_data"
-                android:textColor="#eee"
-                android:textSize="20sp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/main_data_cv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/eleven"
+                android:layout_margin="@dimen/two"
+                app:cardBackgroundColor="#00bcd4"
+                app:cardCornerRadius="@dimen/half"
+                app:cardElevation="@dimen/half">
 
-            <ImageView
-                android:layout_width="@dimen/four"
-                android:layout_height="@dimen/four"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/five"
-                android:src="@drawable/ic_clipboard_text" />
-        </android.support.v7.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/set_data"
+                    android:textColor="#eee"
+                    android:textSize="20sp" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/main_award_cv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/eleven"
-            android:layout_margin="@dimen/two"
-            app:cardBackgroundColor="#03a9f4"
-            app:cardCornerRadius="@dimen/half"
-            app:cardElevation="@dimen/half">
+                <ImageView
+                    android:layout_width="@dimen/four"
+                    android:layout_height="@dimen/four"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/two"
+                    android:src="@drawable/ic_clipboard_text" />
+            </android.support.v7.widget.CardView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/set_award"
-                android:textColor="#eee"
-                android:textSize="20sp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/main_award_cv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/eleven"
+                android:layout_margin="@dimen/two"
+                app:cardBackgroundColor="#03a9f4"
+                app:cardCornerRadius="@dimen/half"
+                app:cardElevation="@dimen/half">
 
-            <ImageView
-                android:layout_width="@dimen/four"
-                android:layout_height="@dimen/four"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/five"
-                android:src="@drawable/ic_wallet_giftcard" />
-        </android.support.v7.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/set_award"
+                    android:textColor="#eee"
+                    android:textSize="20sp" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/main_luckydraw_cv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/eleven"
-            android:layout_margin="@dimen/two"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="@dimen/half"
-            app:cardElevation="@dimen/half">
+                <ImageView
+                    android:layout_width="@dimen/four"
+                    android:layout_height="@dimen/four"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/two"
+                    android:src="@drawable/ic_wallet_giftcard" />
+            </android.support.v7.widget.CardView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/begin_lucky_draw"
-                android:textColor="#eee"
-                android:textSize="20sp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/main_luckydraw_cv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/eleven"
+                android:layout_margin="@dimen/two"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="@dimen/half"
+                app:cardElevation="@dimen/half">
 
-            <ImageView
-                android:layout_width="@dimen/four"
-                android:layout_height="@dimen/four"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/five"
-                android:src="@drawable/ic_shuffle" />
-        </android.support.v7.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/begin_lucky_draw"
+                    android:textColor="#eee"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="@dimen/four"
+                    android:layout_height="@dimen/four"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/two"
+                    android:src="@drawable/ic_shuffle" />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
