@@ -18,7 +18,8 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    name   CHAR (128)   NOT NULL,\n" +
                     "    count  INTEGER (32) DEFAULT (0),\n" +
                     "    detail CHAR (256),\n" +
-                    "    picuri CHAR (256) \n" +
+                    "    picuri CHAR (256),\n" +
+                    "    order_index  INTEGER \n" +
                     ");";
     private static final String CREATE_INFO =
             "CREATE TABLE info (" +

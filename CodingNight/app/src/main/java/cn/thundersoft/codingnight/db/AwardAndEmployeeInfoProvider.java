@@ -168,6 +168,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
+                return db.update(TABLE_AWARD, values, selection, selectionArgs);
             case AWARD_ID:
             case INFO_ID:
             case WIN_ALL:
