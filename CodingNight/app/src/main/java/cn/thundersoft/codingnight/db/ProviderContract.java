@@ -14,4 +14,26 @@ public class ProviderContract {
     public static final Uri SEARCH_URI = Uri.withAppendedPath(BASE, "search");
     public static final Uri UNAWARD_URI = Uri.withAppendedPath(BASE, "unaward");
     public static final Uri WINNER_URI = Uri.withAppendedPath(BASE, "winner");
+
+    public class AwardColumns {
+        public static final int ID = 0;  //int
+        public static final int NAME = 1;  //String
+        public static final int count = 2;  //int
+        public static final int detail = 3;  //String
+        public static final int picuri = 4;  //String
+        public static final int order_index = 5;  //int
+        public static final int total_times =6;  //int
+    }
+
+    public class InfoColumns {
+        public static final int ID = 0;
+        public static final int INFO = 1;
+        public static final int AWARD_ID = 2;
+    }
+
+    public class WinInfoColumns {
+        public static final int ID = 0;
+        public static final int INFO_ID = 1;
+        public static final int AWARD_ID =2;
+    }
 }

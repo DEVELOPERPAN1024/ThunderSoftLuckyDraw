@@ -14,12 +14,13 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
     private static InfoDatabaseHelper sInstance;
     private static final String CREATE_AWARD_INFO =
             "CREATE TABLE award (\n" +
-                    "    _id    INTEGER      PRIMARY KEY AUTOINCREMENT,\n" +
-                    "    name   CHAR (128)   NOT NULL,\n" +
-                    "    count  INTEGER (32) DEFAULT (0),\n" +
-                    "    detail CHAR (256),\n" +
-                    "    picuri CHAR (256),\n" +
-                    "    order_index  INTEGER \n" +
+                    "    _id           INTEGER      PRIMARY KEY AUTOINCREMENT,\n" +
+                    "    name          CHAR (128)   NOT NULL,\n" +
+                    "    count         INTEGER (32) DEFAULT (0),\n" +
+                    "    detail        CHAR (256),\n" +
+                    "    picuri        CHAR (256),\n" +
+                    "    order_index   INTEGER,\n" +
+                    "    total_times   INTEGER\n" +
                     ");";
     private static final String CREATE_INFO =
             "CREATE TABLE info (" +
