@@ -58,7 +58,8 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        startRandomRolling();
+//        startRandomRolling();
+
     }
 
     private void startRandomRolling() {

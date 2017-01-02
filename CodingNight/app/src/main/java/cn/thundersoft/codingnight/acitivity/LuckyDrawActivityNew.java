@@ -14,9 +14,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.ChangeBounds;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.TransitionSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,19 +52,20 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
 
     private PrizeListAdapter mAdapter;
     private Point mTouchPoint;
+    private TransitionSet mEnvelopeEnterTransitions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_new);
         ButterKnife.bind(this);
-
+        initTransitions();
         prizeList.setOnItemClickListener(this);
         prizeList.setOnTouchListener(this);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.content, new PrizeWelcomeFragment(), "welcome")
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.content, new PrizeWelcomeFragment(), "welcome")
+//                .commit();
         // start task to query
         Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
         new PrizeLoadProgressAsyncTask("").execute(u);
@@ -63,39 +74,31 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
         prizeList.setItemChecked(position, !prizeList.isItemChecked(position));
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, mAdapter.getPrize(position));
-        CircularAnimatorFragment.startAnimator(getSupportFragmentManager(), mTouchPoint,
-                new CircularAnimatorFragment.CircularAnimatorListener() {
-                    FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag("envelope");
+        FragmentTransaction ft = fm.beginTransaction();
+        if (fragment == null) {
+            fragment = new EnvelopeAnimatorFragment();
+            fragment.setEnterTransition(mEnvelopeEnterTransitions);
+            fragment.setArguments(bundle);
+            ft.add(R.id.content, fragment, "envelope");
+        } else {
+            fragment.setEnterTransition(mEnvelopeEnterTransitions);
+            ft.show(fragment);
+        }
+        ft.commit();
 
-                    @Override
-                    public void onCircularFinish() {
-                        mDrawerLayout.closeDrawer(GravityCompat.START, false);
-                        FragmentTransaction ft = fm.beginTransaction();
-//                        Fragment fragment = fm.findFragmentByTag("prize");
-//                        if (fragment == null) {
-//                            fragment = new PrizeFragment();
-//                            ft.add(R.id.content, fragment, "prize");
-//                        } else {
-//                            ft.show(fragment);
-//                        }
-                        Fragment fragment = fm.findFragmentByTag("envelope");
-                        if (fragment == null) {
-                            fragment = new EnvelopeAnimatorFragment();
-                            fragment.setArguments(bundle);
-                            ft.add(R.id.content, fragment, "envelope");
-                        } else {
-                            ft.show(fragment);
-                        }
-                        ft.commit();
-                    }
+    }
 
-                    @Override
-                    public void onAnimatorFinish() {
-                        CircularAnimatorFragment.endAnimator(fm);
-                    }
-                });
+    private void initTransitions(){
+        mEnvelopeEnterTransitions = new TransitionSet();
+        mEnvelopeEnterTransitions.addTransition(new Explode());
+        mEnvelopeEnterTransitions.addTransition(new Fade().setInterpolator(new LinearInterpolator()));
+        mEnvelopeEnterTransitions.setDuration(500);
     }
 
     @Override

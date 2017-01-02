@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
     private View lidBackStatic;
     private View lid;
     private View lidTop, lidBack;
-    private ImageView imagePreview;
+    private CardView imagePreview;
 
     private Prize mPrize;
 
@@ -53,7 +54,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
         lid = view.findViewById(R.id.lid);
         lidTop = lid.findViewById(R.id.lid_top);
         lidBack = lid.findViewById(R.id.lid_back);
-        imagePreview = (ImageView) view.findViewById(R.id.image_preview);
+        imagePreview = (CardView) view.findViewById(R.id.image_preview);
         ViewCompat.setTransitionName(imagePreview, "imagePreview");
         envelop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
             imagePreview.setVisibility(View.GONE);
         } else {
             imagePreview.setVisibility(View.VISIBLE);
-            imagePreview.setImageURI(mPrize.getImgUri());
+//            imagePreview.setImageURI(mPrize.getImgUri());
         }
         super.onResume();
     }
