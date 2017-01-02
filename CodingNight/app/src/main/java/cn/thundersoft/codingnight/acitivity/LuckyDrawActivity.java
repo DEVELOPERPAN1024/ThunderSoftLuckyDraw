@@ -342,7 +342,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
 
 
     private void setAwardDetails(int index) {
-        mTvAwardDetail.setText(mAwards.get(index).getDetial());
+        mTvAwardDetail.setText(mAwards.get(index).getDetail());
 
         //if (mAwards.get(index).getPicUrl() != null) {
         Glide.with(this).load(mAwards.get(index).getPicUrl()).centerCrop().into(mIvAwardImage);

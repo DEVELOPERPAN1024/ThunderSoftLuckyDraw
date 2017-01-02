@@ -11,11 +11,11 @@ public class Award implements Serializable {
     private int id;
     private String name;
     private int count;
-    private String detial;
+    private String detail;
     private String picUrl;
     private int orderIndex;
     private int totalDrawTimes;
-    private int drawedTimes;
+    private int drewTimes;
     private boolean isRepeatable;
 
     public int getId() {
@@ -42,12 +42,12 @@ public class Award implements Serializable {
         this.count = count;
     }
 
-    public String getDetial() {
-        return detial;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDetial(String detial) {
-        this.detial = detial;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getPicUrl() {
@@ -66,8 +66,8 @@ public class Award implements Serializable {
         return totalDrawTimes;
     }
 
-    public int getDrawedTimes() {
-        return drawedTimes;
+    public int getDrewTimes() {
+        return drewTimes;
     }
 
     public void setOrderIndex(int orderIndex) {
@@ -78,8 +78,8 @@ public class Award implements Serializable {
         this.totalDrawTimes = totalDrawTimes;
     }
 
-    public void setDrawedTimes(int drawedTimes) {
-        this.drawedTimes = drawedTimes;
+    public void setDrewTimes(int drewTimes) {
+        this.drewTimes = drewTimes;
     }
     public boolean isRepeatable() {
         return isRepeatable;
@@ -89,5 +89,6 @@ public class Award implements Serializable {
         isRepeatable = repeatable;
     }
 
-
+    public void increaseDrewTimes() { drewTimes += 1; }
+    public void decreaseDrewTimes() { drewTimes -= 1; }
 }

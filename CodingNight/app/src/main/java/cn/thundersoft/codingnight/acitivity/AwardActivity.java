@@ -143,7 +143,7 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
                 awardViewHolder = (AwardViewHolder) convertView.getTag();
             }
             awardViewHolder.mAwardNameTV.setText(mList.get(position).getName());
-            awardViewHolder.mAwardDetailTV.setText(mList.get(position).getDetial());
+            awardViewHolder.mAwardDetailTV.setText(mList.get(position).getDetail());
             awardViewHolder.mAwardCountTV.setText("共" + mList.get(position).getCount() + "名");
             return convertView;
         }

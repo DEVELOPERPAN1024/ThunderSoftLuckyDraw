@@ -93,7 +93,7 @@ public class AddAwardActivity extends AppCompatActivity {
             Award bean = new Award();
             bean.setName(mAwardNameEdt.getText().toString());
             bean.setCount(awardCount);
-            bean.setDetial(mAwardDetailEdit.getText().toString());
+            bean.setDetail(mAwardDetailEdit.getText().toString());
             bean.setTotalDrawTimes(totalDrawCount);
             bean.setRepeatable(mIsRepeatablCB.isChecked());
             if (mPicurlPath != null) {

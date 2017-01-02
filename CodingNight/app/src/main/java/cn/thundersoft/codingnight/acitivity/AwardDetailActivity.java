@@ -52,7 +52,7 @@ public class AwardDetailActivity extends AppCompatActivity {
 
     private void initView() {
         mPeopleListTV.setMovementMethod(new ScrollingMovementMethod());
-        mAwardDetailTV.setText(mMainBean.getDetial());
+        mAwardDetailTV.setText(mMainBean.getDetail());
         mAwardNameTV.setText(mMainBean.getName());
         mAwardCountTV.setText("共" + mMainBean.getCount() + "个");
         new Thread(new Runnable() {

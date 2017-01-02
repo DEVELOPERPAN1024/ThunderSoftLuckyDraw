@@ -63,11 +63,11 @@ public class DbUtil {
         award.setId(c.getInt(0));
         award.setName(c.getString(1));
         award.setCount(c.getInt(2));
-        award.setDetial(c.getString(3));
+        award.setDetail(c.getString(3));
         award.setPicUrl(c.getString(4));
         award.setOrderIndex(c.getInt(ProviderContract.AwardColumns.order_index));
         award.setTotalDrawTimes(c.getInt(ProviderContract.AwardColumns.total_times));
-        award.setDrawedTimes(c.getInt(ProviderContract.AwardColumns.drawed_times));
+        award.setDrewTimes(c.getInt(ProviderContract.AwardColumns.drawed_times));
         award.setRepeatable(c.getInt(ProviderContract.AwardColumns.can_repeat) == 0);
     }
 
@@ -76,11 +76,11 @@ public class DbUtil {
         ContentValues values = new ContentValues();
         values.put("name", bean.getName());
         values.put("count", bean.getCount());
-        values.put("detail", bean.getDetial());
+        values.put("detail", bean.getDetail());
         values.put("picuri", bean.getPicUrl());
         values.put("order_index",bean.getOrderIndex());
         values.put("total_times",bean.getTotalDrawTimes());
-        values.put("drawed_times",bean.getDrawedTimes());
+        values.put("drawed_times",bean.getDrewTimes());
         values.put("can_repeat",bean.isRepeatable() ? 0 : 1);
         context.getContentResolver().insert(ProviderContract.AWARD_URI, values);
     }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_lucky_draw_final"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal">
+
+    <ListView
+        android:id="@+id/lucky_draw_final_list_award"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:scrollIndicators="none"
+        android:layout_alignParentLeft="true">
+
+    </ListView>
+
+
+
+
+    <ScrollView
+        android:id="@+id/lucky_draw_final_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/lucky_draw_final_list_award">
+
+        <TextView
+            android:id="@+id/lucky_draw_final_text_random"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textColor="@color/colorSubTitle"
+            android:textSize="@dimen/textSizeSuperLarge" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/lucky_draw_final_text_hint"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/lucky_draw_final_scrollview"/>
+
+
+    <Button
+        android:id="@+id/lucky_draw_final_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+
+
+
+</RelativeLayout>
