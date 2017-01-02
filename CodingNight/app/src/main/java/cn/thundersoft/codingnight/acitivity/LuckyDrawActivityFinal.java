@@ -133,23 +133,24 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
 
     private void initAction() {
+
         mDrawButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 列表滚动状态切换
                 // 按钮状态切换
                 // hint信息切换
-
                 // 获奖列表更新
                 if (mIsDrawing) { // stop
                     mCurrentAward.increaseDrewTimes();
                     updateHintText();
+                    DbUtil.insertAward(LuckyDrawActivityFinal.this, mCurrentAward);
+                    mIsDrawing = false;
                 } else { // start
+                    mIsDrawing = true;
                     getNameList();
-
                 }
                 updateButtonState();
-                mIsDrawing = !mIsDrawing;
             }
         });
     }
