@@ -1,5 +1,6 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.database.DatabaseUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 
 public class LuckyDrawActivityFinal extends AppCompatActivity {
@@ -47,7 +49,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     private void initData() {
         // 是否需要检查award对象为空？？
-        mCurrentAward = (Award) getIntent().getExtras().get("award");
+        int awardId = getIntent().getExtras().getInt("award_id");
+        mCurrentAward = DbUtil.getAwardById(this, awardId);
 
         mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mAwardNameList);
 
@@ -72,20 +75,43 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mDrawButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 列表旋转状态切换
+                // 列表滚动状态切换
                 // 按钮状态切换
                 // hint信息切换
-                updateHintText();
+
                 // 获奖列表更新
+                if (mIsDrawing) { // stop
+                    mCurrentAward.increaseDrewTimes();
+                    updateHintText();
+                } else { // start
+
+
+                }
+                updateButtonState();
+                mIsDrawing = !mIsDrawing;
             }
         });
     }
 
+    private void updateButtonState() {
+        if (!isDrawEnd()) {
+            mDrawButton.setBackground(mIsDrawing ?
+                    getDrawable(R.drawable.person_item_modify_button_background) :
+                    getDrawable(R.drawable.person_item_delete_button_background));
+        } else {
+            mDrawButton.setBackground(getDrawable(R.drawable.person_item_modify_button_background));
+        }
+
+    }
 
     private void updateHintText() {
-        if (mIsDrawing) return;
         String strToShow = getResources().getString(R.string.lucky_draw_final_draw_hint);
         mHintTextView.setText(String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getCount()));
+    }
+
+    // 状态检查
+    private boolean isDrawEnd() {
+        return mCurrentAward.getDrewTimes() == mCurrentAward.getCount();
     }
 
     // 中断恢复
