@@ -1,133 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.CardView
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/one">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/two"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/one">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/six"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/one"
-                    android:text="@string/add_award_name" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/award_name_edt"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:hint="如：一等奖、二等奖"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_name" />
+
+                    <EditText
+                        android:id="@+id/award_name_edt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint="如：一等奖、二等奖"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_count" />
+
+                    <EditText
+                        android:id="@+id/award_count_edt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:hint="@string/add_award_count"
+                        android:layout_weight="2"
+                        android:textSize="15sp"
+                        android:inputType="number" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/six"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/one"
-                    android:text="@string/add_award_count" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/award_count_edt"
-                    android:inputType="number"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_draw_count" />
+
+                    <EditText
+                        android:id="@+id/award_draw_count"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:hint="@string/add_award_draw_count"
+                        android:layout_weight="2"
+                        android:inputType="number"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_is_repeatable" />
+
+                    <CheckBox
+                        android:id="@+id/award_is_repeatable_cb"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+
             </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/one">
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/two"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/one">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/six"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/one"
-                    android:text="@string/add_award_detail" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/award_detail_edt"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_detail" />
+
+                    <EditText
+                        android:id="@+id/award_detail_edt"
+                        android:layout_width="0dp"
+                        android:textSize="13sp"
+                        android:hint="奖品描述 如：iPhone 7 128G"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/six"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textSize="13sp"
+                        android:paddingLeft="@dimen/one"
+                        android:text="@string/add_award_picurl" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0" />
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/two">
+
+            <ImageView
+                android:id="@+id/award_picurl_imgv"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/six"
-                android:orientation="horizontal">
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/one"
-                    android:text="@string/add_award_picurl" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/two">
-        <ImageView
-            android:id="@+id/award_picurl_imgv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

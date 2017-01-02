@@ -15,7 +15,9 @@
     <string name="lucky_draw_person_data_null_tint">请设置参与抽奖名单</string>
 
     <string name="add_award_name">奖项名称</string>
+    <string name="add_award_draw_count">抽奖次数</string>
     <string name="add_award_count">获奖人数</string>
+    <string name="add_award_is_repeatable">是否允许重复</string>
     <string name="add_award_detail">奖品名称及描述</string>
     <string name="add_award_picurl">点击下面白色方块添加奖品图片</string>
 
