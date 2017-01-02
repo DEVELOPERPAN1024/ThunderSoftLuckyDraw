@@ -65,10 +65,10 @@ public class DbUtil {
         award.setCount(c.getInt(2));
         award.setDetail(c.getString(3));
         award.setPicUrl(c.getString(4));
-        award.setOrderIndex(c.getInt(ProviderContract.AwardColumns.order_index));
-        award.setTotalDrawTimes(c.getInt(ProviderContract.AwardColumns.total_times));
-        award.setDrewTimes(c.getInt(ProviderContract.AwardColumns.drawed_times));
-        award.setRepeatable(c.getInt(ProviderContract.AwardColumns.can_repeat) == 0);
+        award.setOrderIndex(c.getInt(ProviderContract.AwardColumns.ORDER_INDEX));
+        award.setTotalDrawTimes(c.getInt(ProviderContract.AwardColumns.TOTAL_TIMES));
+        award.setDrewTimes(c.getInt(ProviderContract.AwardColumns.DRAWN_TIMES));
+        award.setRepeatable(c.getInt(ProviderContract.AwardColumns.CAN_REPEAT) == 0);
     }
 
 
