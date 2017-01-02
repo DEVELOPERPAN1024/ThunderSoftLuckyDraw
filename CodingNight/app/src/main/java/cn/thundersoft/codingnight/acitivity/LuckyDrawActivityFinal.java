@@ -54,6 +54,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_final);
         init();
+        getNameList(); // 打开即滚动
     }
 
 
@@ -108,6 +109,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                             DbUtil.insertWinner(LuckyDrawActivityFinal.this,
                                                 mPersonsToShow.get(i).getId(),
                                                 mCurrentAward.getId());
+                            updateAwardNameList();
                         }
                     }
                 }
@@ -209,7 +211,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     private void updateHintText() {
         String strToShow = getResources().getString(R.string.lucky_draw_final_draw_hint);
-        mHintTextView.setText(String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getCount()));
+        mHintTextView.setText(String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getTotalDrawTimes()));
     }
 
     private void updateRandomList() {
@@ -229,7 +231,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     // 状态检查
     private boolean isDrawEnd() {
-        return mCurrentAward.getDrewTimes() == mCurrentAward.getCount();
+        return mCurrentAward.getDrewTimes() == mCurrentAward.getTotalDrawTimes();
     }
 
     // 中断恢复
