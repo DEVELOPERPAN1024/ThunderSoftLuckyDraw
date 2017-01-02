@@ -14,16 +14,18 @@
         android:background="#888" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/two">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/two"
+        android:background="#F00">
 
         <ImageView
-            android:id="@+id/prize_item_image"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:id="@+id/prize_add_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="#F00" />
+            android:src="@drawable/ic_plus"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/prize_item_name"

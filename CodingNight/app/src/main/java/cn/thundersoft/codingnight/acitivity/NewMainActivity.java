@@ -16,6 +16,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.util.UiUtils;
 
 public class NewMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +28,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
     CardView mMainLuckyDrawCV;
     @Bind(R.id.main_item_ll)
     LinearLayout mMainItemLL;
-    @Bind(R.id.main_titile_tv)
+    @Bind(R.id.main_title_tv)
     TextView mMainTitleTV;
 
     @Override
@@ -52,6 +53,11 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         mMainItemLL.setLayoutAnimation(controller);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UiUtils.hideNavBar(this);
+    }
 
     @Override
     public void onClick(View v) {
@@ -70,7 +76,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
             }
             case R.id.main_luckydraw_cv: {
                 Intent intent = new Intent(this, LuckyDrawActivityNew.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this,mMainTitleTV,"shareTitle").toBundle());
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, mMainTitleTV, "shareTitle").toBundle());
                 break;
             }
             default:

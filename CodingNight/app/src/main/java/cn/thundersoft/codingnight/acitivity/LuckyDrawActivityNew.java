@@ -11,22 +11,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.ChangeBounds;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.TransitionSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,10 +30,10 @@ import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PrizeListAdapter;
 import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
-import cn.thundersoft.codingnight.fragment.CircularAnimatorFragment;
 import cn.thundersoft.codingnight.fragment.EnvelopeAnimatorFragment;
-import cn.thundersoft.codingnight.fragment.PrizeWelcomeFragment;
 import cn.thundersoft.codingnight.models.Prize;
+import cn.thundersoft.codingnight.ui.PrizeIndicatorItem;
+import cn.thundersoft.codingnight.util.UiUtils;
 
 public class LuckyDrawActivityNew extends AppCompatActivity implements
         AdapterView.OnItemClickListener, View.OnTouchListener {
@@ -62,6 +56,16 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         initTransitions();
         prizeList.setOnItemClickListener(this);
         prizeList.setOnTouchListener(this);
+        PrizeIndicatorItem addNewFooter = (PrizeIndicatorItem) LayoutInflater.from(this)
+                .inflate(R.layout.item_prize_indicator, null);
+        addNewFooter.showAddNew(true);
+        addNewFooter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            }
+        });
+        prizeList.addFooterView(addNewFooter);
 
 //        getSupportFragmentManager().beginTransaction()
 //                .add(R.id.content, new PrizeWelcomeFragment(), "welcome")
@@ -69,6 +73,12 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         // start task to query
         Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
         new PrizeLoadProgressAsyncTask("").execute(u);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UiUtils.hideNavBar(this);
     }
 
     @Override
@@ -94,7 +104,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
 
     }
 
-    private void initTransitions(){
+    private void initTransitions() {
         mEnvelopeEnterTransitions = new TransitionSet();
         mEnvelopeEnterTransitions.addTransition(new Explode());
         mEnvelopeEnterTransitions.addTransition(new Fade().setInterpolator(new LinearInterpolator()));

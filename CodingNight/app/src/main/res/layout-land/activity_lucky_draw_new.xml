@@ -16,33 +16,32 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <FrameLayout
+            <TextView
+                android:id="@+id/main_title_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/main_titile_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/two"
-                    android:gravity="center"
-                    android:text="ThunderSoft"
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:transitionName="shareTitle" />
-            </FrameLayout>
+            <TextView
+                android:id="@+id/main_titile_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two"
+                android:gravity="center"
+                android:text="ThunderSoft"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:transitionName="shareTitle" />
 
             <FrameLayout
-                android:layout_marginTop="@dimen/two"
-                android:layout_marginRight="@dimen/four"
-                android:layout_marginLeft="@dimen/four"
-                android:layout_marginBottom="@dimen/four"
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/four"
+                android:layout_marginLeft="@dimen/four"
+                android:layout_marginRight="@dimen/four"
+                android:layout_marginTop="@dimen/two" />
         </LinearLayout>
-
 
         <ListView
             android:id="@+id/prizes"
