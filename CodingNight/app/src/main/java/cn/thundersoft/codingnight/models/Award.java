@@ -13,6 +13,10 @@ public class Award implements Serializable {
     private int count;
     private String detial;
     private String picUrl;
+    private int orderIndex;
+    private int totalDrawTimes;
+    private int drawedTimes;
+    private boolean isRepeatable;
 
     public int getId() {
         return id;
@@ -54,6 +58,36 @@ public class Award implements Serializable {
         this.picUrl = picUrl;
     }
 
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+
+    public int getTotalDrawTimes() {
+        return totalDrawTimes;
+    }
+
+    public int getDrawedTimes() {
+        return drawedTimes;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
+    }
+
+    public void setTotalDrawTimes(int totalDrawTimes) {
+        this.totalDrawTimes = totalDrawTimes;
+    }
+
+    public void setDrawedTimes(int drawedTimes) {
+        this.drawedTimes = drawedTimes;
+    }
+    public boolean isRepeatable() {
+        return isRepeatable;
+    }
+
+    public void setRepeatable(boolean repeatable) {
+        isRepeatable = repeatable;
+    }
 
 
 }

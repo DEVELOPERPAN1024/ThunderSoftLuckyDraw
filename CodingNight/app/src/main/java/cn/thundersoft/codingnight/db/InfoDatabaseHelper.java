@@ -20,7 +20,9 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    detail        CHAR (256),\n" +
                     "    picuri        CHAR (256),\n" +
                     "    order_index   INTEGER,\n" +
-                    "    total_times   INTEGER\n" +
+                    "    total_times   INTEGER,\n" +
+                    "    drawed_times  INTEGER,\n" +
+                    "    can_repeat    INTEGER\n" +
                     ");";
     private static final String CREATE_INFO =
             "CREATE TABLE info (" +

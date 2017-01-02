@@ -22,7 +22,9 @@ public class ProviderContract {
         public static final int detail = 3;  //String
         public static final int picuri = 4;  //String
         public static final int order_index = 5;  //int
-        public static final int total_times =6;  //int
+        public static final int total_times = 6;  //int
+        public static final int drawed_times = 7;  //int
+        public static final int can_repeat = 8; //int
     }
 
     public class InfoColumns {

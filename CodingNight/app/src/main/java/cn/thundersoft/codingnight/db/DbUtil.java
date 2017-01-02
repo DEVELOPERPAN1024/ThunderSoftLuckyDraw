@@ -65,6 +65,10 @@ public class DbUtil {
         award.setCount(c.getInt(2));
         award.setDetial(c.getString(3));
         award.setPicUrl(c.getString(4));
+        award.setOrderIndex(c.getInt(ProviderContract.AwardColumns.order_index));
+        award.setTotalDrawTimes(c.getInt(ProviderContract.AwardColumns.total_times));
+        award.setDrawedTimes(c.getInt(ProviderContract.AwardColumns.drawed_times));
+        award.setRepeatable(c.getInt(ProviderContract.AwardColumns.can_repeat) == 0);
     }
 
 
@@ -74,13 +78,15 @@ public class DbUtil {
         values.put("count", bean.getCount());
         values.put("detail", bean.getDetial());
         values.put("picuri", bean.getPicUrl());
-        Uri u = Uri.withAppendedPath(URI, "award");
-        context.getContentResolver().insert(u, values);
+        values.put("order_index",bean.getOrderIndex());
+        values.put("total_times",bean.getTotalDrawTimes());
+        values.put("drawed_times",bean.getDrawedTimes());
+        values.put("can_repeat",bean.isRepeatable() ? 0 : 1);
+        context.getContentResolver().insert(ProviderContract.AWARD_URI, values);
     }
 
     public static void deleteAward(Context context, Award bean) {
-        Uri u = Uri.withAppendedPath(URI, "award");
-        context.getContentResolver().delete(u, "_id=?", new String[]{bean.getId() + ""});
+        context.getContentResolver().delete(ProviderContract.AWARD_URI, "_id=?", new String[]{bean.getId() + ""});
     }
 
     public static String getAwardPeopleList(Context context, Award bean) {
