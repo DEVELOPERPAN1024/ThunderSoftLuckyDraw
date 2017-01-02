@@ -54,6 +54,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_final);
         init();
+        restoreData();
         getNameList(); // 打开即滚动
     }
 
@@ -236,8 +237,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     // 中断恢复
-    private void checkDrawState() {
-
+    private void restoreData() {
+        mAwardNameList = DbUtil.getAwardPeopleArrayList(this, mCurrentAward);
     }
 
 

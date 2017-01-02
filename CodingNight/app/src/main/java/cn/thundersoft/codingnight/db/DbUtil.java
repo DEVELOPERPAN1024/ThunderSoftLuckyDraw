@@ -102,6 +102,19 @@ public class DbUtil {
         return sb.toString();
     }
 
+    public static List<String> getAwardPeopleArrayList(Context context, Award bean) {
+        List<String> arrayList = new ArrayList<>();
+        Uri u = Uri.withAppendedPath(URI, "wininfo/" + bean.getId());
+        Cursor c = context.getContentResolver().query(u, null, null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                arrayList.add(c.getString(1));
+            }
+            c.close();
+        }
+        return arrayList;
+    }
+
     public static Award getAwardById(Context context, int id) {
         Uri u = Uri.withAppendedPath(URI, "award/" + id);
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
