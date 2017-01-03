@@ -61,13 +61,17 @@ public class LuckyDrawActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-//            showNames(mLastRandomList);
-            showNames(mPersonAwarded);
-            if (!mIsDrawing) {
-                for (int i = 0; i < mPersonAwarded.size(); i++) {
-                    setLocalPersonAwardState(mPersonAwarded.get(i));
-                    DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
+
+            if (msg.what == 2) {
+                showNames(mPersonAwarded);
+                if (!mIsDrawing) {
+                    for (int i = 0; i < mPersonAwarded.size(); i++) {
+                        setLocalPersonAwardState(mPersonAwarded.get(i));
+                        DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
+                    }
                 }
+            } else {
+                showNames(null);
             }
         }
     };
@@ -175,10 +179,10 @@ public class LuckyDrawActivity extends AppCompatActivity {
                     mTotalAwards = 0;
                     return;
                 }
-                mTotalAwards = mAwards.get(position-1).getCount();
-                mAwardID = mAwards.get(position-1).getId();
+                mTotalAwards = mAwards.get(position - 1).getCount();
+                mAwardID = mAwards.get(position - 1).getId();
                 //showToast("position is " + position + "  award count is " + mTotalAwards);
-                setAwardDetails(position-1);
+                setAwardDetails(position - 1);
                 mBottomLayout.setVisibility(View.VISIBLE);
                 mIvAwardImage.setVisibility(View.VISIBLE);
                 /*mAwardListLayout.setVisibility(View.GONE);
@@ -257,6 +261,12 @@ public class LuckyDrawActivity extends AppCompatActivity {
     private void onStartDraw() {
 
         if (mTotalDrawCount > 0) {
+
+
+//            if (mCurrentShowCount > 25) {
+//                showToast("抽奖人数多于25个，是不是多了点，可以分多次抽哦");
+//                return;
+//            }
             mBtnStart.setText(mIsDrawing ? R.string.lucky_draw_button_end : R.string.lucky_draw_button_start);
             mSpDrawTimes.setEnabled(false);
             mSpAwards.setEnabled(false);
@@ -316,28 +326,40 @@ public class LuckyDrawActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while (mIsDrawing) {
-                    mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
+//                    mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
                     mHandler.sendEmptyMessage(1);
                     try {
-                        Thread.sleep(20);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                mPersonAwarded = MyRandom.getRandomList(mPersons, mCurrentShowCount);
+                mHandler.sendEmptyMessage(2);
             }
         }).start();
 
     }
 
     private void showNames(List<Person> list) {
-        Log.d("draw", list.size() + "");
-        String str = "";
-        for (int i = 0; i < list.size(); ++i) {
+        if (list != null) {
+            Log.d("draw", list.size() + "");
+            String str = "";
+            for (int i = 0; i < list.size(); ++i) {
 
-            str += (list.get(i).getInfo() + "\n");
+                str += (list.get(i).getInfo() + "\n");
+            }
+            Log.d("draw", str);
+            mTvAwardNames.setText(str);
+        } else {
+            String str = "";
+            for (int i = 0; i < mCurrentShowCount; i++) {
+                int f = (int) (System.currentTimeMillis() % 1000);
+                int position = f % (mPersons.size() - 1);
+                str += (mPersons.get(position).getInfo() + "\n");
+            }
+            mTvAwardNames.setText(str);
         }
-        Log.d("draw", str);
-        mTvAwardNames.setText(str);
     }
 
 

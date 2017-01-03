@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="#ddd"
         android:hint="@string/search_input_search_text"
         android:textColor="@android:color/white" />
 
@@ -21,5 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/one"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@drawable/ic_close" />
 </cn.thundersoft.codingnight.ui.ClearableEditText>

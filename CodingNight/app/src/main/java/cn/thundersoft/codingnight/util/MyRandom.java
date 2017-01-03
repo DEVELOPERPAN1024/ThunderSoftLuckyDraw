@@ -47,28 +47,30 @@ public class MyRandom implements Runnable {
     }
 
     public static double getRandom_0_1() {
-        double[] dd = new double[13];
-        for (int i = 0; i < dd.length; i++) {
-            Runnable runnable = new MyRandom();
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                Thread.sleep(x + 1);
-            } catch (InterruptedException e) {
-                e.getMessage();
-            }
-            thread.interrupt();
-            double rr = (double) random / (double) m;
-            x = f % 13;
-            changeR(r, 11 + (f / 7));
-            dd[i] = rr;
-            if ((i > 0) && (dd[i] == dd[i - 1])) {
-                changeR(r, 13 + (f / 11));
-            }
+//        double[] dd = new double[13];
+//        for (int i = 0; i < dd.length; i++) {
+        Runnable runnable = new MyRandom();
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            Thread.sleep(x + 1);
+        } catch (InterruptedException e) {
+            e.getMessage();
         }
-        double ran = dd[12];
+        thread.interrupt();
+        double rr = (double) random / (double) m;
+        f = (int) (System.currentTimeMillis() % 1000);
+        x = f % 13;
+        changeR(r, 11 + ((f ) / 7));
+//            dd[i] = rr;
+//            if ((i > 0) && (dd[i] == dd[i - 1])) {
+//                changeR(r, 13 + (f / 11));
+//            }
+//        }
+        double ran = rr;
         return ran;
     }
+
 
     public static List<Person> getRandomList(List<Person> allPersons, int count) {
 

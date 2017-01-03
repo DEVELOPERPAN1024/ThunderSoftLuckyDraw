@@ -3,6 +3,7 @@
     <string name="set_data">数据</string>
     <string name="set_award">奖项</string>
     <string name="begin_lucky_draw">抽奖</string>
+    <string name="award_detail">奖项详情</string>
 
     <string name="lucky_draw_prize">奖项和抽奖次数</string>
     <string name="lucky_draw_prize_title">奖品信息</string>

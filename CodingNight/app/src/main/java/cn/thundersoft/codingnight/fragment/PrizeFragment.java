@@ -3,9 +3,12 @@ package cn.thundersoft.codingnight.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal;
+import cn.thundersoft.codingnight.db.DbUtil;
+import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.models.Prize;
 
 /**
@@ -32,7 +38,7 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lucky_draw, container, false);
     }
 
@@ -59,7 +65,24 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 //        startRandomRolling();
+        if (mPrize == null) {
+            return;
+        }
+        Award award = DbUtil.getAwardById(getContext(), mPrize.getId());
+        if (award == null) {
+            return;
+        }
+        Intent intent = new Intent(getContext(), LuckyDrawActivityFinal.class);
+        intent.putExtra("award", award);
+        startActivity(intent,
+                ActivityOptions.makeSceneTransitionAnimation(getActivity(), getActivity().findViewById(R.id.lucky_draw_award_image), "sharePrize").toBundle());
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void startRandomRolling() {

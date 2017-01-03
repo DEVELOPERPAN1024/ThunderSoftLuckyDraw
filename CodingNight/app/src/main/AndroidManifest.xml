@@ -33,6 +33,10 @@
             android:configChanges="orientation"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+        <activity android:name=".acitivity.LuckyDrawActivityFinal"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            />
 
         <provider
             android:name=".db.AwardAndEmployeeInfoProvider"

@@ -89,7 +89,9 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher,
     public void afterTextChanged(Editable s) {
         String searchString = s.toString().trim();
         if (TextUtils.isEmpty(s)) {
-            mAdapter.changeCursor(null);
+            if (mAdapter != null) {
+                mAdapter.changeCursor(null);
+            }
             return;
         }
         search(searchString);

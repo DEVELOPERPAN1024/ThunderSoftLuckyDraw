@@ -78,11 +78,17 @@ public class DbUtil {
         values.put("count", bean.getCount());
         values.put("detail", bean.getDetail());
         values.put("picuri", bean.getPicUrl());
-        values.put("order_index",bean.getOrderIndex());
-        values.put("total_times",bean.getTotalDrawTimes());
-        values.put("drawed_times",bean.getDrewTimes());
-        values.put("can_repeat",bean.isRepeatable() ? 0 : 1);
+        values.put("order_index", bean.getOrderIndex());
+        values.put("total_times", bean.getTotalDrawTimes());
+        values.put("drawed_times", bean.getDrewTimes());
+        values.put("can_repeat", bean.isRepeatable() ? 0 : 1);
         context.getContentResolver().insert(ProviderContract.AWARD_URI, values);
+    }
+
+    public static void updateAward(Context context, Award bean) {
+        ContentValues values = new ContentValues();
+        values.put("drawed_times", bean.getDrewTimes());
+        context.getContentResolver().update(ProviderContract.AWARD_URI, values, "_id=?", new String[]{bean.getId() + ""});
     }
 
     public static void deleteAward(Context context, Award bean) {
@@ -119,7 +125,7 @@ public class DbUtil {
         Uri u = Uri.withAppendedPath(URI, "award/" + id);
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         Award ad = new Award();
-        if (c != null && c.getCount() > 0)
+        if (c != null && c.getCount() > 0 && c.moveToFirst())
             fillAward(ad, c);
         return ad;
     }

@@ -2,11 +2,18 @@ package cn.thundersoft.codingnight.acitivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +24,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.Bind;
@@ -49,6 +61,11 @@ public class AddAwardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_award_layout);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("添加奖项");
+        }
         initView();
     }
 
@@ -67,11 +84,17 @@ public class AddAwardActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (Objects.equals(item.getTitle(), "保存")) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (Objects.equals(item.getTitle(), "保存")) {
             if (mAwardNameEdt.getText().length() < 1 || mAwardCountEdt.getText().length() < 1
                     || mAwardDetailEdit.getText().length() < 1 || mDrawCountEdt.getText().length() < 1) {
                 Toast.makeText(this, "必要数据为空，请再次检查输入", Toast.LENGTH_SHORT).show();
@@ -120,4 +143,5 @@ public class AddAwardActivity extends AppCompatActivity {
             cursor.close();
         }
     }
+
 }

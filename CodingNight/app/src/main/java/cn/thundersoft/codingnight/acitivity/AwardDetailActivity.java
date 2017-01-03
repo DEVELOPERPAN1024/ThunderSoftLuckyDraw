@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -44,6 +45,11 @@ public class AwardDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_award_detail_layout);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.award_detail);
+        }
         mMainBean = (Award) getIntent().getSerializableExtra("bean");
         if (mMainBean != null) {
             initView();
@@ -71,14 +77,17 @@ public class AwardDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add("删除");
-        item.setIcon(R.drawable.ic_delete);
+//        item.setIcon(R.drawable.ic_delete);
         item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (Objects.equals(item.getTitle(), "删除")) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (Objects.equals(item.getTitle(), "删除")) {
             DbUtil.deleteAward(this, mMainBean);
             finish();
             return true;

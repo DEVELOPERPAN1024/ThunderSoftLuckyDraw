@@ -128,12 +128,18 @@
                 android:layout_marginRight="@dimen/one"
                 android:background="#777" />
 
-            <TextView
-                android:id="@+id/people_list_tv"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/one"
-                android:scrollbarStyle="insideInset" />
+                android:scrollbarStyle="insideInset">
+                <TextView
+                    android:id="@+id/people_list_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/one"
+                    android:scrollbarStyle="insideInset" />
+            </ScrollView>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

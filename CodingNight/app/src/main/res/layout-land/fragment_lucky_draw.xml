@@ -26,9 +26,9 @@
             android:layout_marginTop="@dimen/six"
             android:layout_marginRight="@dimen/eight"
             android:layout_marginBottom="@dimen/eight"
-            android:background="#eee"
             android:minHeight="240dp"
             android:scaleType="centerCrop"
+            android:background="#eee"
             android:tint="#0000"
              />
 

@@ -29,6 +29,8 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Bind(R.id.main_listview)
     ListView mMainListView;
+    @Bind(R.id.main_hint_tv)
+    TextView mMainHintTV;
 
     private AwardAdapter mMainAdapter;
     private List<Award> mDataList;
@@ -95,6 +97,11 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<List<Award>> loader, List<Award> data) {
         mDataList = data;
+        if(data.size()>0){
+            mMainHintTV.setVisibility(View.GONE);
+        }else{
+            mMainHintTV.setVisibility(View.VISIBLE);
+        }
         mMainAdapter.setDataList(data);
         mMainAdapter.notifyDataSetChanged();
     }
