@@ -2,10 +2,14 @@ package cn.thundersoft.codingnight.models;
 
 import android.database.Cursor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Person {
     private int id;
     private String info;
     private int prize;
+    private List<Award> prizes = new ArrayList<>();
     private String prizeName;
     private boolean isShowMenu = false;
 
@@ -65,6 +69,10 @@ public class Person {
 
     public void setShowMenu(boolean showMenu) {
         isShowMenu = showMenu;
+    }
+
+    public List<Award> getPrizes() {
+        return prizes;
     }
 
     @Override
