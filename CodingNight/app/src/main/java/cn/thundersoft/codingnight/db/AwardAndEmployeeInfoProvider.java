@@ -27,7 +27,9 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int SEARACH_INFO = 6;
     private static final int UNAWARD = 7;
     private static final int WINNER = 8;
+    private static final int PERSON_AWARD = 10;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
 
     static {
         sUriMatcher.addURI(AUTH, "award", AWARD_ALL);
@@ -36,6 +38,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "info/#", INFO_ID);
         sUriMatcher.addURI(AUTH, "wininfo", WIN_ALL);
         sUriMatcher.addURI(AUTH, "wininfo/#", WIN_ID);
+        sUriMatcher.addURI(AUTH, "wininfo/person/#", PERSON_AWARD);
         sUriMatcher.addURI(AUTH, "search/*", SEARACH_INFO);
         sUriMatcher.addURI(AUTH, "unaward", UNAWARD);
         sUriMatcher.addURI(AUTH, "winner", WINNER);
@@ -148,6 +151,14 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "where info._id in\n" +
                         "(select info_id\n" +
                         "from wininfo);", null);
+            case PERSON_AWARD:
+                String personId = uri.getLastPathSegment();
+                return db.rawQuery("select *\n" +
+                        "from award\n" +
+                        "where award._id in\n" +
+                        "(select wininfo.award_id\n" +
+                        "from wininfo\n" +
+                        "where wininfo.info_id = ?)", new String[] {personId});
         }
         return null;
     }

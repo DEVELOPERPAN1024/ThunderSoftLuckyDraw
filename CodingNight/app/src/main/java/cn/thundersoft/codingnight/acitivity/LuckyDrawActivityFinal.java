@@ -27,8 +27,9 @@ import cn.thundersoft.codingnight.util.MyRandom;
 public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     public static final int REQ_CODE = 2017;
+    private static final int STOP_DRAW = 1;
     // view
-    private Button mDrawButton;
+    private ImageView mDrawButton;
     private ScrollView mRandomScrollView;
     private TextView mHintTextView;
     private TextView mRandomTextView;
@@ -55,7 +56,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_final);
         init();
-
         getNameList(); // 打开即滚动
     }
 
@@ -67,6 +67,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             if (mTimer != null) mTimer.cancel();
             super.onBackPressed();
         } else {
+            if(isDrawEnd()){
+                super.onBackPressed();
+                return;
+            }
             mTimer = new Timer();
             mTimer.schedule(new TimerTask() {
                 @Override
@@ -74,24 +78,27 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     mBackPressTime = 0;
                 }
             }, 3000); // 3秒内
-            Toast toast =  Toast.makeText(this, getText(R.string.lucky_draw_final_back_hint), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getText(R.string.lucky_draw_final_back_hint), Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
 
-
     private void init() {
         initData();
-        restoreData();
         initView();
+        restoreData();
         initAction();
     }
 
     private void initData() {
         mCurrentAward = (Award) getIntent().getSerializableExtra("award");
 
-        mTotalPersons = DbUtil.getAllPerson(this);
+        if (mCurrentAward.isRepeatable()) {
+            mTotalPersons = DbUtil.getAllPerson(this);
+        } else {
+            mTotalPersons = DbUtil.getUnawardPersons(this);
+        }
 
         mIsDrawing = true; // 打开该Activity即开始滚动
 
@@ -100,36 +107,34 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                if (msg.what == 1) {
+                if (msg.what == STOP_DRAW) {
                     updateRandomList();
-                    if (!mIsDrawing) {
-                        for (int i = 0; i < mPersonsToShow.size(); i++) {
-                            //一个人获取多个奖项?
-                            updatePersonAwardState(mPersonsToShow.get(i));
-                            DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                                                mPersonsToShow.get(i).getId(),
-                                                mCurrentAward.getId());
-                            updateAwardNameList();
-                        }
+//                    if (!mIsDrawing) {
+                    for (int i = 0; i < mPersonsToShow.size(); i++) {
+                        //一个人获取多个奖项?
+                        updatePersonAwardState(mPersonsToShow.get(i));
+                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                mPersonsToShow.get(i).getId(),
+                                mCurrentAward.getId());
+                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
+                        updateAwardNameList();
                     }
+//                    }
                 }
-
             }
         };
     }
 
     private void initView() {
-        mDrawButton = (Button) findViewById(R.id.lucky_draw_final_button);
-        mRandomScrollView = (ScrollView) findViewById(R.id.lucky_draw_final_scrollview);
+        mDrawButton = (ImageView) findViewById(R.id.lucky_draw_final_button);
         mRandomTextView = (TextView) findViewById(R.id.lucky_draw_final_text_random);
         mHintTextView = (TextView) findViewById(R.id.lucky_draw_final_text_hint);
-        mAwardListTV = (TextView)findViewById(R.id.award_name_list_tv);
-        mAwardNameSV = (ScrollView)findViewById(R.id.award_name_sv);
+        mAwardListTV = (TextView) findViewById(R.id.award_name_list_tv);
+        mAwardNameSV = (ScrollView) findViewById(R.id.award_name_sv);
         updateHintText();
         updateButtonState();
 
     }
-
 
 
     private void initAction() {
@@ -141,16 +146,17 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 // 按钮状态切换
                 // hint信息切换
                 // 获奖列表更新
-                if(isDrawEnd()){
+                if (isDrawEnd()) {
                     updateButtonState();
-                    Toast.makeText(LuckyDrawActivityFinal.this,"已经抽完了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mIsDrawing) { // stop
                     mCurrentAward.increaseDrewTimes();
                     updateHintText();
-                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                    mIsDrawing = false;
+//                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward); 放到handler更新
+                    mIsDrawing = false; // stop while in thread
+                    mHandler.sendEmptyMessage(STOP_DRAW);
                 } else { // start
                     mIsDrawing = true;
                     getNameList();
@@ -167,8 +173,14 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             @Override
             public void run() {
                 while (mIsDrawing) {
+                    if (mTotalPersons == null) {
+                        break;
+                    }
+                    if (mTotalPersons.size() < 1) {
+                        break;
+                    }
                     mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
-                    mHandler.sendEmptyMessage(1);
+//                    mHandler.sendEmptyMessage(1); //按钮停止再发
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
@@ -206,9 +218,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     private void updateButtonState() {
-        mDrawButton.setBackground(mIsDrawing ?
-                getDrawable(R.drawable.person_item_modify_button_background) :
-                getDrawable(R.drawable.person_item_delete_button_background));
+        mDrawButton.setImageDrawable(mIsDrawing ?
+                getDrawable(R.drawable.ic_shuffle) :
+                getDrawable(R.drawable.ic_start));
         //不同样式控制？
         if (isDrawEnd()) {
             mDrawButton.setEnabled(false);
@@ -235,10 +247,16 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         updateAwardNameTVByNameList();
     }
 
-    private void updateAwardNameTVByNameList(){
+    private void updateAwardNameTVByNameList() {
+        if (mAwardNameList == null) {
+            return;
+        }
+        if (mAwardNameList.size() < 1) {
+            return;
+        }
         String str = "";
         for (int i = 0; i < mAwardNameList.size(); ++i) {
-            str += (mAwardNameList.get(i)+ "\n\n");
+            str += (mAwardNameList.get(i) + "\n\n");
         }
         mAwardListTV.setText(str);
         mAwardNameSV.fullScroll(View.FOCUS_DOWN);
@@ -254,7 +272,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mAwardNameList = DbUtil.getAwardPeopleArrayList(this, mCurrentAward);
         updateAwardNameTVByNameList();
     }
-
 
 
 }

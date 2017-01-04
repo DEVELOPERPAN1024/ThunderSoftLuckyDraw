@@ -74,10 +74,7 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
         }
         Intent intent = new Intent(getContext(), LuckyDrawActivityFinal.class);
         intent.putExtra("award", award);
-        startActivity(intent,
-                ActivityOptions.makeSceneTransitionAnimation(getActivity(), getActivity().findViewById(R.id.lucky_draw_award_image), "sharePrize").toBundle());
-
-
+        startActivity(intent);
     }
 
     @Override

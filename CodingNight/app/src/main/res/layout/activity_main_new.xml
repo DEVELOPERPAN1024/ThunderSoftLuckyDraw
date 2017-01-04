@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eee">
+    android:background="@drawable/background1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,10 +15,10 @@
 
         <TextView
             android:id="@+id/main_title_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/two"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:text="ThunderSoft"
             android:textColor="@android:color/holo_red_light"
             android:textSize="25sp"
@@ -109,4 +109,13 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/small_chicken_imgv"
+        android:layout_width="@dimen/ten"
+        android:layout_height="@dimen/ten"
+        android:src="@drawable/small_chicken1"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-80dp"
+        />
 </FrameLayout>

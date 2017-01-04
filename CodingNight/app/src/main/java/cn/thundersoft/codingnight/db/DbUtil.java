@@ -42,7 +42,30 @@ public class DbUtil {
             while (c.moveToNext()) {
                 Person person = new Person(c.getString(1));
                 person.setId(c.getInt(0));
-                person.setPrize(c.getInt(2));
+                Cursor ac = context.getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI,String.valueOf(c.getInt(0))),
+                        null,null,null,null,null);
+                if (ac != null) {
+                    while (ac.moveToNext()) {
+                        Award a = new Award();
+                        fillAward(a,ac);
+                        person.getPrizes().add(a);
+                    }
+                    ac.close();
+                }
+                list.add(person);
+            }
+            c.close();
+        }
+        return list;
+    }
+
+    public static List<Person> getUnawardPersons(Context context) {
+        List<Person> list = new ArrayList<>();
+        Cursor c = context.getContentResolver().query(ProviderContract.UNAWARD_URI, null, null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                Person person = new Person(c.getString(1));
+                person.setId(c.getInt(0));
                 list.add(person);
             }
             c.close();

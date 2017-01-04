@@ -4,6 +4,7 @@
     android:id="@+id/activity_lucky_draw_final"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background1"
     android:orientation="horizontal"
     android:padding="@dimen/one"
     tools:context="cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal">
@@ -22,20 +23,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/one"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:text="中奖信息" />
 
             <ScrollView
                 android:id="@+id/award_name_sv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="none"
                 >
 
                 <TextView
                     android:id="@+id/award_name_list_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="@dimen/six"
                     android:gravity="center_horizontal|bottom"
+                    android:paddingBottom="@dimen/six"
                     android:textColor="@color/colorSubTitle"
                     android:textSize="10sp" />
             </ScrollView>
@@ -48,21 +53,27 @@
         android:layout_margin="@dimen/one"
         android:layout_weight="2">
 
-        <ScrollView
-            android:id="@+id/lucky_draw_final_scrollview"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_vertical">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/one"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="抽奖滚动" />
 
             <TextView
                 android:id="@+id/lucky_draw_final_text_random"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorSubTitle"
-                android:textSize="@dimen/textSizeSuperLarge" />
-        </ScrollView>
+                android:textSize="@dimen/textSizeLarge" />
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -77,15 +88,38 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/one"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="奖项信息" />
+
+            <TextView
                 android:id="@+id/lucky_draw_final_text_hint"
                 android:layout_width="match_parent"
+                android:padding="@dimen/one"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+            <FrameLayout
+                android:id="@+id/fab_container"
+                android:layout_width="@dimen/six"
+                android:layout_height="@dimen/six"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/two"
+                android:background="@drawable/fab_red"
+                android:elevation="@dimen/half">
 
-            <Button
-                android:id="@+id/lucky_draw_final_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/lucky_draw_final_button"
+                    android:padding="@dimen/one"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/fab_background"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_start" />
+            </FrameLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

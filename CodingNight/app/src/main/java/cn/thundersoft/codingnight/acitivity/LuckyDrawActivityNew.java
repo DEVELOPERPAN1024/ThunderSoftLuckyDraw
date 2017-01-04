@@ -22,8 +22,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +49,8 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     ListView prizeList;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @Bind(R.id.main)
+    FrameLayout mMainFrameLayout;
 
     private PrizeListAdapter mAdapter;
     private Point mTouchPoint;
@@ -54,6 +62,14 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         setContentView(R.layout.activity_lucky_draw_new);
         ButterKnife.bind(this);
         initTransitions();
+        initView();
+        initBackground();
+        // start task to query
+        Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
+        new PrizeLoadProgressAsyncTask("").execute(u);
+    }
+
+    private void initView(){
         prizeList.setOnItemClickListener(this);
         prizeList.setOnTouchListener(this);
         PrizeIndicatorItem addNewFooter = (PrizeIndicatorItem) LayoutInflater.from(this)
@@ -66,13 +82,15 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             }
         });
         prizeList.addFooterView(addNewFooter);
+    }
 
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.content, new PrizeWelcomeFragment(), "welcome")
-//                .commit();
-        // start task to query
-        Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
-        new PrizeLoadProgressAsyncTask("").execute(u);
+    private void initBackground(){
+        Glide.with(this).load(R.drawable.main_bg1).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                mMainFrameLayout.setBackground(resource);
+            }
+        });
     }
 
     @Override
@@ -91,15 +109,15 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag("envelope");
         FragmentTransaction ft = fm.beginTransaction();
-        if (fragment == null) {
-            fragment = new EnvelopeAnimatorFragment();
-            fragment.setEnterTransition(mEnvelopeEnterTransitions);
-            fragment.setArguments(bundle);
-            ft.add(R.id.content, fragment, "envelope");
-        } else {
-            fragment.setEnterTransition(mEnvelopeEnterTransitions);
-            ft.show(fragment);
-        }
+        //if (fragment == null) {
+        fragment = new EnvelopeAnimatorFragment();
+        fragment.setEnterTransition(mEnvelopeEnterTransitions);
+        fragment.setArguments(bundle);
+        ft.add(R.id.content, fragment, "envelope");
+        //} else {
+        //    fragment.setEnterTransition(mEnvelopeEnterTransitions);
+        //    ft.show(fragment);
+        //}
         ft.commit();
 
     }
