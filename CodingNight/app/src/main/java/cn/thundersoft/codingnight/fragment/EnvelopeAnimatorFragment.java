@@ -139,9 +139,11 @@ public class EnvelopeAnimatorFragment extends Fragment {
         flipIn.setDuration(500);
         Animator scaleIn = ObjectAnimator.ofFloat(lid, "scaleY", 0.5f, 1f);
         scaleIn.setDuration(500);
+
         AnimatorSet setIn = new AnimatorSet();
         setIn.playTogether(flipIn, scaleIn);
         setIn.setInterpolator(new DecelerateInterpolator());
+
         AnimatorSet flip = new AnimatorSet();
         flip.playSequentially(setOut, setIn);
 

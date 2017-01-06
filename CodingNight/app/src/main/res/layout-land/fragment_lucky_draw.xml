@@ -23,9 +23,9 @@
             android:id="@+id/lucky_draw_award_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/six"
+            android:layout_marginTop="@dimen/three"
             android:layout_marginRight="@dimen/eight"
-            android:layout_marginBottom="@dimen/eight"
+            android:layout_marginBottom="@dimen/three"
             android:minHeight="240dp"
             android:scaleType="centerCrop"
             android:background="#eee"
@@ -69,7 +69,7 @@
 
         <ImageView
             android:id="@+id/fab_start"
-            android:layout_margin="@dimen/one"
+            android:padding="@dimen/one"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

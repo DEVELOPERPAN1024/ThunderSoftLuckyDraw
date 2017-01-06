@@ -61,12 +61,7 @@ public class MyRandom implements Runnable {
         double rr = (double) random / (double) m;
         f = (int) (System.currentTimeMillis() % 1000);
         x = f % 13;
-        changeR(r, 11 + ((f ) / 7));
-//            dd[i] = rr;
-//            if ((i > 0) && (dd[i] == dd[i - 1])) {
-//                changeR(r, 13 + (f / 11));
-//            }
-//        }
+        changeR(r, 11 + ((f) / 7));
         double ran = rr;
         return ran;
     }
@@ -80,13 +75,7 @@ public class MyRandom implements Runnable {
             //获取随机数
             double rs = getRandom_0_1();
             int randomPosition = ((int) (rs * max));
-            //如果已经获奖了,则这次的循环没有用
-            if (allPersons.get(randomPosition).getPrize() != 0) {
-                i--;
-                continue;
-            } else {
-                list.add(allPersons.get(randomPosition));
-            }
+            list.add(allPersons.get(randomPosition));
         }
         return list;
     }
