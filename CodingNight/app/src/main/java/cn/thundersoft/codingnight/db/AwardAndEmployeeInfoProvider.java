@@ -13,7 +13,7 @@ import android.util.Log;
 public class AwardAndEmployeeInfoProvider extends ContentProvider {
     SQLiteOpenHelper databaseHelper;
     public static final String URI = "content://tscodingnight";
-    public static final String DEBUG_TAG = "TS";
+    public static final String DEBUG_TAG = "Provider";
     public static final String AUTH = "tscodingnight";
     private static final String TABLE_AWARD = "award";
     private static final String TABLE_WIN_INFO = "wininfo";
@@ -75,7 +75,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        Log.d("TS", "insert: " + uri);
+        Log.d(DEBUG_TAG, "insert: " + uri);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         String table = null;
         switch (sUriMatcher.match(uri)) {
@@ -167,17 +167,22 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        String table = null;
         switch (sUriMatcher.match(uri)) {
             case AWARD_ALL:
-                return db.update(TABLE_AWARD, values, selection, selectionArgs);
+                table = TABLE_AWARD;
+                break;
             case AWARD_ID:
             case INFO_ID:
             case WIN_ALL:
             case WIN_ID:
                 break;
             case INFO_ALL:
-                return db.update(TABLE_INFO, values, selection, selectionArgs);
+                table = TABLE_INFO;
+                break;
         }
+        if (table != null)
+            db.update(table, values, selection, selectionArgs);
         return 0;
     }
 }

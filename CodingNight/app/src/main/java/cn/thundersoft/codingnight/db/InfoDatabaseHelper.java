@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class InfoDatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 2;
+    public static final String TAG = "ProviderHelper";
     private static InfoDatabaseHelper sInstance;
     private static final String CREATE_AWARD_INFO =
             "CREATE TABLE award (\n" +
@@ -65,27 +66,22 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
 
     public static InfoDatabaseHelper getsInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new InfoDatabaseHelper(context);
+            synchronized (InfoDatabaseHelper.class) {
+                if (sInstance == null) {
+                    sInstance = new InfoDatabaseHelper(context);
+                }
+            }
         }
         return sInstance;
     }
 
     private InfoDatabaseHelper(Context context) {
         super(context, "tscn", null, VERSION);
-
-    }
-
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        if (!db.isReadOnly()) {
-            db.execSQL("PRAGMA foreign_keys=ON;");
-        }
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("TS", "onCreate: " + "create database");
+        Log.d(TAG, "onCreate: " + "create database");
         db.execSQL(CREATE_AWARD_INFO);
         db.execSQL(CREATE_INFO);
         db.execSQL(CREATE_WIN_INFO);
