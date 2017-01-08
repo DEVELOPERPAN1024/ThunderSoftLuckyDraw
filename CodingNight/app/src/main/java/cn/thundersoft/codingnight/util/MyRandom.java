@@ -76,7 +76,7 @@ public class MyRandom implements Runnable {
             double rs = getRandom_0_1();
             int randomPosition = ((int) (rs * max));
             Person p = allPersons.get(randomPosition);
-            if (p.getPrize() == 0) continue;
+            if (p.getPrize() != 0) continue;
             list.add(allPersons.get(randomPosition));
         }
 
