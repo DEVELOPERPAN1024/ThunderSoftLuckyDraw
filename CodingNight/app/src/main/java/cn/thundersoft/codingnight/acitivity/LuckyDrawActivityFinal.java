@@ -28,6 +28,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     public static final int REQ_CODE = 2017;
     private static final int STOP_DRAW = 1;
+    private static final int START_DRAW = 0;
     // view
     private ImageView mDrawButton;
     private ScrollView mRandomScrollView;
@@ -107,6 +108,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
+                if (msg.what == START_DRAW) {
+                    updateRandomList();
+                }
+
                 if (msg.what == STOP_DRAW) {
                     updateRandomList();
 //                    if (!mIsDrawing) {
@@ -117,8 +122,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                                 mPersonsToShow.get(i).getId(),
                                 mCurrentAward.getId());
                         DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                        updateAwardNameList();
                     }
+                    updateAwardNameList();
 //                    }
                 }
             }
@@ -180,7 +185,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         break;
                     }
                     mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
-//                    mHandler.sendEmptyMessage(1); //按钮停止再发
+                    mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
