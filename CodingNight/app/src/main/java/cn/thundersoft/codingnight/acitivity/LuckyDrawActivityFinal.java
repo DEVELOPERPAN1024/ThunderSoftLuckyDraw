@@ -233,9 +233,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             Log.d("DBW", "disable button");
             mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
         } else {
-            mDrawButton.setImageDrawable(mIsDrawing ?
-                    getDrawable(R.drawable.ic_shuffle) :
-                    getDrawable(R.drawable.ic_start));
+            mDrawButton.setImageResource(mIsDrawing ?
+                    R.drawable.ic_pause_white_24dp :
+                    R.drawable.ic_play_arrow_white_24dp);
         }
     }
 
