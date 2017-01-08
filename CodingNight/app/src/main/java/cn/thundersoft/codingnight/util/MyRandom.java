@@ -71,12 +71,21 @@ public class MyRandom implements Runnable {
 
         int max = allPersons.size() - 1;
         List<Person> list = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            //获取随机数
+
+        while (list.size() < count) {
             double rs = getRandom_0_1();
             int randomPosition = ((int) (rs * max));
+            Person p = allPersons.get(randomPosition);
+            if (p.getPrize() == 0) continue;
             list.add(allPersons.get(randomPosition));
         }
+
+//        for (int i = 0; i < count; i++) {
+//            //获取随机数
+//            double rs = getRandom_0_1();
+//            int randomPosition = ((int) (rs * max));
+//            list.add(allPersons.get(randomPosition));
+//        }
         return list;
     }
 

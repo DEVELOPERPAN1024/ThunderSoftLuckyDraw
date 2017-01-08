@@ -1,9 +1,11 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -153,7 +155,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 // 获奖列表更新
                 if (isDrawEnd()) {
                     updateButtonState();
-                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LuckyDrawActivityFinal.this, LuckyDrawActivityNew.class);
+                    startActivity(intent);
+                    finish();
+//                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mIsDrawing) { // stop
@@ -223,12 +228,14 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     private void updateButtonState() {
-        mDrawButton.setImageDrawable(mIsDrawing ?
-                getDrawable(R.drawable.ic_shuffle) :
-                getDrawable(R.drawable.ic_start));
         //不同样式控制？
         if (isDrawEnd()) {
-            mDrawButton.setEnabled(false);
+            Log.d("DBW", "disable button");
+            mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
+        } else {
+            mDrawButton.setImageDrawable(mIsDrawing ?
+                    getDrawable(R.drawable.ic_shuffle) :
+                    getDrawable(R.drawable.ic_start));
         }
     }
 
