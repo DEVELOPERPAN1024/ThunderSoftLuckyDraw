@@ -59,7 +59,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_final);
         init();
-        getNameList(); // 打开即滚动
+        if (!isDrawEnd()) {
+            getNameList(); // 打开即滚动
+        }
     }
 
 
