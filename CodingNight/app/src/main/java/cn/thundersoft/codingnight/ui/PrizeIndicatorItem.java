@@ -1,6 +1,7 @@
 package cn.thundersoft.codingnight.ui;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import cn.thundersoft.codingnight.models.Prize;
 
 public class PrizeIndicatorItem extends LinearLayout implements Checkable {
     private TextView mName;
+    private View colorContainer;
 
     private boolean isChecked;
 
@@ -38,10 +40,14 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
     protected void onFinishInflate() {
         super.onFinishInflate();
         mName = (TextView) findViewById(R.id.prize_item_name);
+        colorContainer = findViewById(R.id.prize_item_color_container);
     }
 
     public void bindPrize(Prize prize) {
         mName.setText(prize.getName());
+        colorContainer.setBackgroundColor(prize.isFinish() ?
+                ContextCompat.getColor(getContext(), R.color.prize_item_disabled) :
+                ContextCompat.getColor(getContext(), R.color.prize_item_enabled));
     }
 
     @Override

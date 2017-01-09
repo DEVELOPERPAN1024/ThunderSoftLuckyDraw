@@ -14,10 +14,11 @@
         android:background="#888" />
 
     <RelativeLayout
+        android:id="@+id/prize_item_color_container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="@dimen/two"
-        android:background="#F00">
+        android:background="@color/prize_item_enabled">
 
         <TextView
             android:id="@+id/prize_item_name"

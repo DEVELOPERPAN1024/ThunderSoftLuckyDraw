@@ -8,4 +8,7 @@
     <color name="colorSubTitle">#777</color>
 
     <color name="envelope_back">#EEE</color>
+
+    <color name="prize_item_enabled">#F00</color>
+    <color name="prize_item_disabled">#999</color>
 </resources>
