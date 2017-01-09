@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.transition.Fade;
@@ -77,20 +78,21 @@ public class EnvelopeAnimatorFragment extends Fragment {
             return;
         }
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        Fragment prizeFragment = fm.findFragmentByTag("prize");
-        if (prizeFragment == null) {
-            prizeFragment = new PrizeFragment();
-            Bundle b = new Bundle();
-            b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);
-            prizeFragment.setArguments(b);
-        }
+        Fragment old = fm.findFragmentByTag("prize");
+        Fragment prizeFragment = new PrizeFragment();
+        Bundle b = new Bundle();
+        b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);
+        prizeFragment.setArguments(b);
         prizeFragment.setSharedElementEnterTransition(new DetailTransition()
                 .setInterpolator(new AccelerateInterpolator()));
         prizeFragment.setSharedElementReturnTransition(null);
         prizeFragment.setEnterTransition(new Fade().setInterpolator(new AccelerateInterpolator()));
         prizeFragment.setExitTransition(null);
-        fm.beginTransaction()
-                .replace(R.id.content, prizeFragment, "prize")
+        FragmentTransaction ft = fm.beginTransaction();
+        if (old != null) {
+            ft.remove(old);
+        }
+        ft.replace(R.id.content, prizeFragment, "prize")
                 .addSharedElement(imagePreview, getString(R.string.img_transition_name))
                 .addToBackStack(null)
                 .commit();

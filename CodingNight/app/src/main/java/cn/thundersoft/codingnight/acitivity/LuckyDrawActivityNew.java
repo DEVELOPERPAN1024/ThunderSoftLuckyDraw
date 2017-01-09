@@ -69,22 +69,12 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         new PrizeLoadProgressAsyncTask("").execute(u);
     }
 
-    private void initView(){
+    private void initView() {
         prizeList.setOnItemClickListener(this);
         prizeList.setOnTouchListener(this);
-        PrizeIndicatorItem addNewFooter = (PrizeIndicatorItem) LayoutInflater.from(this)
-                .inflate(R.layout.item_prize_indicator, null);
-        addNewFooter.showAddNew(true);
-        addNewFooter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-            }
-        });
-        prizeList.addFooterView(addNewFooter);
     }
 
-    private void initBackground(){
+    private void initBackground() {
         Glide.with(this).load(R.drawable.main_bg1).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
@@ -107,12 +97,15 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, mAdapter.getPrize(position));
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag("envelope");
+        Fragment old = fm.findFragmentByTag("envelope");
+        Fragment fragment = new EnvelopeAnimatorFragment();
         FragmentTransaction ft = fm.beginTransaction();
         //if (fragment == null) {
-        fragment = new EnvelopeAnimatorFragment();
         fragment.setEnterTransition(mEnvelopeEnterTransitions);
         fragment.setArguments(bundle);
+        if (old != null) {
+            ft.remove(old);
+        }
         ft.add(R.id.content, fragment, "envelope");
         //} else {
         //    fragment.setEnterTransition(mEnvelopeEnterTransitions);

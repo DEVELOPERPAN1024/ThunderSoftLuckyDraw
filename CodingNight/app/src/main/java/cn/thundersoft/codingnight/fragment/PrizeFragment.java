@@ -3,12 +3,10 @@ package cn.thundersoft.codingnight.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,6 @@ import cn.thundersoft.codingnight.models.Prize;
 /**
  * @author GreenShadow
  */
-
 public class PrizeFragment extends Fragment implements View.OnClickListener {
     private View contentContainer;
     private ImageView prizeImage;
@@ -38,7 +35,7 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lucky_draw, container, false);
     }
 

@@ -18,7 +18,6 @@ import cn.thundersoft.codingnight.models.Prize;
  */
 
 public class PrizeIndicatorItem extends LinearLayout implements Checkable {
-    private ImageView addNew;
     private TextView mName;
 
     private boolean isChecked;
@@ -38,7 +37,6 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        addNew = (ImageView) findViewById(R.id.prize_add_new);
         mName = (TextView) findViewById(R.id.prize_item_name);
     }
 
@@ -66,7 +64,6 @@ public class PrizeIndicatorItem extends LinearLayout implements Checkable {
     }
 
     public void showAddNew(boolean show) {
-        addNew.setVisibility(show ? VISIBLE : GONE);
         mName.setVisibility(show ? GONE : VISIBLE);
     }
 }

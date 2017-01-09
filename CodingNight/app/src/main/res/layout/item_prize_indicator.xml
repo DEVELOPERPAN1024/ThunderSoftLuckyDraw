@@ -19,14 +19,6 @@
         android:layout_margin="@dimen/two"
         android:background="#F00">
 
-        <ImageView
-            android:id="@+id/prize_add_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_plus"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/prize_item_name"
             android:layout_width="wrap_content"
