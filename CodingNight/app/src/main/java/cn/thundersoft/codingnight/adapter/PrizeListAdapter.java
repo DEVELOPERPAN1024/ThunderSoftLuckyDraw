@@ -33,8 +33,10 @@ public class PrizeListAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Prize prize = Prize.parseFromCursor(cursor);
-        if (view instanceof PrizeIndicatorItem) {
-            ((PrizeIndicatorItem) view).bindPrize(prize);
+        if (view.findViewById(R.id.prize_item_color_container)
+                instanceof PrizeIndicatorItem) {
+            ((PrizeIndicatorItem) view.findViewById(R.id.prize_item_color_container))
+                    .bindPrize(prize);
         }
     }
 

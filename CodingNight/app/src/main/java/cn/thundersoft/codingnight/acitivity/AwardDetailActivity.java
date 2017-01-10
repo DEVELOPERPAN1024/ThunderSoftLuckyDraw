@@ -5,10 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -27,8 +29,8 @@ public class AwardDetailActivity extends AppCompatActivity {
     TextView mAwardCountTV;
     @Bind(R.id.detail_award_detail)
     TextView mAwardDetailTV;
-    @Bind(R.id.people_list_tv)
-    TextView mPeopleListTV;
+    @Bind(R.id.check_award_people_list)
+    TextView mCheckAwardPeopleListBtn;
 
     private Award mMainBean;
 
@@ -36,7 +38,11 @@ public class AwardDetailActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            mPeopleListTV.setText(msg.getData().getString("peoplelist"));
+            new AlertDialog.Builder(AwardDetailActivity.this)
+                    .setTitle(mMainBean.getName()+"中将名单")
+                    .setMessage(msg.getData().getString("peoplelist"))
+                    .create()
+                    .show();
         }
     };
 
@@ -57,21 +63,25 @@ public class AwardDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mPeopleListTV.setMovementMethod(new ScrollingMovementMethod());
         mAwardDetailTV.setText(mMainBean.getDetail());
         mAwardNameTV.setText(mMainBean.getName());
         mAwardCountTV.setText("共" + mMainBean.getCount() + "个");
-        new Thread(new Runnable() {
+        mCheckAwardPeopleListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this, mMainBean);
-                Message msg = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putString("peoplelist", peopleList);
-                msg.setData(bundle);
-                mHandler.sendMessage(msg);
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this, mMainBean);
+                        Message msg = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("peoplelist", peopleList);
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+                    }
+                }).start();
             }
-        }).start();
+        });
     }
 
     @Override

@@ -61,9 +61,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         init();
         if (!isDrawEnd()) {
             getNameList(); // 打开即滚动
+        }else{
+            mRandomTextView.setText("已经抽完了\ncheck右边中将名单，或去首页奖项中查看及完成更多其它操作");
         }
     }
-
 
     @Override
     public void onBackPressed() { // need test
@@ -157,8 +158,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 // 获奖列表更新
                 if (isDrawEnd()) {
                     updateButtonState();
-                    Intent intent = new Intent(LuckyDrawActivityFinal.this, LuckyDrawActivityNew.class);
-                    startActivity(intent);
                     finish();
 //                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
                     return;
@@ -168,7 +167,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     updateHintText();
 //                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward); 放到handler更新
                     mIsDrawing = false; // stop while in thread
-                    mHandler.sendEmptyMessage(STOP_DRAW);
                 } else { // start
                     mIsDrawing = true;
                     getNameList();
@@ -191,13 +189,18 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     if (mTotalPersons.size() < 1) {
                         break;
                     }
-                    mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
+                    mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime());
                     mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+                //滚动时点击抽奖，真正的随机抽奖
+                if(!mIsDrawing){
+                    mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
+                    mHandler.sendEmptyMessage(STOP_DRAW);
                 }
             }
         }).start();
@@ -237,7 +240,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         } else {
             mDrawButton.setImageResource(mIsDrawing ?
                     R.drawable.ic_pause_white_24dp :
-                    R.drawable.ic_play_arrow_white_24dp);
+                    R.drawable.begin_draw_icon);
         }
     }
 
@@ -248,8 +251,14 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     private void updateRandomList() {
         String str = "";
-        for (int i = 0; i < mPersonsToShow.size(); ++i) {
-            str += (mPersonsToShow.get(i).getInfo() + "\n");
+        if (mPersonsToShow.size() > 10) {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                str += (mPersonsToShow.get(i).getInfo() + "\n");
+            }
+        } else {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                str += (mPersonsToShow.get(i).getInfo() + "\n");
+            }
         }
         mRandomTextView.setText(str);
     }

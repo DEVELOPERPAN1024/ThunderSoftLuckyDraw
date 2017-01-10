@@ -68,24 +68,27 @@ public class MyRandom implements Runnable {
 
 
     public static List<Person> getRandomList(List<Person> allPersons, int count) {
-
-        int max = allPersons.size() - 1;
         List<Person> list = new ArrayList<>();
-
         while (list.size() < count) {
             double rs = getRandom_0_1();
-            int randomPosition = ((int) (rs * max));
+            int randomPosition = ((int) (rs * (allPersons.size()-1)));
             Person p = allPersons.get(randomPosition);
-            if (p.getPrize() != 0) continue;
-            list.add(allPersons.get(randomPosition));
+            list.add(p);
+            allPersons.remove(p);
         }
+        return list;
+    }
 
-//        for (int i = 0; i < count; i++) {
-//            //获取随机数
-//            double rs = getRandom_0_1();
-//            int randomPosition = ((int) (rs * max));
-//            list.add(allPersons.get(randomPosition));
-//        }
+    public static List<Person> getRandomListFake(List<Person> allPersons, int count) {
+        List<Person> list = new ArrayList<>();
+        while (list.size() < count) {
+            int f = (int) (System.currentTimeMillis() % 1000);
+            int randomPosition = f % (allPersons.size() - 1);
+            Person p = allPersons.get(randomPosition);
+            list.add(p);
+            allPersons.remove(p);
+        }
+        allPersons.addAll(list);
         return list;
     }
 

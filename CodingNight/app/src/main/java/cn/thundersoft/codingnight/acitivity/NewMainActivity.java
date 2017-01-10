@@ -17,9 +17,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +50,8 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
     TextView mMainTitleTV;
     @Bind(R.id.small_chicken_imgv)
     ImageView mSmallChickenImgv;
+    @Bind(R.id.main_bg)
+    FrameLayout mMainBg;
 
 
     private boolean isChickenShouldAnimated = false;
@@ -66,14 +74,15 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     };
-
+    Timer mTimer;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
         ButterKnife.bind(this);
         DisplayUtil.init(this);
-        initAnimation();
+//        initAnimation();
+        initBg();
         initView();
     }
 
@@ -81,6 +90,15 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         mMainDataCV.setOnClickListener(this);
         mMainAwardCV.setOnClickListener(this);
         mMainLuckyDrawCV.setOnClickListener(this);
+    }
+
+    private void initBg(){
+        Glide.with(this).load(R.drawable.main_bg1).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                mMainBg.setBackground(resource);
+            }
+        });
     }
 
     private void initAnimation() {
@@ -101,8 +119,8 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void setupAnimatedTimer() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 mMyHandler.sendEmptyMessage(1);
@@ -138,6 +156,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         super.onStop();
         mMyHandler.sendEmptyMessage(2);
         isChickenShouldAnimated = false;
+        mTimer.cancel();
     }
 
     @Override

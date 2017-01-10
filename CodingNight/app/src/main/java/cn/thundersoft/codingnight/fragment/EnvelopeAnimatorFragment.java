@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.transition.Explode;
 import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -48,7 +51,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
         setSharedElementEnterTransition(null);
         setSharedElementReturnTransition(null);
         setEnterTransition(null);
-        setExitTransition(new Fade().setInterpolator(new DecelerateInterpolator()));
+        setExitTransition(null);
 
         envelop = (RelativeLayout) view.findViewById(R.id.envelope);
         lidBackStatic = view.findViewById(R.id.lid_back_static);
@@ -77,8 +80,12 @@ public class EnvelopeAnimatorFragment extends Fragment {
         if (getActivity() == null) {
             return;
         }
+        setExitTransition(new Fade().setInterpolator(new AccelerateDecelerateInterpolator()));
         FragmentManager fm = getActivity().getSupportFragmentManager();
         Fragment old = fm.findFragmentByTag("prize");
+        if (old != null) {
+            fm.beginTransaction().remove(old).commit();
+        }
         Fragment prizeFragment = new PrizeFragment();
         Bundle b = new Bundle();
         b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);
@@ -89,9 +96,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
         prizeFragment.setEnterTransition(new Fade().setInterpolator(new AccelerateInterpolator()));
         prizeFragment.setExitTransition(null);
         FragmentTransaction ft = fm.beginTransaction();
-        if (old != null) {
-            ft.remove(old);
-        }
+
         ft.replace(R.id.content, prizeFragment, "prize")
                 .addSharedElement(imagePreview, getString(R.string.img_transition_name))
                 .addToBackStack(null)

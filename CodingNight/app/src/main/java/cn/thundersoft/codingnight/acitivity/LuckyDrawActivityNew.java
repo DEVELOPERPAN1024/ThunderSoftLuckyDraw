@@ -23,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,12 +32,16 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.Iterator;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PrizeListAdapter;
 import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
 import cn.thundersoft.codingnight.fragment.EnvelopeAnimatorFragment;
+import cn.thundersoft.codingnight.fragment.PrizeFragment;
 import cn.thundersoft.codingnight.models.Prize;
 import cn.thundersoft.codingnight.util.UiUtils;
 
@@ -49,9 +54,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.back_button)
-    ImageButton mBackButton;
-    @Bind(R.id.back_button_container)
-    View mBackButtonContainer;
+    ImageView mBackButton;
     @Bind(R.id.main)
     FrameLayout mMainFrameLayout;
 
@@ -70,45 +73,12 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         initView();
         initBackground();
         // start task to query
-        Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
-        new PrizeLoadProgressAsyncTask("").execute(u);
     }
 
     private void initView() {
         prizeList.setOnItemClickListener(this);
         prizeList.setOnTouchListener(this);
         mBackButton.setOnClickListener(this);
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                mBackButtonContainer.setAlpha(slideOffset);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                mBackButtonContainer.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                mBackButtonContainer.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                switch (newState) {
-                    case DrawerLayout.STATE_DRAGGING:
-                    case DrawerLayout.STATE_SETTLING:
-                        mBackButtonContainer.setVisibility(View.VISIBLE);
-                        break;
-                    case DrawerLayout.STATE_IDLE:
-                        mBackButtonContainer.setVisibility(
-                                mDrawerLayout.isDrawerVisible(Gravity.LEFT) ?
-                                        View.VISIBLE : View.GONE);
-                        break;
-                }
-            }
-        });
     }
 
     private void initBackground() {
@@ -123,38 +93,46 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
+        new PrizeLoadProgressAsyncTask("").execute(u);
         UiUtils.hideNavBar(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
         prizeList.setItemChecked(position, !prizeList.isItemChecked(position));
-
         Prize prize = mAdapter.getPrize(position);
-        if (prize.isFinish()) {
-            showToast(prize.getName() + "已经抽完啦");
-            return;
-        }
-
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, prize);
         FragmentManager fm = getSupportFragmentManager();
-        Fragment old = fm.findFragmentByTag("envelope");
-        Fragment fragment = new EnvelopeAnimatorFragment();
-        FragmentTransaction ft = fm.beginTransaction();
-        //if (fragment == null) {
-        fragment.setEnterTransition(mEnvelopeEnterTransitions);
-        fragment.setArguments(bundle);
-        if (old != null) {
-            ft.remove(old);
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments != null && fragments.size() > 0) {
+            Iterator<Fragment> iterator = fragments.iterator();
+            while (iterator.hasNext()){
+                fm.beginTransaction().remove(iterator.next()).commit();
+            }
         }
-        ft.add(R.id.content, fragment, "envelope");
-        //} else {
-        //    fragment.setEnterTransition(mEnvelopeEnterTransitions);
-        //    ft.show(fragment);
-        //}
-        ft.commit();
+        ((FrameLayout)findViewById(R.id.content)).removeAllViews();
+        if(prize.isFinish()){
+            Fragment prizeFragment = new PrizeFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            Bundle b = new Bundle();
+            b.putParcelable(Prize.PRIZE_BUNDLE_KEY, prize);
+            prizeFragment.setArguments(b);
+            prizeFragment.setEnterTransition(mEnvelopeEnterTransitions);
+            prizeFragment.setArguments(bundle);
+            ft.replace(R.id.content, prizeFragment, "prize");
+            ft.commit();
+        }else {
+            Fragment fragment = new EnvelopeAnimatorFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            //if (fragment == null) {
+            fragment.setEnterTransition(mEnvelopeEnterTransitions);
+            fragment.setArguments(bundle);
+            ft.replace(R.id.content, fragment, "envelope");
+            ft.commit();
+        }
 
     }
 
@@ -195,7 +173,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        // do nothing.
+        super.onBackPressed();
     }
 
     private class PrizeLoadProgressAsyncTask extends AsyncTask<Uri/* uri */, Integer/* progress */,

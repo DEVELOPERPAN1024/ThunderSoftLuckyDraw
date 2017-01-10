@@ -55,7 +55,6 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
             name.setText(mPrize.getName());
             detail.setText(mPrize.getDetail());
         }
-
         fabStart.setOnClickListener(this);
     }
 
@@ -73,6 +72,7 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
         intent.putExtra("award", award);
         startActivity(intent);
     }
+
 
     @Override
     public void onResume() {
