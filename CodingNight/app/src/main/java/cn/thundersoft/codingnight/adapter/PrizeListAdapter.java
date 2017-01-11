@@ -17,13 +17,12 @@ import cn.thundersoft.codingnight.ui.PrizeIndicatorItem;
 
 public class PrizeListAdapter extends CursorAdapter {
     private LayoutInflater mInflater;
-    private Cursor mCursor;
 
     public PrizeListAdapter(Context context, Cursor c) {
         super(context, c, true);
         mInflater = LayoutInflater.from(context);
-        mCursor = c;
     }
+
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -41,9 +40,9 @@ public class PrizeListAdapter extends CursorAdapter {
     }
 
     public Prize getPrize(int position) {
-        if (!mCursor.moveToPosition(position)) {
+        if (!getCursor().moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
-        return Prize.parseFromCursor(mCursor);
+        return Prize.parseFromCursor(getCursor());
     }
 }

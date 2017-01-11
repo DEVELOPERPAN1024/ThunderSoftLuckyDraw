@@ -68,25 +68,26 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     @Override
     public void onBackPressed() { // need test
-        mBackPressTime += 1;
-        if (mBackPressTime == 2) {
-            if (mTimer != null) mTimer.cancel();
-            super.onBackPressed();
-        } else {
+//        mBackPressTime += 1;
+//        if (mBackPressTime == 2) {
+//            if (mTimer != null) mTimer.cancel();
+//            super.onBackPressed();
+//        } else {
             if(isDrawEnd()){
-                super.onBackPressed();
+                finish();
+                overridePendingTransition(R.anim.enter_from_left,R.anim.out_to_right);
                 return;
             }
-            mTimer = new Timer();
-            mTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    mBackPressTime = 0;
-                }
-            }, 3000); // 3秒内
+//            mTimer = new Timer();
+//            mTimer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    mBackPressTime = 0;
+//                }
+//            }, 3000); // 3秒内
             Toast toast = Toast.makeText(this, getText(R.string.lucky_draw_final_back_hint), Toast.LENGTH_SHORT);
             toast.show();
-        }
+//        }
     }
 
 
@@ -98,8 +99,17 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     private void initData() {
-        mCurrentAward = (Award) getIntent().getSerializableExtra("award");
-
+        int id =getIntent().getIntExtra("award_id",-1);
+        if (id != -1) {
+            mCurrentAward = DbUtil.getAwardById(this, id);
+        } else {
+            Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        if (mCurrentAward == null) {
+            Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         if (mCurrentAward.isRepeatable()) {
             mTotalPersons = DbUtil.getAllPerson(this);
         } else {
@@ -159,6 +169,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 if (isDrawEnd()) {
                     updateButtonState();
                     finish();
+                    overridePendingTransition(R.anim.enter_from_left,R.anim.out_to_right);
 //                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
                     return;
                 }

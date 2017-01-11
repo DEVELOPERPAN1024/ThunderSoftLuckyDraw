@@ -64,13 +64,10 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
         if (mPrize == null) {
             return;
         }
-        Award award = DbUtil.getAwardById(getContext(), mPrize.getId());
-        if (award == null) {
-            return;
-        }
         Intent intent = new Intent(getContext(), LuckyDrawActivityFinal.class);
-        intent.putExtra("award", award);
+        intent.putExtra("award_id",mPrize.getId());
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.enter_from_right,R.anim.out_to_left);
     }
 
 

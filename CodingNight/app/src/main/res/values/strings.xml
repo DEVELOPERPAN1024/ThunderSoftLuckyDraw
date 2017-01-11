@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CodingNight</string>
+    <string name="app_name">TS Lucky Draw</string>
     <string name="set_data">数据</string>
     <string name="set_award">奖项</string>
     <string name="begin_lucky_draw">抽奖</string>
@@ -16,7 +16,7 @@
     <string name="lucky_draw_person_data_null_tint">请设置参与抽奖名单</string>
 
     <string name="lucky_draw_final_draw_hint">抽奖进度 %1$d/%2$d</string>
-    <string name="lucky_draw_final_back_hint">抽奖还在进行中，再点一次退出</string>
+    <string name="lucky_draw_final_back_hint">抽奖还在进行中，无法退出</string>
 
     <string name="add_award_name">奖项名称</string>
     <string name="add_award_draw_count">抽奖次数</string>

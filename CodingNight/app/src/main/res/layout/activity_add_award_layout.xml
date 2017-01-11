@@ -172,11 +172,6 @@
                         android:textSize="13sp"
                         android:paddingLeft="@dimen/one"
                         android:text="@string/add_award_picurl" />
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0" />
                 </LinearLayout>
 
             </LinearLayout>

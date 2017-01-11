@@ -21,13 +21,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".acitivity.AwardActivity" />
-        <activity android:name=".acitivity.AddAwardActivity" />
+        <activity android:name=".acitivity.AwardActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".acitivity.AddAwardActivity"
+            android:screenOrientation="landscape"
+            />
 
         <activity android:name=".acitivity.DataActivity" />
-        <activity android:name=".acitivity.LuckyDrawActivity" />
-        <activity android:name=".acitivity.AwardDetailActivity" />
-        <activity android:name=".acitivity.SearchActivity" />
+        <activity android:name=".acitivity.LuckyDrawActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".acitivity.AwardDetailActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".acitivity.SearchActivity"
+            android:screenOrientation="landscape"
+            />
         <activity
             android:name=".acitivity.LuckyDrawActivityNew"
             android:configChanges="orientation"

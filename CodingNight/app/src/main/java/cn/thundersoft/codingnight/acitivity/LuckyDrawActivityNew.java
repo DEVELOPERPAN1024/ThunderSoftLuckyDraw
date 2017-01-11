@@ -109,12 +109,12 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         List<Fragment> fragments = fm.getFragments();
         if (fragments != null && fragments.size() > 0) {
             Iterator<Fragment> iterator = fragments.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 fm.beginTransaction().remove(iterator.next()).commit();
             }
         }
-        ((FrameLayout)findViewById(R.id.content)).removeAllViews();
-        if(prize.isFinish()){
+        ((FrameLayout) findViewById(R.id.content)).removeAllViews();
+        if (prize.isFinish()) {
             Fragment prizeFragment = new PrizeFragment();
             FragmentTransaction ft = fm.beginTransaction();
             Bundle b = new Bundle();
@@ -124,7 +124,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             prizeFragment.setArguments(bundle);
             ft.replace(R.id.content, prizeFragment, "prize");
             ft.commit();
-        }else {
+        } else {
             Fragment fragment = new EnvelopeAnimatorFragment();
             FragmentTransaction ft = fm.beginTransaction();
             //if (fragment == null) {
@@ -173,7 +173,8 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //do nothing
+        finish();
     }
 
     private class PrizeLoadProgressAsyncTask extends AsyncTask<Uri/* uri */, Integer/* progress */,

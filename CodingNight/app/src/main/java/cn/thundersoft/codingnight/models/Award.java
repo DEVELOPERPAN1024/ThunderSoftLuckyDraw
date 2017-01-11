@@ -18,6 +18,21 @@ public class Award implements Serializable {
     private int drewTimes;
     private boolean isRepeatable;
 
+
+    public Award(){
+
+    }
+    public Award(Prize prize){
+        this.id = prize.getId();
+        this.name = prize.getName();
+        this.detail = prize.getDetail();
+        this.picUrl = prize.getImgUri().toString();
+        this.orderIndex  = prize.getIndex();
+        this.drewTimes = prize.getDrawnTimes();
+        this.isRepeatable = prize.canRepeat();
+        this.totalDrawTimes = prize.getTotalTime();
+        this.count = prize.getCount();
+    }
     public int getId() {
         return id;
     }
