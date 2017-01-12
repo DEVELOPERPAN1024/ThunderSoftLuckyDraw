@@ -28,6 +28,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int UNAWARD = 7;
     private static final int WINNER = 8;
     private static final int PERSON_AWARD = 10;
+    private static final int CLEAN_WININFO = 11;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 
@@ -42,6 +43,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "search/*", SEARACH_INFO);
         sUriMatcher.addURI(AUTH, "unaward", UNAWARD);
         sUriMatcher.addURI(AUTH, "winner", WINNER);
+        sUriMatcher.addURI(AUTH, "wininfo/clean", CLEAN_WININFO);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -64,6 +66,15 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 break;
             case WIN_ID:
                 break;
+            case CLEAN_WININFO:
+                ContentValues cv = new ContentValues();
+                cv.put("drawed_times", 0);
+                db.update(TABLE_AWARD, cv, null, null);
+                int affectedRows = db.delete(TABLE_WIN_INFO, null, null);
+                cv.clear();
+                cv.put("seq", 0);
+                db.update("sqlite_sequence", cv, "name = ?", new String[]{TABLE_WIN_INFO});
+                return affectedRows;
         }
         return 0;
     }
@@ -158,7 +169,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "where award._id in\n" +
                         "(select wininfo.award_id\n" +
                         "from wininfo\n" +
-                        "where wininfo.info_id = ?)", new String[] {personId});
+                        "where wininfo.info_id = ?)", new String[]{personId});
         }
         return null;
     }

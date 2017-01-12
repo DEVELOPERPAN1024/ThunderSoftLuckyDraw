@@ -15,6 +15,7 @@ public class ProviderContract {
     public static final Uri UNAWARD_URI = Uri.withAppendedPath(BASE, "unaward");
     public static final Uri WINNER_URI  = Uri.withAppendedPath(BASE, "winner");
     public static final Uri PERSON_AWARDS_URI = Uri.withAppendedPath(BASE, "wininfo/person");
+    public static final Uri CLEAN_WININFO_URI = Uri.withAppendedPath(BASE, "wininfo/clean");
 
     public class AwardColumns {
         public static final int ID          = 0;  //int

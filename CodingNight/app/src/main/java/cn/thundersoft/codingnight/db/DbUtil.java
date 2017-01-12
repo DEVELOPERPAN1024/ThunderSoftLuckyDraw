@@ -42,12 +42,12 @@ public class DbUtil {
             while (c.moveToNext()) {
                 Person person = new Person(c.getString(1));
                 person.setId(c.getInt(0));
-                Cursor ac = context.getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI,String.valueOf(c.getInt(0))),
-                        null,null,null,null,null);
+                Cursor ac = context.getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI, String.valueOf(c.getInt(0))),
+                        null, null, null, null, null);
                 if (ac != null) {
                     while (ac.moveToNext()) {
                         Award a = new Award();
-                        fillAward(a,ac);
+                        fillAward(a, ac);
                         person.getPrizes().add(a);
                     }
                     ac.close();
@@ -154,5 +154,9 @@ public class DbUtil {
     }
 
     public static void updatePersonInfo(Context context, Person person) {
+    }
+
+    public static void cleanWininfo(Context context) {
+        context.getContentResolver().delete(ProviderContract.CLEAN_WININFO_URI, null, null);
     }
 }
