@@ -2,6 +2,7 @@ package cn.thundersoft.codingnight.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cn.thundersoft.codingnight.models.Person;
 
@@ -91,5 +92,35 @@ public class MyRandom implements Runnable {
         allPersons.addAll(list);
         return list;
     }
+
+    /**
+     * 计算红包
+     * @param totalCount 红包总数
+     * @param totalMoney 红包总金额
+     * @return 计算好的红包列表
+     */
+    public static List<Integer> getMoneys(int totalCount, int totalMoney) {
+        // 要确保总金额是偶数
+        // 目前规则是保证没人最少金额为人均金额的一半，即取出总金额的一半先平均分下去
+        int moneyForDraw = totalMoney / 2;
+        int minMoney = (totalMoney - moneyForDraw) / totalCount;
+        List<Integer> moneys = new ArrayList<>();
+        int count = totalCount;
+        Random random = new Random();
+        int randomMoney;
+        while (count > 0) {
+            if (count == 1) {
+                moneys.add(moneyForDraw + minMoney); // 最后一次  取剩下的
+            } else {
+                // 取整 每次计算时，当前得到的最大值为当前平均数的2倍（不然后面计算的太吃亏，这样分布还比较正常）
+                randomMoney = (int) (random.nextDouble() * (moneyForDraw / count * 2));
+                moneys.add(randomMoney + minMoney);
+                moneyForDraw -= randomMoney;
+            }
+            count--;
+        }
+        return moneys;
+    }
+
 
 }
