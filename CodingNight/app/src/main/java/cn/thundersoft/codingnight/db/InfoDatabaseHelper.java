@@ -23,7 +23,8 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    order_index   INTEGER,\n" +
                     "    total_times   INTEGER,\n" +
                     "    drawed_times  INTEGER,\n" +
-                    "    can_repeat    INTEGER\n" +
+                    "    can_repeat    INTEGER,\n" +
+                    "    is_special    INTEGER\n" +
                     ");";
     private static final String CREATE_INFO =
             "CREATE TABLE info (" +

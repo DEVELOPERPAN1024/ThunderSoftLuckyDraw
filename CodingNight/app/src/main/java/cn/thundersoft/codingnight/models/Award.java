@@ -17,7 +17,15 @@ public class Award implements Serializable {
     private int totalDrawTimes;
     private int drewTimes;
     private boolean isRepeatable;
+    private boolean isSpecial;
 
+    public boolean isSpecial() {
+        return isSpecial;
+    }
+
+    public void setIsSpecial(boolean special) {
+        isSpecial = special;
+    }
 
     public Award(){
 

@@ -27,6 +27,7 @@ public class ProviderContract {
         public static final int TOTAL_TIMES = 6;  //int
         public static final int DRAWN_TIMES = 7;  //int
         public static final int CAN_REPEAT  = 8;  //int
+        public static final int IS_SPECIAL  = 9;  //int
     }
 
     public class InfoColumns {

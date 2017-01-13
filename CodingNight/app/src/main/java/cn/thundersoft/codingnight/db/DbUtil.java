@@ -92,6 +92,7 @@ public class DbUtil {
         award.setTotalDrawTimes(c.getInt(ProviderContract.AwardColumns.TOTAL_TIMES));
         award.setDrewTimes(c.getInt(ProviderContract.AwardColumns.DRAWN_TIMES));
         award.setRepeatable(c.getInt(ProviderContract.AwardColumns.CAN_REPEAT) == 0);
+        award.setIsSpecial(c.getInt(ProviderContract.AwardColumns.IS_SPECIAL) == 0);
     }
 
 
@@ -105,6 +106,7 @@ public class DbUtil {
         values.put("total_times", bean.getTotalDrawTimes());
         values.put("drawed_times", bean.getDrewTimes());
         values.put("can_repeat", bean.isRepeatable() ? 0 : 1);
+        values.put("is_special",  bean.isSpecial() ? 0 : 1);
         context.getContentResolver().insert(ProviderContract.AWARD_URI, values);
     }
 
