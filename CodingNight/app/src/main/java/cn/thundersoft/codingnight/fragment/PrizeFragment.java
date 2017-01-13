@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.annotation.Repeatable;
 
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal;
@@ -32,10 +35,13 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
 
     private Prize mPrize;
 
+    private Award mCurrentAward;
+    private AsyncTask<Void, Integer, Void> mAsyncTask;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lucky_draw, container, false);
     }
 
@@ -65,15 +71,43 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
             return;
         }
         Intent intent = new Intent(getContext(), LuckyDrawActivityFinal.class);
-        intent.putExtra("award_id",mPrize.getId());
+        intent.putExtra("award_id", mPrize.getId());
         startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.enter_from_right,R.anim.out_to_left);
+        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.out_to_left);
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
+        mAsyncTask = new AsyncTask<Void, Integer, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                mCurrentAward = DbUtil.getAwardById(getContext(), mPrize.getId());
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (mCurrentAward.getDrewTimes() >= mCurrentAward.getTotalDrawTimes()) {
+                    detail.setText("已经抽完了");
+                    detail.setTextColor(getContext().getResources()
+                            .getColor(R.color.colorPrimary));
+                }
+            }
+        };
+        mAsyncTask.execute();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAsyncTask != null && !mAsyncTask.isCancelled()) {
+            mAsyncTask.cancel(true);
+            mAsyncTask = null;
+        }
     }
 
     private void startRandomRolling() {

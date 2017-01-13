@@ -32,6 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.adapter.PersonAdapter;
+import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Person;
 import cn.thundersoft.codingnight.ui.PersonView;
 import cn.thundersoft.codingnight.ui.ScrollBarView;
@@ -216,6 +217,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                         e.printStackTrace();
                     }
                     if (mProgressDialog != null) mProgressDialog.dismiss();
+                    DbUtil.cleanWininfo(DataActivity.this);
                 }
             }
         }).start();

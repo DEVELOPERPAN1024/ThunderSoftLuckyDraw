@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -21,12 +22,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +42,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.util.DisplayUtil;
+import cn.thundersoft.codingnight.util.MyRandom;
 import cn.thundersoft.codingnight.util.UiUtils;
 
 public class NewMainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -84,6 +93,28 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
 //        initAnimation();
         initBg();
         initView();
+        new Thread(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    File file = new File("/sdcard/random2.txt");
+                    if(!file.exists()){
+                        file.createNewFile();
+                    }
+                    OutputStream os = new FileOutputStream(file);
+                    for (int i=0;i<10000;i++){
+                        double ran = Math.random();
+                        String ranstr = ran+"\n";
+                        os.write(ranstr.getBytes());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     private void initView() {

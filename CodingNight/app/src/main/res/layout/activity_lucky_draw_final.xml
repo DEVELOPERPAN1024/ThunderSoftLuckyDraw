@@ -1,51 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_lucky_draw_final"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
     android:orientation="horizontal"
-    android:padding="@dimen/one"
-    tools:context="cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/one"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/one"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="中奖信息" />
-
-            <ScrollView
-                android:id="@+id/award_name_sv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                >
-
-                <TextView
-                    android:id="@+id/award_name_list_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal|bottom"
-                    android:paddingBottom="@dimen/six"
-                    android:textColor="@color/colorSubTitle"
-                    android:textSize="10sp" />
-            </ScrollView>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    android:padding="@dimen/one">
 
     <android.support.v7.widget.CardView
         android:layout_width="0dp"
@@ -62,17 +23,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/one"
+                android:text="抽奖滚动"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="抽奖滚动" />
-
-            <TextView
-                android:id="@+id/lucky_draw_final_text_random"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@color/colorSubTitle"
-                android:textSize="12sp" />
+                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lucky_draw_final_text_random"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/colorSubTitle"
+                    android:textSize="12sp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -91,32 +51,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/one"
+                android:text="奖项信息"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="奖项信息" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/lucky_draw_final_text_hint"
                 android:layout_width="match_parent"
-                android:padding="@dimen/one"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:padding="@dimen/one" />
+
             <FrameLayout
                 android:id="@+id/fab_container"
                 android:layout_width="@dimen/six"
                 android:layout_height="@dimen/six"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/two"
-                android:background="@drawable/fab_red"
-                android:elevation="@dimen/half">
+                android:background="@drawable/fab_red">
 
                 <ImageView
                     android:id="@+id/lucky_draw_final_button"
-                    android:padding="@dimen/one"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@drawable/fab_background"
+                    android:padding="@dimen/one"
                     android:scaleType="centerInside"
                     android:src="@drawable/begin_draw_icon" />
             </FrameLayout>
