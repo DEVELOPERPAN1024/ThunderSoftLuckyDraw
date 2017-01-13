@@ -66,7 +66,7 @@ public class LuckyDrawActivity extends AppCompatActivity {
                 showNames(mPersonAwarded);
                 if (!mIsDrawing) {
                     for (int i = 0; i < mPersonAwarded.size(); i++) {
-                        setLocalPersonAwardState(mPersonAwarded.get(i));
+                        //setLocalPersonAwardState(mPersonAwarded.get(i));
                         DbUtil.insertWinner(LuckyDrawActivity.this, mPersonAwarded.get(i).getId(), mAwardID);
                     }
                 }

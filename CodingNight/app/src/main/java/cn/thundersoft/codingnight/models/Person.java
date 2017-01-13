@@ -1,16 +1,22 @@
 package cn.thundersoft.codingnight.models;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.thundersoft.codingnight.db.ProviderContract;
+
+import static android.R.id.list;
+import static cn.thundersoft.codingnight.db.DbUtil.fillAward;
+
 public class Person {
     private int id;
     private String info;
-    private int prize;
+    private int prize = -1;
     private List<Award> prizes = new ArrayList<>();
-    private String prizeName;
     private boolean isShowMenu = false;
 
     private Person() {
@@ -19,16 +25,26 @@ public class Person {
     public Person(String line) {
         setId(0);
         setInfo(line);
-        setPrize(0);
     }
 
-    public static Person bindCursor(Cursor c) {
-        Person p = new Person();
-        p.setId(Integer.valueOf(c.getString(0)));
-        p.setInfo(c.getString(1));
-        p.setPrize(c.getInt(2));
-        p.setPrizeName(c.getString(3));
-        return p;
+    public Person(int id, String info) {
+        this.id = id;
+        this.info = info;
+    }
+
+    public static Person bindCursor(Context context, Cursor c) {
+        Person person = new Person(c.getInt(0), c.getString(1));
+        Cursor ac = context.getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI, String.valueOf(c.getInt(0))),
+                null, null, null, null, null);
+        if (ac != null) {
+            while (ac.moveToNext()) {
+                Award a = new Award();
+                fillAward(a, ac);
+                person.getPrizes().add(a);
+            }
+            ac.close();
+        }
+        return person;
     }
 
     public int getId() {
@@ -53,14 +69,6 @@ public class Person {
 
     public void setPrize(int prize) {
         this.prize = prize;
-    }
-
-    public void setPrizeName(String prizeName) {
-        this.prizeName = prizeName;
-    }
-
-    public String getPrizeName() {
-        return prizeName;
     }
 
     public boolean isShowMenu() {

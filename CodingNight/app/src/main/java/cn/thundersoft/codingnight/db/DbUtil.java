@@ -40,8 +40,7 @@ public class DbUtil {
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
-                Person person = new Person(c.getString(1));
-                person.setId(c.getInt(0));
+                Person person = new Person(c.getInt(0), c.getString(1));
                 Cursor ac = context.getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI, String.valueOf(c.getInt(0))),
                         null, null, null, null, null);
                 if (ac != null) {
@@ -73,16 +72,20 @@ public class DbUtil {
         return list;
     }
 
-    public static void insertWinner(Context context, Integer winnerId, Integer awardId) {
-        Uri u = Uri.withAppendedPath(URI, "wininfo");
+    public static void insertWinner(Context context, Integer winnerId, Integer awardId, Integer money) {
         ContentValues cv = new ContentValues();
         cv.put("info_id", winnerId);
         cv.put("award_id", awardId);
-        context.getContentResolver().insert(u, cv);
+        cv.put("money", money);
+        context.getContentResolver().insert(ProviderContract.WIN_URI, cv);
+    }
+
+    public static void insertWinner(Context context, Integer wid, Integer aId) {
+        insertWinner(context, wid, aId, -1);
     }
 
 
-    private static void fillAward(Award award, Cursor c) {
+    public static void fillAward(Award award, Cursor c) {
         award.setId(c.getInt(0));
         award.setName(c.getString(1));
         award.setCount(c.getInt(2));
@@ -106,7 +109,7 @@ public class DbUtil {
         values.put("total_times", bean.getTotalDrawTimes());
         values.put("drawed_times", bean.getDrewTimes());
         values.put("can_repeat", bean.isRepeatable() ? 0 : 1);
-        values.put("is_special",  bean.isSpecial() ? 0 : 1);
+        values.put("is_special", bean.isSpecial() ? 0 : 1);
         context.getContentResolver().insert(ProviderContract.AWARD_URI, values);
     }
 
@@ -155,10 +158,20 @@ public class DbUtil {
         return ad;
     }
 
-    public static void updatePersonInfo(Context context, Person person) {
-    }
-
     public static void cleanWininfo(Context context) {
         context.getContentResolver().delete(ProviderContract.CLEAN_WININFO_URI, null, null);
+    }
+
+    public static List<Person>  getMoneyList(Context context) {
+        List<Person> list = new ArrayList<>();
+        Cursor c = context.getContentResolver().query(ProviderContract.MONEY_LIST_URI, null, null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                Person p = new Person(c.getInt(0), c.getString(1));
+                p.setPrize(c.getInt(2));
+                list.add(p);
+            }
+        }
+        return list;
     }
 }

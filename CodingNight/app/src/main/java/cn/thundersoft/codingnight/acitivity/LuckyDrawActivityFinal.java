@@ -120,7 +120,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 //                    if (!mIsDrawing) {
                     for (int i = 0; i < mPersonsToShow.size(); i++) {
                         //一个人获取多个奖项?
-                        updatePersonAwardState(mPersonsToShow.get(i));
+                        //updatePersonAwardState(mPersonsToShow.get(i));
                         DbUtil.insertWinner(LuckyDrawActivityFinal.this,
                                 mPersonsToShow.get(i).getId(),
                                 mCurrentAward.getId());

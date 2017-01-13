@@ -32,7 +32,7 @@ public class PersonAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         if (!(view instanceof PersonView)) return;
         final Person p = personCache.containsKey(cursor.getInt(0)) ?
-                personCache.get(cursor.getInt(0)) : Person.bindCursor(cursor);
+                personCache.get(cursor.getInt(0)) : new Person(cursor.getInt(0), cursor.getString(1));
         PersonView pv = (PersonView) view;
         pv.setOnClickListener(new View.OnClickListener() {
             @Override

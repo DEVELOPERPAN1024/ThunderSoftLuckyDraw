@@ -3,7 +3,10 @@ package cn.thundersoft.codingnight.ui;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -15,12 +18,35 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.db.ProviderContract;
+import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.models.Person;
+
+import static cn.thundersoft.codingnight.db.DbUtil.fillAward;
 
 public class PersonView extends FrameLayout implements View.OnClickListener {
     private static final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
+    private static final int FRESH_AWARD_INFO = 1000;
     private Person mPerson;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == FRESH_AWARD_INFO) {
+                String awards = "";
+                List<Award> prizes = mPerson.getPrizes();
+                for (int i = 0; i < prizes.size(); i++) {
+                    if (i != 0) {
+                        awards = awards + ", ";
+                    }
+                    awards = awards + prizes.get(i).getName();
+                }
+                mPrizeInfo.setText(awards);
+            }
+        }
+    };
 
     private TextView mPersonInfo;
     private TextView mPrizeInfo;
@@ -112,7 +138,24 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
     public void bindPerson(Person p) {
         mPerson = p;
         setPersonInfo(p.getInfo());
-        setWinPrize(p.getPrizeName());
+        //begin get awards
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cursor ac = getContext().getContentResolver().query(Uri.withAppendedPath(ProviderContract.PERSON_AWARDS_URI, String.valueOf(mPerson.getId())),
+                        null, null, null, null, null);
+                if (ac != null) {
+                    while (ac.moveToNext()) {
+                        Award a = new Award();
+                        fillAward(a, ac);
+                        mPerson.getPrizes().add(a);
+                    }
+                    ac.close();
+                }
+                mHandler.sendEmptyMessage(FRESH_AWARD_INFO);
+            }
+        }).start();
+        //setWinPrize(p.getPrizeName());
         mBottomLayout.setVisibility(p.isShowMenu() ? VISIBLE : GONE);
     }
 

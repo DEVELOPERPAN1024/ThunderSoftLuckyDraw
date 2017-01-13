@@ -35,7 +35,8 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE wininfo (\n" +
                     "    _id      INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                     "    info_id  INTEGER,\n" +
-                    "    award_id INTEGER\n" +
+                    "    award_id INTEGER,\n" +
+                    "    money INTEGER DEFAULT(-1)\n" +
                     ");";
     private static final String CREATE_WININFO_TRIGGER="CREATE TRIGGER wininfo_trigger\n" +
             "AFTER INSERT\n" +
