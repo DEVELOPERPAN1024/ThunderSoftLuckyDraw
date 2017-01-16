@@ -1,12 +1,16 @@
 package cn.thundersoft.codingnight.acitivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -33,6 +37,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     public static final int REQ_CODE = 2017;
     private static final int STOP_DRAW = 1;
     private static final int START_DRAW = 0;
+
+    private Resources mRes;
     // view
     private FrameLayout mDrawBtnLayout;
     private ImageView mDrawButton;
@@ -59,11 +65,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lucky_draw_final);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); //屏幕常亮
         init();
         if (!isDrawEnd()) {
             getNameList(); // 打开即滚动
         } else {
             mRandomTextView.setText("已经抽完了\n去首页奖项中查看中将名单及完成更多其它操作");
+            updateRandomTextStyle(18f, 0, 0);
         }
     }
 
@@ -131,6 +139,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 }
             }
         };
+
+        mRes = getResources();
     }
 
     private void initView() {
@@ -243,7 +253,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     private void updateHintText() {
-        String strToShow = getResources().getString(R.string.lucky_draw_final_draw_hint);
+        String strToShow = mRes.getString(R.string.lucky_draw_final_draw_hint);
         mHintTextView.setText(String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getTotalDrawTimes()));
     }
 
@@ -271,6 +281,33 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             }
         }
         mRandomTextView.setText(str);
+        calculateRandomTextShowStyleByLines(mPersonsToShow.size());
+    }
+
+    private void calculateRandomTextShowStyleByLines(int line) {
+        if (line > 10) {
+            updateRandomTextStyle(14f, 0, 0);
+            return;
+        }
+        if (line == 1) {
+            updateRandomTextStyle(24f, 0, 0);
+            return;
+        }
+        if (line > 1 && line < 3) {
+            updateRandomTextStyle(20f, 0, 0);
+            return;
+        }
+        if (line < 10 && line > 3) {
+            updateRandomTextStyle(16f, 0, 0);
+            return;
+        }
+    }
+
+    private void updateRandomTextStyle(float textSize, int textColor, float lineMul) {
+        mRandomTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                textSize == 0 ? 12f : textSize);
+        mRandomTextView.setTextColor(textColor == 0 ? mRes.getColor(R.color.colorSubTitle) : textColor);
+        mRandomTextView.setLineSpacing(0, lineMul == 0 ? 1.5f : lineMul);
     }
 
     private String getNumbersOfSpace(int num) {

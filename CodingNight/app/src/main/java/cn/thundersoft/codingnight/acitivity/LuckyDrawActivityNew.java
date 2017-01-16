@@ -19,6 +19,7 @@ import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -72,6 +73,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         initTransitions();
         initView();
         initBackground();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); //屏幕常亮
         // start task to query
     }
 
