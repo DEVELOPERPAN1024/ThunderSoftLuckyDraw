@@ -71,7 +71,12 @@
                 android:layout_marginBottom="@dimen/four"
                 android:layout_marginLeft="@dimen/eight"
                 android:layout_marginRight="@dimen/eight"
-                android:layout_marginTop="@dimen/two" />
+                android:layout_marginTop="@dimen/two">
+                <ImageView
+                    android:id="@+id/chicken_guide_imgv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
         </LinearLayout>
 
         <ListView

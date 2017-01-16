@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -58,6 +59,8 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     ImageView mBackButton;
     @Bind(R.id.main)
     FrameLayout mMainFrameLayout;
+    @Bind(R.id.chicken_guide_imgv)
+    ImageView mChickenGuideImgv;
 
     private Toast mToast;
 
@@ -90,6 +93,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
                 mMainFrameLayout.setBackground(resource);
             }
         });
+        Glide.with(this).load(R.drawable.guide_gif).asGif().into(mChickenGuideImgv);
     }
 
     @Override
