@@ -30,4 +30,13 @@
         <item name="android:contentInsetEnd">0dp</item>
     </style>
 
+    <style name="AddAwardEditText">
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:imeOptions">actionNext|flagNoExtractUi</item>
+    </style>
+
 </resources>

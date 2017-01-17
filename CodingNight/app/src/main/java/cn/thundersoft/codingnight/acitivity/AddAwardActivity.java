@@ -2,18 +2,11 @@ package cn.thundersoft.codingnight.acitivity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +17,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.Bind;
@@ -38,7 +26,7 @@ import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.util.RegexCheckUtil;
 
-public class AddAwardActivity extends AppCompatActivity {
+public class AddAwardActivity extends AbsStoragePermissionCheckActivity {
 
     @Bind(R.id.award_count_edt)
     EditText mAwardCountEdt;
@@ -80,13 +68,16 @@ public class AddAwardActivity extends AppCompatActivity {
         mAwardPicurlImageV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 0);
+                checkAndRequestStoragePermission();
             }
         });
-
     }
 
+    @Override
+    protected void onStoragePermissionGranted() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 0);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -103,7 +94,7 @@ public class AddAwardActivity extends AppCompatActivity {
 
             if (!RegexCheckUtil.isUserfulNum(mAwardCountEdt.getText().toString()) ||
                     !RegexCheckUtil.isUserfulNum(mDrawCountEdt.getText().toString())) {
-                Toast.makeText(this,"输入数据奖品总数或抽奖次数有误，请重新输入",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "输入数据奖品总数或抽奖次数有误，请重新输入", Toast.LENGTH_SHORT).show();
                 return true;
             }
             int totalDrawCount = Integer.valueOf(mDrawCountEdt.getText().toString());
@@ -143,5 +134,4 @@ public class AddAwardActivity extends AppCompatActivity {
             cursor.close();
         }
     }
-
 }

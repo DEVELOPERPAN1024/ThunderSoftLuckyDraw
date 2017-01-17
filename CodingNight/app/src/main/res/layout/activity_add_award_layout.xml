@@ -3,9 +3,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -34,11 +37,8 @@
 
                     <EditText
                         android:id="@+id/award_name_edt"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:hint="如：一等奖、二等奖"
-                        android:textSize="15sp" />
+                        style="@style/AddAwardEditText"
+                        android:hint="如：一等奖、二等奖" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -56,17 +56,11 @@
 
                     <EditText
                         android:id="@+id/award_count_edt"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        style="@style/AddAwardEditText"
                         android:hint="@string/add_award_count"
-                        android:layout_weight="2"
-                        android:textSize="15sp"
                         android:inputType="number" />
                 </LinearLayout>
-
-
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -94,12 +88,9 @@
 
                     <EditText
                         android:id="@+id/award_draw_count"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        style="@style/AddAwardEditText"
                         android:hint="@string/add_award_draw_count"
-                        android:layout_weight="2"
-                        android:inputType="number"
-                        android:textSize="15sp" />
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -121,8 +112,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2" />
                 </LinearLayout>
-
-
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -152,11 +141,9 @@
 
                     <EditText
                         android:id="@+id/award_detail_edt"
-                        android:layout_width="0dp"
-                        android:textSize="13sp"
+                        style="@style/AddAwardEditText"
                         android:hint="奖品描述 如：iPhone 7 128G"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2" />
+                        android:imeOptions="flagNoExtractUi|actionDone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -169,15 +156,12 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:textSize="13sp"
                         android:paddingLeft="@dimen/one"
-                        android:text="@string/add_award_picurl" />
+                        android:text="@string/add_award_picurl"
+                        android:textSize="13sp" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
-
 
         <android.support.v7.widget.CardView
             android:layout_width="150dp"
@@ -188,8 +172,8 @@
             <ImageView
                 android:id="@+id/award_picurl_imgv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_photo" />
         </android.support.v7.widget.CardView>
-
     </LinearLayout>
 </ScrollView>

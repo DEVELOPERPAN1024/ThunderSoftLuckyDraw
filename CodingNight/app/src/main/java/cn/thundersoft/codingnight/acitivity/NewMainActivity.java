@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -22,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -30,10 +27,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,10 +36,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.util.DisplayUtil;
-import cn.thundersoft.codingnight.util.MyRandom;
 import cn.thundersoft.codingnight.util.UiUtils;
 
-public class NewMainActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewMainActivity extends AbsStoragePermissionCheckActivity
+        implements View.OnClickListener {
 
     @Bind(R.id.main_data_cv)
     CardView mMainDataCV;
@@ -84,6 +78,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         }
     };
     Timer mTimer;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +95,13 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
                 try {
                     File file = new File("/sdcard/random2.txt");
-                    if(!file.exists()){
+                    if (!file.exists()) {
                         file.createNewFile();
                     }
                     OutputStream os = new FileOutputStream(file);
-                    for (int i=0;i<10000;i++){
+                    for (int i = 0; i < 10000; i++) {
                         double ran = Math.random();
-                        String ranstr = ran+"\n";
+                        String ranstr = ran + "\n";
                         os.write(ranstr.getBytes());
                     }
                 } catch (Exception e) {
@@ -123,7 +118,7 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
         mMainLuckyDrawCV.setOnClickListener(this);
     }
 
-    private void initBg(){
+    private void initBg() {
         Glide.with(this).load(R.drawable.main_bg1).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
@@ -206,13 +201,19 @@ public class NewMainActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             }
             case R.id.main_luckydraw_cv: {
-                mMyHandler.sendEmptyMessage(2);
-                Intent intent = new Intent(this, LuckyDrawActivityNew.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, mMainTitleTV, "shareTitle").toBundle());
+                checkAndRequestStoragePermission();
                 break;
             }
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onStoragePermissionGranted() {
+        mMyHandler.sendEmptyMessage(2);
+        Intent intent = new Intent(this, LuckyDrawActivityNew.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, mMainTitleTV, "shareTitle").toBundle());
+
     }
 }
