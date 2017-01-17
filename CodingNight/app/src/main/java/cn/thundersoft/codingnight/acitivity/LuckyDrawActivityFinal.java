@@ -34,14 +34,20 @@ import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 import cn.thundersoft.codingnight.models.Person;
 import cn.thundersoft.codingnight.util.MyRandom;
+import cn.thundersoft.codingnight.util.StringUtil;
 
 public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     public static final int REQ_CODE = 2017;
     private static final int STOP_DRAW = 1;
     private static final int START_DRAW = 0;
+
     private static final int PLACE_NAME_IN_SEQUENCE = 2;
     private static final int PLACE_NAME_DONE = 3;
+
+    private static final int RANDOM_FAKE = 1;
+    private static final int RANDOM_REAL = 0;
+
 
     private Resources mRes;
     // view
@@ -177,7 +183,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             @Override
             public void run() {
                 mPersonsToShow.clear();
-                int count = getDrawCountForThisTime();
+                int count = getDrawCountForThisTime(RANDOM_REAL);
                 for (int i = 0; i < count; i++) {
                     mPersonsToShow.add(MyRandom.getRandomPersion(mTotalPersons));
                     mHandler.sendEmptyMessage(PLACE_NAME_IN_SEQUENCE);
@@ -261,7 +267,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     if (mTotalPersons.size() < 1) {
                         break;
                     }
-                    mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime());
+
+                    mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime(RANDOM_FAKE));
                     mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
                     try {
                         Thread.sleep(50);
@@ -272,7 +279,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 /*
                 //滚动时点击抽奖，真正的随机抽奖
                 if (!mIsDrawing) {
-                    mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
+                    Log.d("DBW", "real draw count " + getDrawCountForThisTime(RANDOM_REAL));
+                    mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime(RANDOM_REAL));
                     mHandler.sendEmptyMessage(STOP_DRAW);
                 }
                 */
@@ -281,9 +289,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
 
-    private int getDrawCountForThisTime() {
+    private int getDrawCountForThisTime(int randomStyle) {
         int total = mCurrentAward.getCount();
-        if (mCurrentAward.getDrewTimes() == mCurrentAward.getTotalDrawTimes()) {
+        int drewTimes = mCurrentAward.getDrewTimes() + randomStyle;
+        if (drewTimes == mCurrentAward.getTotalDrawTimes()) {
             return total / mCurrentAward.getTotalDrawTimes() + total % mCurrentAward.getTotalDrawTimes();
         } else {
             return total / mCurrentAward.getTotalDrawTimes();
@@ -328,7 +337,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        if (getDrawCountForThisTime() > 10) {
+        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo())
@@ -350,20 +359,20 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         calculateRandomTextShowStyleByLines(mPersonsToShow.size());
     }
 
-    private void calculateRandomTextShowStyleByLines(int line) {
-        if (line > 10) {
+    private void calculateRandomTextShowStyleByLines(int lines) {
+        if (lines > 10) {
             updateRandomTextStyle(14f, 0, 0);
             return;
         }
-        if (line == 1) {
+        if (lines == 1) {
             updateRandomTextStyle(24f, 0, 0);
             return;
         }
-        if (line > 1 && line < 3) {
+        if (lines > 1 && lines < 3) {
             updateRandomTextStyle(20f, 0, 0);
             return;
         }
-        if (line < 10 && line > 3) {
+        if (lines < 10 && lines > 3) {
             updateRandomTextStyle(16f, 0, 0);
             return;
         }
@@ -385,8 +394,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     }
 
     private String controlStringLength(String str) {
-        if (str.length() < 20) {
-            str += getNumbersOfSpace(20 - str.length());
+        int strRealLength = StringUtil.getStringRealLength(str);
+        if (strRealLength < 20) {
+            str += getNumbersOfSpace(20 - strRealLength);
         } else {
             str = str.substring(0, 19);
         }
