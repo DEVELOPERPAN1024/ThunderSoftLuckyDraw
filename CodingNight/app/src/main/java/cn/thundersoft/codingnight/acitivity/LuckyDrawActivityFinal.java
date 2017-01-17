@@ -341,12 +341,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo())
-                            + "   "
+                            + "  "
                             + controlStringLength(mPersonsToShow.get(++i).getInfo())
                             + "\n");
                 } else {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
-                            + "   "
+                            + "  "
                             + getNumbersOfSpace(20);
                 }
             }
@@ -395,10 +395,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     private String controlStringLength(String str) {
         int strRealLength = StringUtil.getStringRealLength(str);
-        if (strRealLength < 20) {
-            str += getNumbersOfSpace(20 - strRealLength);
+        if (strRealLength < 18) {
+            str += getNumbersOfSpace(18 - strRealLength);
         } else {
-            str = str.substring(0, 19);
+            str = str.substring(0, 17); // 这个会有问题
         }
         return str;
     }
