@@ -328,7 +328,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        if (mPersonsToShow.size() > 10) {
+        if (getDrawCountForThisTime() > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo())
