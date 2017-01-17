@@ -1,5 +1,8 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -37,6 +40,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     public static final int REQ_CODE = 2017;
     private static final int STOP_DRAW = 1;
     private static final int START_DRAW = 0;
+    private static final int PLACE_NAME_IN_SEQUENCE = 2;
+    private static final int PLACE_NAME_DONE = 3;
 
     private Resources mRes;
     // view
@@ -118,29 +123,85 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-
-                if (msg.what == START_DRAW) {
-                    updateRandomList();
-                }
-
-                if (msg.what == STOP_DRAW) {
-                    updateRandomList();
+                switch (msg.what) {
+                    case START_DRAW:
+                        updateRandomList();
+                        break;
+                    case STOP_DRAW:
+                        updateRandomList();
 //                    if (!mIsDrawing) {
-                    for (int i = 0; i < mPersonsToShow.size(); i++) {
-                        //一个人获取多个奖项?
-                        //updatePersonAwardState(mPersonsToShow.get(i));
-                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                                mPersonsToShow.get(i).getId(),
-                                mCurrentAward.getId());
-                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                    }
+                        for (int i = 0; i < mPersonsToShow.size(); i++) {
+                            //一个人获取多个奖项?
+                            //updatePersonAwardState(mPersonsToShow.get(i));
+                            DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                    mPersonsToShow.get(i).getId(),
+                                    mCurrentAward.getId());
+                            DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
+                        }
 //                    updateAwardNameList();
 //                    }
+                        break;
+                    case PLACE_NAME_IN_SEQUENCE:
+                        updateRandomList();
+                        insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
+                        break;
+                    case PLACE_NAME_DONE:
+                        mDrawBtnLayout.setEnabled(true);
+                    default:
+                        break;
                 }
             }
         };
 
         mRes = getResources();
+    }
+
+    private void animateStopDrawing() {
+        mDrawBtnLayout.setEnabled(false);
+        Animator alpha = ObjectAnimator.ofFloat(mRandomTextView, "alpha", 1, 0);
+        alpha.setDuration(500);
+        alpha.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mRandomTextView.setText("");
+                mRandomTextView.setAlpha(1);
+                mIsDrawing = false;
+                placeNameInSequence();
+            }
+        });
+        alpha.start();
+    }
+
+    private void placeNameInSequence() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mPersonsToShow.clear();
+                int count = getDrawCountForThisTime();
+                for (int i = 0; i < count; i++) {
+                    mPersonsToShow.add(MyRandom.getRandomPersion(mTotalPersons));
+                    mHandler.sendEmptyMessage(PLACE_NAME_IN_SEQUENCE);
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mHandler.sendEmptyMessage(PLACE_NAME_DONE);
+            }
+        }).start();
+    }
+
+    private void insertWinner(final int winnerId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                        winnerId,
+                        mCurrentAward.getId());
+                DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
+            }
+        }).start();
     }
 
     private void initView() {
@@ -171,10 +232,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     return;
                 }
                 if (mIsDrawing) { // stop
+                    animateStopDrawing();
                     mCurrentAward.increaseDrewTimes();
                     updateHintText();
 //                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward); 放到handler更新
+                    /*
                     mIsDrawing = false; // stop while in thread
+                    */
                 } else { // start
                     mIsDrawing = true;
                     getNameList();
@@ -205,11 +269,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                /*
                 //滚动时点击抽奖，真正的随机抽奖
                 if (!mIsDrawing) {
                     mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime());
                     mHandler.sendEmptyMessage(STOP_DRAW);
                 }
+                */
             }
         }).start();
     }

@@ -80,6 +80,12 @@ public class MyRandom implements Runnable {
         return list;
     }
 
+    public static Person getRandomPersion(List<Person> allPersons) {
+        double rs = getRandom_0_1();
+        int randomPosition = ((int) (rs * (allPersons.size() - 1)));
+        return allPersons.get(randomPosition);
+    }
+
     public static List<Person> getRandomListFake(List<Person> allPersons, int count) {
         List<Person> list = new ArrayList<>();
         while (list.size() < count) {
