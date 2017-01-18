@@ -69,7 +69,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     private boolean mIsDrawing;
     private boolean hasMoneyAttached = false;
     private boolean mIsRedPackage;
-    private boolean mIsFirstShowPackageName;
 
     private int mBackPressTime = 0;
 
@@ -168,7 +167,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
 
         mIsRedPackage = mCurrentAward.isSpecial();
-        mIsDrawing = !mIsRedPackage; // 打开该Activity即开始滚动
+        mIsDrawing = true; // 打开该Activity即开始滚动
 
         mRes = getResources();
     }
@@ -242,10 +241,11 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mDrawBtnLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentAward.isSpecial()) {
+                if (mIsRedPackage) {
                     if (mIsDrawing) {
                         animateStopDrawing();
                     } else if (!hasMoneyAttached) {
+                        updateRandomListWithMoney();
                         attachMoney();
                         mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
                     } else {
