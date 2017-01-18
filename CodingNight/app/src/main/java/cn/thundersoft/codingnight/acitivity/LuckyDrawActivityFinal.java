@@ -172,6 +172,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 mRandomTextView.setText("");
                 mRandomTextView.setAlpha(1);
                 mIsDrawing = false;
+                updateButtonState();
                 placeNameInSequence();
             }
         });
@@ -248,8 +249,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 } else { // start
                     mIsDrawing = true;
                     getNameList();
+                    updateButtonState();
                 }
-                updateButtonState();
+
             }
         });
     }
