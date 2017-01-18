@@ -49,6 +49,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     private static final int RANDOM_REAL = 0;
 
     private static final int SINGLE_NAME_LENGTH = 18;
+    private static final int SINGLE_NAME_LENGTH_SHORT = 16;
     private static final int SINGLE_MONEY_LENGTH = 8;
 
     private Resources mRes;
@@ -350,7 +351,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     private void updateHintText() {
         String strToShow = mRes.getString(R.string.lucky_draw_final_draw_hint);
-        mHintTextView.setText(String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getTotalDrawTimes()));
+        String str = String.format(strToShow, mCurrentAward.getDrewTimes(), mCurrentAward.getTotalDrawTimes());
+        if (mIsRedPackage) {
+            String strTotalMoney = mRes.getString(R.string.lucky_draw_final_draw_hint_money);
+            str += "\n";
+            str += String.format(strTotalMoney, mCurrentAward.getDetail());
+        }
+        mHintTextView.setText(str);
     }
 
     private void updateRandomList() {
@@ -358,12 +365,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        if (mIsRedPackage) {
-            // 红包的话就直接显示名单，红包的名单不会很长????
-            for (int i = 0; i < mPersonsToShow.size(); ++i) {
-                str += (mPersonsToShow.get(i).getInfo() + "\n");
-            }
-        } else {
+//        if (mIsRedPackage) {
+//            // 红包的话就直接显示名单，红包的名单不会很长????
+//            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+//                str += (mPersonsToShow.get(i).getInfo() + "\n");
+//            }
+//        } else {
             if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
                 for (int i = 0; i < mPersonsToShow.size(); ++i) {
                     if (i + 1 < mPersonsToShow.size()) {
@@ -382,7 +389,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     str += (mPersonsToShow.get(i).getInfo() + "\n");
                 }
             }
-        }
+//        }
 
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
@@ -394,13 +401,36 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             return;
         }
         List<Integer> moneys = MyRandom.getMoneys(mPersonsToShow.size(), Integer.parseInt(mCurrentAward.getDetail()));
-        for (int i = 0; i < mPersonsToShow.size(); ++i) {
-            str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
-                        + "  "
-                        + controlStringLength(moneys.get(i).toString() + "元", SINGLE_MONEY_LENGTH)
-                        + "\n");
-            mPersonsToShow.get(i).setMoney(moneys.get(i)); // 把中奖金额写到person里
+
+        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                if (i + 1 < mPersonsToShow.size()) {
+                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                            + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
+                            + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                            + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
+                            + "\n");
+                } else {
+                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
+                            + "  "
+                            + getNumbersOfSpace(SINGLE_NAME_LENGTH);
+                }
+            }
+        } else {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                str += (mPersonsToShow.get(i).getInfo() + " "
+                        + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH) + "\n");
+            }
         }
+
+//        for (int i = 0; i < mPersonsToShow.size(); ++i) {
+//            str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
+//                        + "  "
+//                        + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
+//                        + "\n");
+//            mPersonsToShow.get(i).setMoney(moneys.get(i)); // 把中奖金额写到person里
+//        }
+
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
     }

@@ -16,6 +16,7 @@
     <string name="lucky_draw_person_data_null_tint">请设置参与抽奖名单</string>
 
     <string name="lucky_draw_final_draw_hint">抽奖进度 %1$d/%2$d</string>
+    <string name="lucky_draw_final_draw_hint_money">红包总额 %1$s 元</string>
     <string name="lucky_draw_final_back_hint">抽奖还在进行中，无法退出</string>
 
     <string name="add_award_name">奖项名称</string>
