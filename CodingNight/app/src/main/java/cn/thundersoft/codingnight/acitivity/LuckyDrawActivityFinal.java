@@ -135,24 +135,24 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         break;
                     case STOP_DRAW:
                         updateRandomList();
-//                    if (!mIsDrawing) {
                         for (int i = 0; i < mPersonsToShow.size(); i++) {
-                            //一个人获取多个奖项?
-                            //updatePersonAwardState(mPersonsToShow.get(i));
                             DbUtil.insertWinner(LuckyDrawActivityFinal.this,
                                     mPersonsToShow.get(i).getId(),
                                     mCurrentAward.getId());
                             DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
                         }
-//                    updateAwardNameList();
-//                    }
                         break;
                     case PLACE_NAME_IN_SEQUENCE:
                         updateRandomList();
-                        insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
+                        Person p = (Person) msg.obj;
+                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                p.getId(),
+                                mCurrentAward.getId());
+                        //insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
                         break;
                     case PLACE_NAME_DONE:
                         mDrawBtnLayout.setEnabled(true);
+                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
                     default:
                         break;
                 }
@@ -186,8 +186,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 mPersonsToShow.clear();
                 int count = getDrawCountForThisTime(RANDOM_REAL);
                 for (int i = 0; i < count; i++) {
-                    mPersonsToShow.add(MyRandom.getRandomPersion(mTotalPersons));
-                    mHandler.sendEmptyMessage(PLACE_NAME_IN_SEQUENCE);
+                    Person p = MyRandom.getRandomPersion(mTotalPersons);
+                    mPersonsToShow.add(p);
+                    Message msg = new Message();
+                    msg.obj = p;
+                    msg.what = PLACE_NAME_IN_SEQUENCE;
+                    mHandler.sendMessage(msg);
                     try {
                         Thread.sleep(20);
                     } catch (InterruptedException e) {
@@ -235,17 +239,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     updateButtonState();
                     finish();
                     overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
-//                    Toast.makeText(LuckyDrawActivityFinal.this, "已经抽完了", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mIsDrawing) { // stop
-                    animateStopDrawing();
                     mCurrentAward.increaseDrewTimes();
+                    animateStopDrawing();
                     updateHintText();
-//                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward); 放到handler更新
-                    /*
-                    mIsDrawing = false; // stop while in thread
-                    */
                 } else { // start
                     mIsDrawing = true;
                     getNameList();
@@ -269,7 +268,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     if (mTotalPersons.size() < 1) {
                         break;
                     }
-
                     mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime(RANDOM_FAKE));
                     mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
                     try {
@@ -278,14 +276,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                /*
-                //滚动时点击抽奖，真正的随机抽奖
-                if (!mIsDrawing) {
-                    Log.d("DBW", "real draw count " + getDrawCountForThisTime(RANDOM_REAL));
-                    mPersonsToShow = MyRandom.getRandomList(mTotalPersons, getDrawCountForThisTime(RANDOM_REAL));
-                    mHandler.sendEmptyMessage(STOP_DRAW);
-                }
-                */
             }
         }).start();
     }
@@ -349,7 +339,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 } else {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
                             + "  "
-                            + getNumbersOfSpace(20);
+                            + getNumbersOfSpace(18);
                 }
             }
         } else {
@@ -358,24 +348,25 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             }
         }
         mRandomTextView.setText(str);
-        calculateRandomTextShowStyleByLines(mPersonsToShow.size());
+        calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
     }
 
     private void calculateRandomTextShowStyleByLines(int lines) {
-        if (lines > 10) {
-            updateRandomTextStyle(14f, 0, 0);
-            return;
-        }
+
         if (lines == 1) {
             updateRandomTextStyle(24f, 0, 0);
             return;
         }
-        if (lines > 1 && lines < 3) {
+        if (lines > 1 && lines <= 3) {
             updateRandomTextStyle(20f, 0, 0);
             return;
         }
-        if (lines < 10 && lines > 3) {
+        if (lines <= 10 && lines > 3) {
             updateRandomTextStyle(16f, 0, 0);
+            return;
+        }
+        if (lines > 10) {
+            updateRandomTextStyle(14f, 0, 0);
             return;
         }
     }
