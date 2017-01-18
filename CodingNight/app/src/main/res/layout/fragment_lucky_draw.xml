@@ -9,73 +9,73 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/half"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="#fff"
         android:transitionName="@string/img_transition_name"
-        >
-    <RelativeLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:cardBackgroundColor="#fff"
+        app:cardElevation="2dp">
 
-        <ImageView
-            android:layout_toRightOf="@+id/prize_des_ll"
-            android:id="@+id/lucky_draw_award_image"
+        <RelativeLayout
+            android:id="@+id/content_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/three"
-            android:layout_marginRight="@dimen/eight"
-            android:layout_marginBottom="@dimen/three"
-            android:minHeight="240dp"
-            android:scaleType="centerCrop"
-            android:background="#eee"
-            android:tint="#0000"
-             />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/prize_des_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/six"
-            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/lucky_draw_award_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/three"
+                android:layout_marginRight="@dimen/eight"
+                android:layout_marginTop="@dimen/three"
+                android:layout_toRightOf="@+id/prize_des_ll"
+                android:background="#0000"
+                android:minHeight="240dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/award_default"
+                android:tint="#0000" />
 
-            <TextView
-                android:id="@+id/lucky_draw_award_name"
+            <LinearLayout
+                android:id="@+id/prize_des_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="一等奖"
-                android:textColor="#000"
-                android:textSize="30sp" />
+                android:layout_margin="@dimen/six"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lucky_draw_award_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="简介"
-                android:textColor="#000"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/lucky_draw_award_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一等奖"
+                    android:textColor="#000"
+                    android:textSize="30sp" />
 
-    <FrameLayout
-        android:id="@+id/fab_container"
-        android:layout_width="@dimen/six"
-        android:layout_height="@dimen/six"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="@dimen/one"
-        android:layout_marginBottom="@dimen/one"
-        android:background="@drawable/fab_red"
-        android:elevation="@dimen/half">
+                <TextView
+                    android:id="@+id/lucky_draw_award_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="简介"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/fab_start"
-            android:padding="@dimen/one"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/fab_background"
-            android:scaleType="centerInside"
-            android:src="@drawable/begin_draw_icon" />
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/fab_container"
+            android:layout_width="@dimen/six"
+            android:layout_height="@dimen/six"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/one"
+            android:layout_marginRight="@dimen/one"
+            android:background="@drawable/fab_red"
+            android:elevation="@dimen/half">
+
+            <ImageView
+                android:id="@+id/fab_start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/fab_background"
+                android:padding="@dimen/one"
+                android:scaleType="centerInside"
+                android:src="@drawable/begin_draw_icon" />
+        </FrameLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

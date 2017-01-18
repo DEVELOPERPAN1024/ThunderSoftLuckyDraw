@@ -4,20 +4,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.ProviderContract;
 
 public class Prize implements Parcelable {
     public static final String PRIZE_BUNDLE_KEY = "key_prize";
 
-    private static final Uri DEFAULT_IMG_URI = Uri
-            .parse("android.resource://cn.thundersoft.codingnight.models/" + R.raw.default_img);
-
     private int id;
     private String name;
-    private Uri imgUri = Uri.EMPTY;
+    private Uri imgUri = null;
     private int count;
     private String detail;
     private int index;
@@ -54,8 +51,9 @@ public class Prize implements Parcelable {
         this.name = name;
     }
 
+    @Nullable
     public Uri getImgUri() {
-        return imgUri == null ? DEFAULT_IMG_URI : imgUri;
+        return imgUri;
     }
 
     public void setImgUri(Uri imgUri) {

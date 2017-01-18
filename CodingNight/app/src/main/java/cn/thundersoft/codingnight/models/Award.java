@@ -34,7 +34,7 @@ public class Award implements Serializable {
         this.id = prize.getId();
         this.name = prize.getName();
         this.detail = prize.getDetail();
-        this.picUrl = prize.getImgUri().toString();
+        this.picUrl = prize.getImgUri() == null ? "" : prize.getImgUri().toString();
         this.orderIndex  = prize.getIndex();
         this.drewTimes = prize.getDrawnTimes();
         this.isRepeatable = prize.canRepeat();

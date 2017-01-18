@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal;
 import cn.thundersoft.codingnight.db.DbUtil;
@@ -56,7 +59,16 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
         Bundle b = getArguments();
         mPrize = b == null ? null : (Prize) b.getParcelable(Prize.PRIZE_BUNDLE_KEY);
         if (mPrize != null) {
-            prizeImage.setImageURI(mPrize.getImgUri());
+            if (mPrize.isSpecial()) {
+                prizeImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                Glide.with(getActivity()).load(R.drawable.money_default)
+                        .into(new GlideDrawableImageViewTarget(prizeImage));
+            } else if (mPrize.getImgUri() != null) {
+                prizeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                prizeImage.setImageURI(mPrize.getImgUri());
+            } else {
+                prizeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
             name.setText(mPrize.getName());
             detail.setText(mPrize.getDetail());
         }

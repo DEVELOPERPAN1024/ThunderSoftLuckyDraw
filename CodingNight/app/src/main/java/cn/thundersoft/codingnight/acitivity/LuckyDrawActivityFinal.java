@@ -67,10 +67,47 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     // state
     private boolean mIsDrawing;
+    private boolean hasMoneyAttached = false;
     private int mBackPressTime = 0;
 
     private Timer mTimer;
-    private Handler mHandler;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case START_DRAW:
+                    updateRandomList();
+                    break;
+                case STOP_DRAW:
+                    updateRandomList();
+                    for (int i = 0; i < mPersonsToShow.size(); i++) {
+                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                mPersonsToShow.get(i).getId(),
+                                mCurrentAward.getId());
+                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
+                    }
+                    break;
+                case PLACE_NAME_IN_SEQUENCE:
+                    updateRandomList();
+                    Person p = (Person) msg.obj;
+                    DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                            p.getId(),
+                            mCurrentAward.getId());
+                    //insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
+                    break;
+                case PLACE_NAME_DONE:
+                    mDrawBtnLayout.setEnabled(true);
+                    DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
+                    if (mCurrentAward.isSpecial()) {
+                        mDrawButton.setImageResource(R.drawable.ic_money);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,40 +161,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
 
         mIsDrawing = true; // 打开该Activity即开始滚动
-
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case START_DRAW:
-                        updateRandomList();
-                        break;
-                    case STOP_DRAW:
-                        updateRandomList();
-                        for (int i = 0; i < mPersonsToShow.size(); i++) {
-                            DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                                    mPersonsToShow.get(i).getId(),
-                                    mCurrentAward.getId());
-                            DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                        }
-                        break;
-                    case PLACE_NAME_IN_SEQUENCE:
-                        updateRandomList();
-                        Person p = (Person) msg.obj;
-                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                                p.getId(),
-                                mCurrentAward.getId());
-                        //insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
-                        break;
-                    case PLACE_NAME_DONE:
-                        mDrawBtnLayout.setEnabled(true);
-                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                    default:
-                        break;
-                }
-            }
-        };
 
         mRes = getResources();
     }
@@ -231,30 +234,44 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mDrawBtnLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 列表滚动状态切换
-                // 按钮状态切换
-                // hint信息切换
-                // 获奖列表更新
-                if (isDrawEnd()) {
-                    updateButtonState();
-                    finish();
-                    overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
-                    return;
+                if (mCurrentAward.isSpecial()) {
+                    if (mIsDrawing) {
+                        animateStopDrawing();
+                    } else if (!hasMoneyAttached) {
+                        attachMoney();
+                        mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    // 列表滚动状态切换
+                    // 按钮状态切换
+                    // hint信息切换
+                    // 获奖列表更新
+                    if (isDrawEnd()) {
+                        updateButtonState();
+                        finish();
+                        overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
+                        return;
+                    }
+                    if (mIsDrawing) { // stop
+                        mCurrentAward.increaseDrewTimes();
+                        animateStopDrawing();
+                        updateHintText();
+                    } else { // start
+                        mIsDrawing = true;
+                        getNameList();
+                        updateButtonState();
+                    }
                 }
-                if (mIsDrawing) { // stop
-                    mCurrentAward.increaseDrewTimes();
-                    animateStopDrawing();
-                    updateHintText();
-                } else { // start
-                    mIsDrawing = true;
-                    getNameList();
-                    updateButtonState();
-                }
-
             }
         });
     }
 
+    private void attachMoney() {
+        // TODO: 1/18/17 attach money
+        hasMoneyAttached = true;
+    }
 
     // 抽奖
     private void getNameList() {
