@@ -48,6 +48,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     private static final int RANDOM_FAKE = 1;
     private static final int RANDOM_REAL = 0;
 
+    private static final int SINGLE_NAME_LENGTH = 18;
+    private static final int SINGLE_MONEY_LENGTH = 8;
 
     private Resources mRes;
     // view
@@ -243,7 +245,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             public void onClick(View view) {
                 if (mIsRedPackage) {
                     if (mIsDrawing) {
+                        mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
+                        updateHintText();
                     } else if (!hasMoneyAttached) {
                         updateRandomListWithMoney();
                         attachMoney();
@@ -363,14 +367,14 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
                 for (int i = 0; i < mPersonsToShow.size(); ++i) {
                     if (i + 1 < mPersonsToShow.size()) {
-                        str += (controlStringLength(mPersonsToShow.get(i).getInfo())
+                        str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
                                 + "  "
-                                + controlStringLength(mPersonsToShow.get(++i).getInfo())
+                                + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH)
                                 + "\n");
                     } else {
-                        str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
+                        str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
                                 + "  "
-                                + getNumbersOfSpace(18);
+                                + getNumbersOfSpace(SINGLE_NAME_LENGTH);
                     }
                 }
             } else {
@@ -391,10 +395,11 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
         List<Integer> moneys = MyRandom.getMoneys(mPersonsToShow.size(), Integer.parseInt(mCurrentAward.getDetail()));
         for (int i = 0; i < mPersonsToShow.size(); ++i) {
-            str += (controlStringLength(mPersonsToShow.get(i).getInfo())
+            str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
                         + "  "
-                        + controlStringLength(moneys.get(i).toString() + "元")
+                        + controlStringLength(moneys.get(i).toString() + "元", SINGLE_MONEY_LENGTH)
                         + "\n");
+            mPersonsToShow.get(i).setMoney(moneys.get(i)); // 把中奖金额写到person里
         }
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
@@ -435,12 +440,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         return str;
     }
 
-    private String controlStringLength(String str) {
+    private String controlStringLength(String str, int length) {
         int strRealLength = StringUtil.getStringRealLength(str);
-        if (strRealLength < 18) {
-            str += getNumbersOfSpace(18 - strRealLength);
+        if (strRealLength < length) {
+            str += getNumbersOfSpace(length - strRealLength);
         } else {
-            str = str.substring(0, 17); // 这个会有问题
+            str = str.substring(0, length - 1); // 这个会有问题
         }
         return str;
     }
