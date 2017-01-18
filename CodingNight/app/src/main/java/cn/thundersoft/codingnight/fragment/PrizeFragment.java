@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.annotation.Repeatable;
 
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.acitivity.LuckyDrawActivityFinal;
@@ -90,10 +89,22 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                if (mCurrentAward.getDrewTimes() >= mCurrentAward.getTotalDrawTimes()) {
-                    detail.setText("已经抽完了");
-                    detail.setTextColor(getContext().getResources()
-                            .getColor(R.color.colorPrimary));
+                if (mCurrentAward.isSpecial()) {
+                    if(mCurrentAward.getDrewTimes() > mCurrentAward.getTotalDrawTimes()){
+                        detail.setText("已经抽完了");
+                        detail.setTextColor(getContext().getResources()
+                                .getColor(R.color.colorPrimary));
+                    }else{
+                        detail.setText("谢谢老板!");
+                        detail.setTextColor(getContext().getResources()
+                                .getColor(R.color.colorPrimary));
+                    }
+                } else {
+                    if (mCurrentAward.getDrewTimes() >= mCurrentAward.getTotalDrawTimes()) {
+                        detail.setText("已经抽完了");
+                        detail.setTextColor(getContext().getResources()
+                                .getColor(R.color.colorPrimary));
+                    }
                 }
             }
         };

@@ -40,6 +40,7 @@ public class Award implements Serializable {
         this.isRepeatable = prize.canRepeat();
         this.totalDrawTimes = prize.getTotalTime();
         this.count = prize.getCount();
+        this.isSpecial = prize.isSpecial();
     }
     public int getId() {
         return id;

@@ -1,20 +1,28 @@
 package cn.thundersoft.codingnight.acitivity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ActionProvider;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +42,7 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private AwardAdapter mMainAdapter;
     private List<Award> mDataList;
+    private PopupWindow mAddPopWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +64,7 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
         getSupportLoaderManager().initLoader(0, null, this).forceLoad();
     }
 
+
     private void initView() {
         mMainAdapter = new AwardAdapter(mDataList);
         mMainListView.setAdapter(mMainAdapter);
@@ -68,12 +78,14 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
         });
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem item = menu.add("添加");
-        item.setIcon(R.drawable.ic_plus);
-        item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.add_menu, menu);
+        //MenuItemCompat.setActionProvider(item, );
+        return true;
     }
 
     @Override
@@ -81,13 +93,19 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (Objects.equals(item.getTitle(), "添加")) {
+        }else if(item.getTitle().equals("普通奖项")){
             Intent intent = new Intent(this, AddAwardActivity.class);
+            startActivity(intent);
+            return true;
+        }else if(item.getTitle().equals("现金红包")){
+            Intent intent = new Intent(this, AddSpecialActivity.class);
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public Loader<List<Award>> onCreateLoader(int id, Bundle args) {
@@ -97,9 +115,9 @@ public class AwardActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<List<Award>> loader, List<Award> data) {
         mDataList = data;
-        if(data.size()>0){
+        if (data.size() > 0) {
             mMainHintTV.setVisibility(View.GONE);
-        }else{
+        } else {
             mMainHintTV.setVisibility(View.VISIBLE);
         }
         mMainAdapter.setDataList(data);

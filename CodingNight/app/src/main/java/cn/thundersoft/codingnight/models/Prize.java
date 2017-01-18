@@ -25,6 +25,16 @@ public class Prize implements Parcelable {
     private int drawnTimes;
     private boolean canRepeat;
 
+    public boolean isSpecial() {
+        return isSpecial;
+    }
+
+    public void setSpecial(boolean special) {
+        isSpecial = special;
+    }
+
+    private boolean isSpecial;
+
     public Prize() {
     }
 
@@ -118,6 +128,7 @@ public class Prize implements Parcelable {
         result.setTotalTime(cursor.getInt(ProviderContract.AwardColumns.TOTAL_TIMES));
         result.setDrawnTimes(cursor.getInt(ProviderContract.AwardColumns.DRAWN_TIMES));
         result.setCanRepeat(cursor.getInt(ProviderContract.AwardColumns.CAN_REPEAT) == 1);
+        result.setSpecial(cursor.getInt(ProviderContract.AwardColumns.IS_SPECIAL) == 0);
         return result;
     }
 

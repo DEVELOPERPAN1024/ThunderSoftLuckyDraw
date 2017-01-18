@@ -120,7 +120,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             }
         }
         ((FrameLayout) findViewById(R.id.content)).removeAllViews();
-        if (prize.isFinish()) {
+        if (prize.isFinish()||prize.isSpecial()) {
             Fragment prizeFragment = new PrizeFragment();
             FragmentTransaction ft = fm.beginTransaction();
             Bundle b = new Bundle();

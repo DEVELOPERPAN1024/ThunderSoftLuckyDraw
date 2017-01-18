@@ -27,6 +27,9 @@
         <activity android:name=".acitivity.AddAwardActivity"
             android:screenOrientation="landscape"
             />
+        <activity android:name=".acitivity.AddSpecialActivity"
+            android:screenOrientation="landscape"
+            />
 
         <activity android:name=".acitivity.DataActivity" />
         <activity android:name=".acitivity.LuckyDrawActivity"
