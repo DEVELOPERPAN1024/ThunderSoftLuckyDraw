@@ -31,6 +31,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int CLEAN_WININFO = 11;
     private static final int MONEY_LIST = 12;
     private static final int RED_PACKET = 13;
+    private static final int NO_MONEY_LIST = 14;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 
@@ -48,6 +49,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "wininfo/clean", CLEAN_WININFO);
         sUriMatcher.addURI(AUTH, "wininfo/money_list", MONEY_LIST);
         sUriMatcher.addURI(AUTH, "award/red_packet/#", RED_PACKET);
+        sUriMatcher.addURI(AUTH, "wininfo/no_money_list", NO_MONEY_LIST);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -180,6 +182,10 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "from info inner join wininfo on (info._id = wininfo.info_id) " +
                         "where money > 0 " +
                         "group by info._id", null);
+            case NO_MONEY_LIST:
+                return db.rawQuery("select info._id, info\n" +
+                        "from info left join wininfo on (info._id = wininfo.info_id)\n" +
+                        "where money = -1 or money is null", null);
         }
         return null;
     }

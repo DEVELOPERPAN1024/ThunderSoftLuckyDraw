@@ -162,17 +162,27 @@ public class DbUtil {
         context.getContentResolver().delete(ProviderContract.CLEAN_WININFO_URI, null, null);
     }
 
-    public static List<Person>  getMoneyList(Context context) {
+    public static List<Person>  getMoneyPersonList(Context context) {
+        return internalGetMoneyPersonList(context, true);
+    }
+
+    public static List<Person> getNoMoneyPersonList(Context context) {
+        return internalGetMoneyPersonList(context, false);
+    }
+
+    private static List<Person> internalGetMoneyPersonList(Context context, boolean hasMoney) {
         List<Person> list = new ArrayList<>();
-        Cursor c = context.getContentResolver().query(ProviderContract.MONEY_LIST_URI, null, null, null, null);
+        Uri uri = hasMoney ? ProviderContract.MONEY_LIST_URI : ProviderContract.NO_MONEY_LIST_URI;
+        Cursor c = context.getContentResolver().query(uri, null, null, null, null);
         if (c != null) {
             while (c.moveToNext()) {
                 Person p = new Person(c.getInt(0), c.getString(1));
-                p.setPrize(c.getInt(2));
+                p.setMoney(hasMoney ? c.getInt(2) : -1);
                 list.add(p);
             }
         }
         return list;
+
     }
 
     public static String sqliteEscape(String keyWord){

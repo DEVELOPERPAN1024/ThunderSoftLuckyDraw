@@ -299,13 +299,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
     }
 
-    private void updatePersonAwardState(Person p) {
-        for (Person person : mTotalPersons) {
-            if (person.getId() == p.getId()) {
-                person.setPrize(mCurrentAward.getId());
-            }
-        }
-    }
+//    private void updatePersonAwardState(Person p) {
+//        for (Person person : mTotalPersons) {
+//            if (person.getId() == p.getId()) {
+//                person.setMoney(mCurrentAward.getId());
+//            }
+//        }
+//    }
 
     private void updateButtonState() {
         //不同样式控制？

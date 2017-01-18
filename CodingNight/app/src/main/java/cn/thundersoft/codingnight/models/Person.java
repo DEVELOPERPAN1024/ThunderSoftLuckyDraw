@@ -15,7 +15,7 @@ import static cn.thundersoft.codingnight.db.DbUtil.fillAward;
 public class Person {
     private int id;
     private String info;
-    private int prize = -1;
+    private int mMoney = -1;
     private List<Award> prizes = new ArrayList<>();
     private boolean isShowMenu = false;
 
@@ -63,12 +63,12 @@ public class Person {
         this.info = info;
     }
 
-    public int getPrize() {
-        return prize;
+    public int getMoney() {
+        return mMoney;
     }
 
-    public void setPrize(int prize) {
-        this.prize = prize;
+    public void setMoney(int money) {
+        this.mMoney = money;
     }
 
     public boolean isShowMenu() {
@@ -85,6 +85,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "id = " + id + ", info = " + info + ", prize = " + prize;
+        return "id = " + id + ", info = " + info + ", prize = " + mMoney + "awards:" + prizes;
     }
 }

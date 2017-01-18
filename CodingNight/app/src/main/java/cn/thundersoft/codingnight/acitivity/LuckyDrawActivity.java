@@ -76,13 +76,13 @@ public class LuckyDrawActivity extends AppCompatActivity {
         }
     };
 
-    private void setLocalPersonAwardState(Person p) {
-        for (Person person : mPersons) {
-            if (person.getId() == p.getId()) {
-                person.setPrize(mAwardID);
-            }
-        }
-    }
+//    private void setLocalPersonAwardState(Person p) {
+//        for (Person person : mPersons) {
+//            if (person.getId() == p.getId()) {
+//                person.setMoney(mAwardID);
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
