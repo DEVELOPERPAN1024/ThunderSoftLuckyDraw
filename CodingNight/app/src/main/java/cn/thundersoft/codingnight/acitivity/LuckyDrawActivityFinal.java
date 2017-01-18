@@ -68,6 +68,9 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     // state
     private boolean mIsDrawing;
     private boolean hasMoneyAttached = false;
+    private boolean mIsRedPackage;
+    private boolean mIsFirstShowPackageName;
+
     private int mBackPressTime = 0;
 
     private Timer mTimer;
@@ -154,13 +157,18 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
             finish();
         }
-        if (mCurrentAward.isRepeatable()) {
-            mTotalPersons = DbUtil.getAllPerson(this);
+        if (mIsRedPackage) {
+            mTotalPersons = DbUtil.getNoMoneyPersonList(this);
         } else {
-            mTotalPersons = DbUtil.getUnawardPersons(this);
+            if (mCurrentAward.isRepeatable()) {
+                mTotalPersons = DbUtil.getAllPerson(this);
+            } else {
+                mTotalPersons = DbUtil.getUnawardPersons(this);
+            }
         }
 
-        mIsDrawing = true; // 打开该Activity即开始滚动
+        mIsRedPackage = mCurrentAward.isSpecial();
+        mIsDrawing = !mIsRedPackage; // 打开该Activity即开始滚动
 
         mRes = getResources();
     }
@@ -346,26 +354,54 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
-            for (int i = 0; i < mPersonsToShow.size(); ++i) {
-                if (i + 1 < mPersonsToShow.size()) {
-                    str += (controlStringLength(mPersonsToShow.get(i).getInfo())
-                            + "  "
-                            + controlStringLength(mPersonsToShow.get(++i).getInfo())
-                            + "\n");
-                } else {
-                    str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
-                            + "  "
-                            + getNumbersOfSpace(18);
-                }
-            }
-        } else {
+        if (mIsRedPackage) {
+            // 红包的话就直接显示名单，红包的名单不会很长????
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 str += (mPersonsToShow.get(i).getInfo() + "\n");
             }
+        } else {
+            if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
+                for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                    if (i + 1 < mPersonsToShow.size()) {
+                        str += (controlStringLength(mPersonsToShow.get(i).getInfo())
+                                + "  "
+                                + controlStringLength(mPersonsToShow.get(++i).getInfo())
+                                + "\n");
+                    } else {
+                        str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
+                                + "  "
+                                + getNumbersOfSpace(18);
+                    }
+                }
+            } else {
+                for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                    str += (mPersonsToShow.get(i).getInfo() + "\n");
+                }
+            }
         }
+
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
+    }
+
+    private void updateRandomListWithMoney() {
+        String str = "";
+        if (mPersonsToShow.size() < 1) {
+            return;
+        }
+        List<Integer> moneys = MyRandom.getMoneys(mPersonsToShow.size(), Integer.parseInt(mCurrentAward.getDetail()));
+        for (int i = 0; i < mPersonsToShow.size(); ++i) {
+            if (i + 1 < mPersonsToShow.size()) {
+                str += (controlStringLength(mPersonsToShow.get(i).getInfo())
+                        + "  "
+                        + controlStringLength(moneys.get(i).toString())
+                        + "\n");
+            } else {
+                str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
+                        + "  "
+                        + getNumbersOfSpace(18);
+            }
+        }
     }
 
     private void calculateRandomTextShowStyleByLines(int lines) {

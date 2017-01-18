@@ -109,9 +109,10 @@ public class MyRandom implements Runnable {
      */
     public static List<Integer> getMoneys(int totalCount, int totalMoney) {
         // 要确保总金额是偶数
-        // 目前规则是保证没人最少金额为人均金额的一半，即取出总金额的一半先平均分下去
-        int moneyForDraw = totalMoney / 2;
-        int minMoney = (totalMoney - moneyForDraw) / totalCount;
+        // 保证每人最少得到平均的20%
+        double minPercent = 0.20f;
+        int moneyForDraw = (int)(totalMoney * (1 - minPercent));
+        int minMoney = (int)(totalMoney * minPercent / totalCount);
         List<Integer> moneys = new ArrayList<>();
         int count = totalCount;
         Random random = new Random();
