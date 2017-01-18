@@ -391,17 +391,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
         List<Integer> moneys = MyRandom.getMoneys(mPersonsToShow.size(), Integer.parseInt(mCurrentAward.getDetail()));
         for (int i = 0; i < mPersonsToShow.size(); ++i) {
-            if (i + 1 < mPersonsToShow.size()) {
-                str += (controlStringLength(mPersonsToShow.get(i).getInfo())
+            str += (controlStringLength(mPersonsToShow.get(i).getInfo())
                         + "  "
-                        + controlStringLength(moneys.get(i).toString())
+                        + controlStringLength(moneys.get(i).toString() + "元")
                         + "\n");
-            } else {
-                str += (controlStringLength(mPersonsToShow.get(i).getInfo()))
-                        + "  "
-                        + getNumbersOfSpace(18);
-            }
         }
+        mRandomTextView.setText(str);
+        calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
     }
 
     private void calculateRandomTextShowStyleByLines(int lines) {
