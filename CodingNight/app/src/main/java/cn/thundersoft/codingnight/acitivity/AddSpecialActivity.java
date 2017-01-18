@@ -39,7 +39,7 @@ public class AddSpecialActivity extends AbsStoragePermissionCheckActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("现金红包！");
+            actionBar.setTitle("现金红包");
         }
     }
 
@@ -76,6 +76,7 @@ public class AddSpecialActivity extends AbsStoragePermissionCheckActivity {
             bean.setDetail(totalMoney+"");
             bean.setRepeatable(mIsRepeatablCB.isChecked());
             bean.setIsSpecial(true);
+            bean.setTotalDrawTimes(1);
             DbUtil.insertAward(this, bean);
             finish();
         }
