@@ -341,11 +341,19 @@ public class LuckyDrawActivityFinal extends BaseActivity {
     private int getDrawCountForThisTime(int randomStyle) {
         int total = mCurrentAward.getCount();
         int drewTimes = mCurrentAward.getDrewTimes() + randomStyle;
+        boolean hasDevideRemainder = total % mCurrentAward.getTotalDrawTimes() != 0;
+
         if (drewTimes == mCurrentAward.getTotalDrawTimes()) {
 //            return total / mCurrentAward.getTotalDrawTimes() + total % mCurrentAward.getTotalDrawTimes();
-            return (total - (mCurrentAward.getTotalDrawTimes() - 1) * (total / mCurrentAward.getTotalDrawTimes() + 1));
+            if (hasDevideRemainder)
+                return (total - (mCurrentAward.getTotalDrawTimes() - 1) * (total / mCurrentAward.getTotalDrawTimes() + 1));
+            else
+                return total / mCurrentAward.getTotalDrawTimes();
         } else {
-            return total / mCurrentAward.getTotalDrawTimes() + 1;
+            if (hasDevideRemainder)
+                return total / mCurrentAward.getTotalDrawTimes() + 1;
+            else
+                return total / mCurrentAward.getTotalDrawTimes();
         }
     }
 
