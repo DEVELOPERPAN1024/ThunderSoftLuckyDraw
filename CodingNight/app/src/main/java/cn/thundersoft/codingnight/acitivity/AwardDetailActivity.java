@@ -8,8 +8,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,10 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -30,7 +26,7 @@ import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
 
-public class AwardDetailActivity extends AppCompatActivity {
+public class AwardDetailActivity extends BaseActivity {
 
     @Bind(R.id.detail_award_name)
     TextView mAwardNameTV;

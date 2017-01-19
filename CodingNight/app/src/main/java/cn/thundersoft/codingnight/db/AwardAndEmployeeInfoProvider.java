@@ -128,7 +128,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
-                        String[] selectionArgs, String sortOrder) {
+            String[] selectionArgs, String sortOrder) {
         Log.d("TS", "query: " + uri);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         switch (sUriMatcher.match(uri)) {
@@ -200,7 +200,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection,
-                      String[] selectionArgs) {
+            String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         String table = null;
         switch (sUriMatcher.match(uri)) {

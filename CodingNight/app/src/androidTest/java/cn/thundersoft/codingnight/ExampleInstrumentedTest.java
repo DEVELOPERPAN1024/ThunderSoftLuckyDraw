@@ -12,12 +12,11 @@ import android.util.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.math.BigDecimal;
-
 import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
 import cn.thundersoft.codingnight.util.MyRandom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -55,7 +54,6 @@ public class ExampleInstrumentedTest {
     public void testRandom() {
         double sum = 0.0;
         for (int i = 0; i < 100000; i++) {
-            Log.d("asdasd", "" + i);
             sum += MyRandom.getRandom_0_1();
         }
         assertTrue((sum / 100000 - 0.5) < 0.001);

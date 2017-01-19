@@ -17,8 +17,8 @@
             android:id="@+id/main_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/two"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/two"
             android:text="ThunderSoft"
             android:textColor="@android:color/holo_red_light"
             android:textSize="25sp"
@@ -33,9 +33,9 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/main_data_cv"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="@dimen/eleven"
                 android:layout_margin="@dimen/two"
+                android:layout_weight="1"
                 app:cardBackgroundColor="#00bcd4"
                 app:cardCornerRadius="@dimen/half"
                 app:cardElevation="@dimen/half">
@@ -59,9 +59,9 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/main_award_cv"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="@dimen/eleven"
                 android:layout_margin="@dimen/two"
+                android:layout_weight="1"
                 app:cardBackgroundColor="#03a9f4"
                 app:cardCornerRadius="@dimen/half"
                 app:cardElevation="@dimen/half">
@@ -85,9 +85,9 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/main_luckydraw_cv"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="@dimen/eleven"
                 android:layout_margin="@dimen/two"
+                android:layout_weight="1"
                 app:cardBackgroundColor="@color/colorPrimary"
                 app:cardCornerRadius="@dimen/half"
                 app:cardElevation="@dimen/half">
@@ -114,8 +114,7 @@
         android:id="@+id/small_chicken_imgv"
         android:layout_width="@dimen/ten"
         android:layout_height="@dimen/ten"
-        android:src="@drawable/small_chicken1"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-80dp"
-        />
+        android:src="@drawable/small_chicken1" />
 </FrameLayout>

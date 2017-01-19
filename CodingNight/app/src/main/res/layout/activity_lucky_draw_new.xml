@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -25,13 +24,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/main_titile_tv"
                     android:layout_width="wrap_content"
@@ -43,12 +42,13 @@
                     android:textSize="25sp"
                     android:textStyle="bold"
                     android:transitionName="shareTitle" />
+
                 <FrameLayout
                     android:layout_width="@dimen/five"
                     android:layout_height="@dimen/five"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/two"
                     android:layout_marginRight="@dimen/four"
-                    android:layout_gravity="center_vertical"
                     android:background="@drawable/fab_red">
 
                     <ImageView
@@ -60,9 +60,7 @@
                         android:scaleType="centerInside"
                         android:src="@drawable/exit_draw" />
                 </FrameLayout>
-
             </LinearLayout>
-
 
             <FrameLayout
                 android:id="@+id/content"
@@ -72,6 +70,7 @@
                 android:layout_marginLeft="@dimen/eight"
                 android:layout_marginRight="@dimen/eight"
                 android:layout_marginTop="@dimen/two">
+
                 <ImageView
                     android:id="@+id/chicken_guide_imgv"
                     android:layout_width="match_parent"

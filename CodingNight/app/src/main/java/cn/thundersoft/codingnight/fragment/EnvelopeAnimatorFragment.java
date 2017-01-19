@@ -82,10 +82,6 @@ public class EnvelopeAnimatorFragment extends Fragment {
         }
         setExitTransition(new Fade().setInterpolator(new AccelerateDecelerateInterpolator()));
         FragmentManager fm = getActivity().getSupportFragmentManager();
-//        Fragment old = fm.findFragmentByTag("prize");
-//        if (old != null) {
-//            fm.beginTransaction().remove(old).commit();
-//        }
         Fragment prizeFragment = new PrizeFragment();
         Bundle b = new Bundle();
         b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);

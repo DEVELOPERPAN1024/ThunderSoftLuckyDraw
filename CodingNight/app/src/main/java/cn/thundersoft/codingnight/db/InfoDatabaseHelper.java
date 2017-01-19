@@ -38,26 +38,27 @@ public class InfoDatabaseHelper extends SQLiteOpenHelper {
                     "    award_id INTEGER,\n" +
                     "    money INTEGER DEFAULT(-1)\n" +
                     ");";
-    private static final String CREATE_WININFO_TRIGGER="CREATE TRIGGER wininfo_trigger\n" +
-            "AFTER INSERT\n" +
-            "ON wininfo\n" +
-            "BEGIN\n" +
-            "    UPDATE info\n" +
-            "       SET award_id = new.award_id\n" +
-            "    WHERE new.info_id = info._id;\n" +
-            "END;";
-    private static final String CREATE_TRIGGER_AFTER_AWARD_DELETE=
+    private static final String CREATE_WININFO_TRIGGER =
+            "CREATE TRIGGER wininfo_trigger\n" +
+                    "AFTER INSERT\n" +
+                    "ON wininfo\n" +
+                    "BEGIN\n" +
+                    "    UPDATE info\n" +
+                    "       SET award_id = new.award_id\n" +
+                    "    WHERE new.info_id = info._id;\n" +
+                    "END;";
+    private static final String CREATE_TRIGGER_AFTER_AWARD_DELETE =
             "CREATE TRIGGER update_info_wininfo_after_award_delete\n" +
-            "AFTER DELETE\n" +
-            "ON award\n" +
-            "BEGIN\n" +
-            "    UPDATE info\n" +
-            "       SET award_id = 0\n" +
-            "     WHERE info.award_id = old._id;\n" +
-            "    DELETE FROM wininfo\n" +
-            "          WHERE wininfo.award_id = old._id;\n" +
-            "END;\n";
-    private static final String CREATE_TRIGGER_AFTER_INFO_DELETE=
+                    "AFTER DELETE\n" +
+                    "ON award\n" +
+                    "BEGIN\n" +
+                    "    UPDATE info\n" +
+                    "       SET award_id = 0\n" +
+                    "     WHERE info.award_id = old._id;\n" +
+                    "    DELETE FROM wininfo\n" +
+                    "          WHERE wininfo.award_id = old._id;\n" +
+                    "END;\n";
+    private static final String CREATE_TRIGGER_AFTER_INFO_DELETE =
             "CREATE TRIGGER delete_wininfo_after_info_delete\n" +
                     "         AFTER DELETE\n" +
                     "            ON info\n" +

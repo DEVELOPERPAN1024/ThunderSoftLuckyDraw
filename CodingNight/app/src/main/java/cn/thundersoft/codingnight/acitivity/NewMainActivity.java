@@ -12,9 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,7 +33,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.util.DisplayUtil;
-import cn.thundersoft.codingnight.util.UiUtils;
 
 public class NewMainActivity extends AbsStoragePermissionCheckActivity
         implements View.OnClickListener {
@@ -127,17 +123,9 @@ public class NewMainActivity extends AbsStoragePermissionCheckActivity
         });
     }
 
-    private void initAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.enter_from_down30);
-        LayoutAnimationController controller = new LayoutAnimationController(animation);
-        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
-        mMainItemLL.setLayoutAnimation(controller);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        UiUtils.hideNavBar(this);
         mMyHandler.sendEmptyMessageDelayed(3, 2000);
         isChickenShouldAnimated = true;
         setupAnimatedTimer();
@@ -214,6 +202,5 @@ public class NewMainActivity extends AbsStoragePermissionCheckActivity
         mMyHandler.sendEmptyMessage(2);
         Intent intent = new Intent(this, LuckyDrawActivityNew.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, mMainTitleTV, "shareTitle").toBundle());
-
     }
 }

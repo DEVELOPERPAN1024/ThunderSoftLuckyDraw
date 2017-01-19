@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_lucky_draw_final"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,14 +25,15 @@
                 android:text="抽奖滚动"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/lucky_draw_final_text_random"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textColor="@color/colorSubTitle"
-                    android:textSize="12sp"
-                    android:typeface="monospace"/>
+
+            <TextView
+                android:id="@+id/lucky_draw_final_text_random"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorSubTitle"
+                android:textSize="12sp"
+                android:typeface="monospace" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -82,8 +82,5 @@
                     android:src="@drawable/begin_draw_icon" />
             </FrameLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
-
 </LinearLayout>

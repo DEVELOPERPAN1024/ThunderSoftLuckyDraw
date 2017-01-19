@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
 import cn.thundersoft.codingnight.models.Award;
-import cn.thundersoft.codingnight.util.RegexCheckUtil;
 
 /**
  * Created by pandroid on 2017/1/18.
@@ -62,18 +61,18 @@ public class AddSpecialActivity extends AbsStoragePermissionCheckActivity {
                 return true;
             }
             int totalMoney = Integer.valueOf(mAwardNameEdt.getText().toString());
-            if (totalMoney < 100){
-                Toast.makeText(this,"钱少了点吧",Toast.LENGTH_SHORT).show();
+            if (totalMoney < 100) {
+                Toast.makeText(this, "钱少了点吧", Toast.LENGTH_SHORT).show();
             }
             int peopleCount = Integer.valueOf(mAwardCountEdt.getText().toString());
-            if(peopleCount<1){
-                Toast.makeText(this,"数据错误",Toast.LENGTH_SHORT).show();
+            if (peopleCount < 1) {
+                Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
             }
             //save to db
             Award bean = new Award();
-            bean.setName(mAwardNameEdt.getText().toString()+"现金红包");
+            bean.setName(mAwardNameEdt.getText().toString() + "现金红包");
             bean.setCount(peopleCount);
-            bean.setDetail(totalMoney+"");
+            bean.setDetail(totalMoney + "");
             bean.setRepeatable(mIsRepeatablCB.isChecked());
             bean.setIsSpecial(true);
             bean.setTotalDrawTimes(1);

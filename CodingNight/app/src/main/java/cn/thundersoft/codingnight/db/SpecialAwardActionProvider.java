@@ -1,4 +1,4 @@
-package cn.thundersoft.codingnight.ui;
+package cn.thundersoft.codingnight.db;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +19,12 @@ import cn.thundersoft.codingnight.acitivity.AwardActivity;
 
 public class SpecialAwardActionProvider extends ActionProvider {
     private Context context;
-    public SpecialAwardActionProvider(Context context){
+
+    public SpecialAwardActionProvider(Context context) {
         super(context);
         this.context = context;
     }
+
     @Override
     public View onCreateActionView() {
 //        View actionView = LayoutInflater.from(context)

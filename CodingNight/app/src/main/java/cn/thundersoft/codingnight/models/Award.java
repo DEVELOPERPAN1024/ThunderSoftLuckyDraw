@@ -27,21 +27,23 @@ public class Award implements Serializable {
         isSpecial = special;
     }
 
-    public Award(){
+    public Award() {
 
     }
-    public Award(Prize prize){
+
+    public Award(Prize prize) {
         this.id = prize.getId();
         this.name = prize.getName();
         this.detail = prize.getDetail();
         this.picUrl = prize.getImgUri() == null ? "" : prize.getImgUri().toString();
-        this.orderIndex  = prize.getIndex();
+        this.orderIndex = prize.getIndex();
         this.drewTimes = prize.getDrawnTimes();
         this.isRepeatable = prize.canRepeat();
         this.totalDrawTimes = prize.getTotalTime();
         this.count = prize.getCount();
         this.isSpecial = prize.isSpecial();
     }
+
     public int getId() {
         return id;
     }
@@ -105,6 +107,7 @@ public class Award implements Serializable {
     public void setDrewTimes(int drewTimes) {
         this.drewTimes = drewTimes;
     }
+
     public boolean isRepeatable() {
         return isRepeatable;
     }
@@ -113,6 +116,11 @@ public class Award implements Serializable {
         isRepeatable = repeatable;
     }
 
-    public void increaseDrewTimes() { drewTimes += 1; }
-    public void decreaseDrewTimes() { drewTimes -= 1; }
+    public void increaseDrewTimes() {
+        drewTimes += 1;
+    }
+
+    public void decreaseDrewTimes() {
+        drewTimes -= 1;
+    }
 }

@@ -34,7 +34,7 @@ public class PersonView extends FrameLayout implements View.OnClickListener {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == FRESH_AWARD_INFO) {
+            if (msg.what == FRESH_AWARD_INFO) {
                 String awards = "";
                 List<Award> prizes = mPerson.getPrizes();
                 for (int i = 0; i < prizes.size(); i++) {

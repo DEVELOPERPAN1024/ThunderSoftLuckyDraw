@@ -72,7 +72,7 @@ public class MyRandom implements Runnable {
         List<Person> list = new ArrayList<>();
         while (list.size() < count) {
             double rs = getRandom_0_1();
-            int randomPosition = ((int) (rs * (allPersons.size()-1)));
+            int randomPosition = ((int) (rs * (allPersons.size() - 1)));
             Person p = allPersons.get(randomPosition);
             list.add(p);
             allPersons.remove(p);
@@ -103,6 +103,7 @@ public class MyRandom implements Runnable {
 
     /**
      * 计算红包
+     *
      * @param totalCount 红包总数
      * @param totalMoney 红包总金额
      * @return 计算好的红包列表
@@ -111,8 +112,8 @@ public class MyRandom implements Runnable {
         // 要确保总金额是偶数
         // 保证每人最少得到平均的10%
         double minPercent = 0.10;
-        int moneyForDraw = (int)(totalMoney * (1 - minPercent));
-        int minMoney = (int)(totalMoney * minPercent / totalCount);
+        int moneyForDraw = (int) (totalMoney * (1 - minPercent));
+        int minMoney = (int) (totalMoney * minPercent / totalCount);
         List<Integer> moneys = new ArrayList<>();
         int count = totalCount;
         Random random = new Random();
@@ -132,6 +133,4 @@ public class MyRandom implements Runnable {
         }
         return moneys;
     }
-
-
 }

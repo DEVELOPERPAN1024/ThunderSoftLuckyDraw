@@ -9,11 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +36,7 @@ import cn.thundersoft.codingnight.models.Person;
 import cn.thundersoft.codingnight.ui.PersonView;
 import cn.thundersoft.codingnight.ui.ScrollBarView;
 
-public class DataActivity extends AppCompatActivity implements View.OnClickListener,
+public class DataActivity extends BaseActivity implements View.OnClickListener,
         PersonView.Reloadable, AbsListView.OnScrollListener,
         ScrollBarView.OnProgressChangeListener {
     private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");

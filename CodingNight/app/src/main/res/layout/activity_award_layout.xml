@@ -9,19 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/one"
-        android:divider="@android:color/transparent"></ListView>
+        android:divider="@android:color/transparent" />
 
     <TextView
         android:id="@+id/main_hint_tv"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:background="#eee"
-        android:textStyle="italic"
-        android:textSize="15sp"
-        android:textColor="#777"
+        android:gravity="center"
         android:text="还没有任何奖项\n点击右上角加号添加"
-        />
-
+        android:textColor="#777"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:visibility="gone" />
 </FrameLayout>

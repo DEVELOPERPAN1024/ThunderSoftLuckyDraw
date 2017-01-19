@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,7 +26,7 @@ import cn.thundersoft.codingnight.models.Person;
 import cn.thundersoft.codingnight.util.MyRandom;
 import cn.thundersoft.codingnight.util.StringUtil;
 
-public class LuckyDrawActivityFinal extends AppCompatActivity {
+public class LuckyDrawActivityFinal extends BaseActivity {
 
     private static final int EMPTY_DRAW = 1;
     private static final int START_DRAW = 0;
@@ -76,17 +75,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     mRandomTextView.append("所有人都中奖啦~\n添加一个允许重复的奖项试一下咯");
                     updateButtonState();
                     break;
-                /*
-                case STOP_DRAW:
-                    updateRandomList();
-                    for (int i = 0; i < mPersonsToShow.size(); i++) {
-                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                                mPersonsToShow.get(i).getId(),
-                                mCurrentAward.getId());
-                        DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-                    }
-                    break;
-                */
                 case PLACE_NAME_IN_SEQUENCE:
                     updateRandomList();
                     Person p = (Person) msg.obj;
@@ -237,18 +225,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }).start();
     }
 
-    private void insertWinner(final int winnerId) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                        winnerId,
-                        mCurrentAward.getId());
-                DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
-            }
-        }).start();
-    }
-
     private void initView() {
         mDrawButton = (ImageView) findViewById(R.id.lucky_draw_final_button);
         mRandomTextView = (TextView) findViewById(R.id.lucky_draw_final_text_random);
@@ -256,16 +232,13 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mDrawBtnLayout = (FrameLayout) findViewById(R.id.fab_container);
         updateHintText();
         updateButtonState();
-
     }
-
 
     private void initAction() {
 
         mDrawBtnLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (mIsRedPackage) {
                     if (isDrawEnd() && mIsDrawing && !hasMoneyAttached) { // 初始状态drawEnd
                         updateButtonState();
@@ -280,7 +253,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     } else if (!hasMoneyAttached) {
 //                        mCurrentAward.increaseDrewTimes(); // 保证红包按钮状态更新后不会因为isDrawEnd结束
                         updateRandomListWithMoney();
-                        attachMoney();
+                        hasMoneyAttached = true;
                         mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
                     } else {
                         finish();
@@ -314,11 +287,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void attachMoney() {
-        // TODO: 1/18/17 attach money
-        hasMoneyAttached = true;
     }
 
     // 抽奖
@@ -361,22 +329,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
     }
 
-    private void updateDrawState() { // 开始抽奖
-        if (!isDrawEnd()) {
-
-        } else {
-            // 抽奖结束显示什么？
-        }
-    }
-
-//    private void updatePersonAwardState(Person p) {
-//        for (Person person : mTotalPersons) {
-//            if (person.getId() == p.getId()) {
-//                person.setMoney(mCurrentAward.getId());
-//            }
-//        }
-//    }
-
     private void updateButtonState() {
         if (mTotalPersons.size() == 0) {
             mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
@@ -409,12 +361,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-//        if (mIsRedPackage) {
-//            // 红包的话就直接显示名单，红包的名单不会很长????
-//            for (int i = 0; i < mPersonsToShow.size(); ++i) {
-//                str += (mPersonsToShow.get(i).getInfo() + "\n");
-//            }
-//        } else {
             if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
                 for (int i = 0; i < mPersonsToShow.size(); ++i) {
                     if (i + 1 < mPersonsToShow.size()) {
@@ -433,7 +379,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     str += (mPersonsToShow.get(i).getInfo() + "\n");
                 }
             }
-//        }
 
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
@@ -444,7 +389,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-
 
         if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
@@ -467,20 +411,11 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             }
         }
 
-//        for (int i = 0; i < mPersonsToShow.size(); ++i) {
-//            str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
-//                        + "  "
-//                        + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
-//                        + "\n");
-//            mPersonsToShow.get(i).setMoney(moneys.get(i)); // 把中奖金额写到person里
-//        }
-
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
     }
 
     private void calculateRandomTextShowStyleByLines(int lines) {
-
         if (lines == 1) {
             updateRandomTextStyle(24f, 0, 0);
             return;
@@ -495,7 +430,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         }
         if (lines > 10) {
             updateRandomTextStyle(14f, 0, 0);
-            return;
         }
     }
 
@@ -524,28 +458,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         return str;
     }
 
-    private void updateAwardNameList() {
-        for (Person person : mPersonsToShow) {
-            mAwardNameList.add(person.getInfo());
-        }
-//        updateAwardNameTVByNameList();
-    }
-
-//    private void updateAwardNameTVByNameList() {
-//        if (mAwardNameList == null) {
-//            return;
-//        }
-//        if (mAwardNameList.size() < 1) {
-//            return;
-//        }
-//        String str = "";
-//        for (int i = 0; i < mAwardNameList.size(); ++i) {
-//            str += (mAwardNameList.get(i) + "\n\n");
-//        }
-//        mAwardListTV.setText(str);
-//        mAwardNameSV.fullScroll(View.FOCUS_DOWN);
-//    }
-
     // 状态检查
     private boolean isDrawEnd() {
         return mCurrentAward.getDrewTimes() >= mCurrentAward.getTotalDrawTimes();
@@ -556,6 +468,4 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mAwardNameList = DbUtil.getAwardPeopleArrayList(this, mCurrentAward);
 //        updateAwardNameTVByNameList();
     }
-
-
 }

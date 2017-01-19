@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,7 +24,7 @@ import cn.thundersoft.codingnight.ui.ClearableEditText;
 import cn.thundersoft.codingnight.ui.PersonView;
 import cn.thundersoft.codingnight.ui.ScrollBarView;
 
-public class SearchActivity extends AppCompatActivity implements TextWatcher,
+public class SearchActivity extends BaseActivity implements TextWatcher,
         PersonView.Reloadable, AbsListView.OnScrollListener,
         ScrollBarView.OnProgressChangeListener {
 

@@ -130,7 +130,7 @@ public class DbUtil {
         if (c != null) {
             if (bean.isSpecial()) {
                 while (c.moveToNext()) {
-                    sb.append(c.getString(1) + " ").append(c.getString(3)).append("\n");
+                    sb.append(c.getString(1)).append(" ").append(c.getString(3)).append("\n");
                 }
             } else {
                 while (c.moveToNext()) {
@@ -170,7 +170,7 @@ public class DbUtil {
         context.getContentResolver().delete(ProviderContract.CLEAN_WININFO_URI, null, null);
     }
 
-    public static List<Person>  getMoneyPersonList(Context context) {
+    public static List<Person> getMoneyPersonList(Context context) {
         return internalGetMoneyPersonList(context, true);
     }
 
@@ -206,13 +206,13 @@ public class DbUtil {
 
     }
 
-    public static String sqliteEscape(String keyWord){
+    public static String sqliteEscape(String keyWord) {
         keyWord = keyWord.replace("/", "//");
         keyWord = keyWord.replace("'", "''");
         keyWord = keyWord.replace("[", "/[");
         keyWord = keyWord.replace("]", "/]");
         keyWord = keyWord.replace("%", "/%");
-        keyWord = keyWord.replace("&","/&");
+        keyWord = keyWord.replace("&", "/&");
         keyWord = keyWord.replace("_", "/_");
         keyWord = keyWord.replace("(", "/(");
         keyWord = keyWord.replace(")", "/)");

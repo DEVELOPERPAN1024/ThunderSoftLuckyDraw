@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.TransitionSet;
@@ -23,19 +22,13 @@ import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-
-import java.util.Iterator;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,9 +38,8 @@ import cn.thundersoft.codingnight.db.AwardAndEmployeeInfoProvider;
 import cn.thundersoft.codingnight.fragment.EnvelopeAnimatorFragment;
 import cn.thundersoft.codingnight.fragment.PrizeFragment;
 import cn.thundersoft.codingnight.models.Prize;
-import cn.thundersoft.codingnight.util.UiUtils;
 
-public class LuckyDrawActivityNew extends AppCompatActivity implements
+public class LuckyDrawActivityNew extends BaseActivity implements
         AdapterView.OnItemClickListener, View.OnTouchListener, View.OnClickListener {
     private static final Uri CONTENT_URI = Uri.parse(AwardAndEmployeeInfoProvider.URI);
 
@@ -61,8 +53,6 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
     FrameLayout mMainFrameLayout;
     @Bind(R.id.chicken_guide_imgv)
     ImageView mChickenGuideImgv;
-
-    private Toast mToast;
 
     private PrizeListAdapter mAdapter;
     private Point mTouchPoint;
@@ -101,7 +91,6 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         super.onResume();
         Uri u = Uri.withAppendedPath(CONTENT_URI, "award");
         new PrizeLoadProgressAsyncTask("").execute(u);
-        UiUtils.hideNavBar(this);
     }
 
     @Override
@@ -112,14 +101,6 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, prize);
         FragmentManager fm = getSupportFragmentManager();
-//        List<Fragment> fragments = fm.getFragments();
-//        if (fragments != null && fragments.size() > 0) {
-//            Iterator<Fragment> iterator = fragments.iterator();
-//            while (iterator.hasNext()) {
-//                fm.beginTransaction().remove(iterator.next()).commit();
-//            }
-//        }
-//        ((FrameLayout) findViewById(R.id.content)).removeAllViews();
         if (prize.isFinish()||prize.isSpecial()) {
             Fragment prizeFragment = new PrizeFragment();
             FragmentTransaction ft = fm.beginTransaction();
@@ -140,15 +121,6 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             ft.commit();
         }
 
-    }
-
-    private void showToast(String msg) {
-        if (mToast == null) {
-            mToast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        } else {
-            mToast.setText(msg);
-        }
-        mToast.show();
     }
 
     private void initTransitions() {
@@ -212,7 +184,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         protected void onPostExecute(Cursor cursor) {
             if (cursor == null) {
                 dialog.dismiss();
-                Toast.makeText(LuckyDrawActivityNew.this, "null cursor", Toast.LENGTH_LONG).show();
+                showToast("null cursor");
                 return;
             }
             if (mAdapter == null) {
