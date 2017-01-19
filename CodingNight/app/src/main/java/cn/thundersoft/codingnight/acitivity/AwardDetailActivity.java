@@ -90,6 +90,7 @@ public class AwardDetailActivity extends AppCompatActivity {
                     public void run() {
                         String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this, mMainBean);
                         Message msg = new Message();
+                        msg.what = SHOW_AWARD_LIST;
                         Bundle bundle = new Bundle();
                         bundle.putString("peoplelist", peopleList);
                         msg.setData(bundle);
