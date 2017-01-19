@@ -70,8 +70,8 @@ public class AddSpecialActivity extends AbsStoragePermissionCheckActivity {
                 Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            if (peopleCount > 25) {
-                Toast.makeText(this, "最多一次性抽25个", Toast.LENGTH_SHORT).show();
+            if (peopleCount > 20) {
+                Toast.makeText(this, "最多一次性抽20个", Toast.LENGTH_SHORT).show();
                 return true;
             }
             //save to db
