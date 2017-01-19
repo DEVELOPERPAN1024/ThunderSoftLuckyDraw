@@ -335,27 +335,23 @@ public class LuckyDrawActivityFinal extends BaseActivity {
     }
 
 
+    //每次获取的数量尽可能相近
     private int getDrawCountForThisTime() {
         int total = mCurrentAward.getCount();
+        //余数
+        int extraNum = total % mCurrentAward.getTotalDrawTimes();
+        //商
+        int standNum = total / mCurrentAward.getTotalDrawTimes();
         int drewTimes;
         if (mIsDrawing) {
             drewTimes = mCurrentAward.getDrewTimes() + 1;
         } else {
             drewTimes = mCurrentAward.getDrewTimes();
         }
-        boolean hasDevideRemainder = total % mCurrentAward.getTotalDrawTimes() != 0;
-
-        if (drewTimes == mCurrentAward.getTotalDrawTimes()) {
-//            return total / mCurrentAward.getTotalDrawTimes() + total % mCurrentAward.getTotalDrawTimes();
-            if (hasDevideRemainder)
-                return (total - (mCurrentAward.getTotalDrawTimes() - 1) * (total / mCurrentAward.getTotalDrawTimes() + 1));
-            else
-                return total / mCurrentAward.getTotalDrawTimes();
+        if (drewTimes <= extraNum) {
+            return standNum + 1;
         } else {
-            if (hasDevideRemainder)
-                return total / mCurrentAward.getTotalDrawTimes() + 1;
-            else
-                return total / mCurrentAward.getTotalDrawTimes();
+            return standNum;
         }
     }
 
