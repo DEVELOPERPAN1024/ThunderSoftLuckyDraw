@@ -342,9 +342,10 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         int total = mCurrentAward.getCount();
         int drewTimes = mCurrentAward.getDrewTimes() + randomStyle;
         if (drewTimes == mCurrentAward.getTotalDrawTimes()) {
-            return total / mCurrentAward.getTotalDrawTimes() + total % mCurrentAward.getTotalDrawTimes();
+//            return total / mCurrentAward.getTotalDrawTimes() + total % mCurrentAward.getTotalDrawTimes();
+            return (total - (mCurrentAward.getTotalDrawTimes() - 1) * (total / mCurrentAward.getTotalDrawTimes() + 1));
         } else {
-            return total / mCurrentAward.getTotalDrawTimes();
+            return total / mCurrentAward.getTotalDrawTimes() + 1;
         }
     }
 
@@ -413,24 +414,36 @@ public class LuckyDrawActivityFinal extends BaseActivity {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlHTMLStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + "<font color=\"#ff0000\">"
+                            + "<font color=\"#f44336\">"
                             + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
                             + "</font>"
                             + controlHTMLStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + "<font color=\"#ff0000\">"
+                            + "<font color=\"#f44336\">"
                             + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
                             + "</font>"
                             + "<br />");
                 } else {
-                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
-                            + "  "
-                            + getNumbersOfSpace(SINGLE_NAME_LENGTH);
+//                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
+//                            + "  "
+//                            + getNumbersOfSpace(SINGLE_NAME_LENGTH);
+                    str += (controlHTMLStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                            + "<font color=\"#f44336\">"
+                            + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
+                            + "</font>"
+                            + controlHTMLStringLength("", SINGLE_NAME_LENGTH_SHORT)
+                            + "<font color=\"#f44336\">"
+                            + controlHTMLStringLength("", SINGLE_MONEY_LENGTH)
+                            + "</font>"
+                            + "<br />");
                 }
             }
         } else {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
-                str += (mPersonsToShow.get(i).getInfo() + " "
-                        + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH) + "\n");
+                str += (controlHTMLStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                        + "<font color=\"#f44336\">"
+                        + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
+                        + "</font>"
+                        + "<br />");
             }
         }
 
