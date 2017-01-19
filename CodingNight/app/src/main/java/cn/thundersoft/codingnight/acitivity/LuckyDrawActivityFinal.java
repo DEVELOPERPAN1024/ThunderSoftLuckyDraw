@@ -55,6 +55,8 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     private List<Person> mTotalPersons = new ArrayList<>();
     private List<Person> mPersonsToShow = new ArrayList<>();
 
+    private List<Integer> mRedPackageMoneys = new ArrayList<>();
+
 
     // state
     private boolean mIsDrawing;
@@ -202,12 +204,16 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             public void run() {
                 mPersonsToShow.clear();
                 int count = getDrawCountForThisTime(RANDOM_REAL);
+                if (mIsRedPackage) {
+                    mRedPackageMoneys = MyRandom.getMoneys(count, Integer.parseInt(mCurrentAward.getDetail()));
+                }
                 for (int i = 0; i < count; i++) {
                     if (mTotalPersons.size() == 0) {
                         mHandler.sendEmptyMessage(EMPTY_DRAW);
                         return;
                     }
                     Person p = MyRandom.getRandomPersion(mTotalPersons);
+                    if (mIsRedPackage) p.setMoney(mRedPackageMoneys.get(i));
                     mPersonsToShow.add(p);
                     Message msg = new Message();
                     msg.obj = p;
@@ -431,15 +437,15 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        List<Integer> moneys = MyRandom.getMoneys(mPersonsToShow.size(), Integer.parseInt(mCurrentAward.getDetail()));
+
 
         if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
+                            + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH)
                             + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH)
+                            + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH)
                             + "\n");
                 } else {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
@@ -450,7 +456,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         } else {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 str += (mPersonsToShow.get(i).getInfo() + " "
-                        + controlStringLength(moneys.get(i).toString(), SINGLE_MONEY_LENGTH) + "\n");
+                        + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH) + "\n");
             }
         }
 
