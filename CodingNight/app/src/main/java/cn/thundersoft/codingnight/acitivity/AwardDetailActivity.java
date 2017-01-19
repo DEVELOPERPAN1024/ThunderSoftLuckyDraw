@@ -47,7 +47,7 @@ public class AwardDetailActivity extends BaseActivity {
             super.handleMessage(msg);
             if(msg.what == SHOW_AWARD_LIST) {
                 new AlertDialog.Builder(AwardDetailActivity.this)
-                        .setTitle(mMainBean.getName() + "中将名单")
+                        .setTitle(mMainBean.getName() + "中奖名单")
                         .setMessage(msg.getData().getString("peoplelist"))
                         .create()
                         .show();
@@ -113,7 +113,7 @@ public class AwardDetailActivity extends BaseActivity {
             return true;
         } else if (Objects.equals(item.getTitle(), "删除")) {
             new AlertDialog.Builder(AwardDetailActivity.this)
-                    .setTitle(mMainBean.getName() + "中将名单")
+                    .setTitle(mMainBean.getName() + "中奖名单")
                     .setMessage("确定要删除吗？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override

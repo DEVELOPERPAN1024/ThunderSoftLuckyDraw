@@ -85,9 +85,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="@dimen/one"
-                    android:text="奖项名称："
+                    android:text="奖项详情："
                     android:textSize="13sp" />
-
                 <TextView
                     android:id="@+id/detail_award_detail"
                     android:layout_width="0dp"

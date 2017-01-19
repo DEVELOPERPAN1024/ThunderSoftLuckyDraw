@@ -61,16 +61,22 @@ public class AddSpecialActivity extends AbsStoragePermissionCheckActivity {
                 return true;
             }
             int totalMoney = Integer.valueOf(mAwardNameEdt.getText().toString());
-            if (totalMoney < 100) {
+            if (totalMoney < 1000) {
                 Toast.makeText(this, "钱少了点吧", Toast.LENGTH_SHORT).show();
+                return true;
             }
             int peopleCount = Integer.valueOf(mAwardCountEdt.getText().toString());
             if (peopleCount < 1) {
                 Toast.makeText(this, "数据错误", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            if (peopleCount > 25) {
+                Toast.makeText(this, "最多一次性抽25个", Toast.LENGTH_SHORT).show();
+                return true;
             }
             //save to db
             Award bean = new Award();
-            bean.setName(mAwardNameEdt.getText().toString() + "现金红包");
+            bean.setName(mAwardNameEdt.getText().toString() + "现金");
             bean.setCount(peopleCount);
             bean.setDetail(totalMoney + "");
             bean.setRepeatable(mIsRepeatablCB.isChecked());
