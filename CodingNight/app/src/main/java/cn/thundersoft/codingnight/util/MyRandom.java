@@ -109,21 +109,23 @@ public class MyRandom implements Runnable {
      */
     public static List<Integer> getMoneys(int totalCount, int totalMoney) {
         // 要确保总金额是偶数
-        // 保证每人最少得到平均的20%
-        double minPercent = 0.20f;
+        // 保证每人最少得到平均的10%
+        double minPercent = 0.10;
         int moneyForDraw = (int)(totalMoney * (1 - minPercent));
         int minMoney = (int)(totalMoney * minPercent / totalCount);
         List<Integer> moneys = new ArrayList<>();
         int count = totalCount;
         Random random = new Random();
         int randomMoney;
+        int drewMoney = 0;
         while (count > 0) {
             if (count == 1) {
-                moneys.add(moneyForDraw + minMoney); // 最后一次  取剩下的
+                moneys.add(totalMoney - drewMoney); // 最后一次  取剩下的
             } else {
                 // 取整 每次计算时，当前得到的最大值为当前平均数的2倍（不然后面计算的太吃亏，这样分布还比较正常）
                 randomMoney = (int) (random.nextDouble() * (moneyForDraw / count * 2));
                 moneys.add(randomMoney + minMoney);
+                drewMoney += randomMoney + minMoney;
                 moneyForDraw -= randomMoney;
             }
             count--;

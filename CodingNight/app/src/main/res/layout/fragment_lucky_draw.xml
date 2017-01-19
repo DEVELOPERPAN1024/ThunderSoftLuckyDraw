@@ -42,7 +42,7 @@
                         android:singleLine="true"
                         android:text="一等奖"
                         android:textColor="#000"
-                        android:textSize="30sp" />
+                        android:textSize="28sp" />
                 </HorizontalScrollView>
 
                 <ScrollView
@@ -68,7 +68,7 @@
                 android:layout_marginLeft="@dimen/three"
                 android:layout_marginRight="@dimen/eight"
                 android:layout_marginTop="@dimen/three"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:background="#0000"
                 android:minHeight="240dp"
                 android:scaleType="centerCrop"
