@@ -164,13 +164,13 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "from info\n" +
                         "where info._id not in\n" +
                         "(select info_id\n" +
-                        "from wininfo);", null);
+                        "from wininfo where money < 0 or money is null);", null);
             case WINNER:
                 return db.rawQuery("select *\n" +
                         "from info\n" +
                         "where info._id in\n" +
                         "(select info_id\n" +
-                        "from wininfo);", null);
+                        "from wininfo where money < 0 or money is null);", null);
             case PERSON_AWARD:
                 String personId = uri.getLastPathSegment();
                 return db.rawQuery("select *\n" +
@@ -188,11 +188,12 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 uri.getQueryParameter("alsoNoAward");
                 return db.rawQuery("select info._id, info\n" +
                         "from info left join wininfo on (info._id = wininfo.info_id)\n" +
-                        "where money = -1 or money is null", null);
+                        "where money = -1 or money is null group by info._id", null);
             case NO_MONEY_AND_NO_AWARD_LIST:
                 return db.rawQuery("select info._id, info\n" +
                         "from info left join wininfo on (info._id = wininfo.info_id)\n" +
-                        "where (money = -1 or money is null) && wininfo.award_id is null", null);
+                        "wininfo.award_id is null\n" +
+                        "group by info._id", null);
         }
         return null;
     }
