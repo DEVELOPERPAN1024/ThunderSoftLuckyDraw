@@ -14,7 +14,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DisplayUtil.hideNavBar(this);
+//        DisplayUtil.hideNavBar(this);
     }
 
     protected void showToast(String msg) {
