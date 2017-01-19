@@ -18,6 +18,7 @@ public class ProviderContract {
     public static final Uri CLEAN_WININFO_URI = Uri.withAppendedPath(BASE, "wininfo/clean");
     public static final Uri MONEY_LIST_URI = Uri.withAppendedPath(BASE, "wininfo/money_list");
     public static final Uri NO_MONEY_LIST_URI = Uri.withAppendedPath(BASE, "wininfo/no_money_list");
+    public static final Uri NO_MONEY_AND_NO_AWARD_LIST_URI = Uri.withAppendedPath(BASE, "wininfo/no_money_no_award_list");
 
     public class AwardColumns {
         public static final int ID          = 0;  //int

@@ -32,6 +32,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
     private static final int MONEY_LIST = 12;
     private static final int RED_PACKET = 13;
     private static final int NO_MONEY_LIST = 14;
+    private static final int NO_MONEY_AND_NO_AWARD_LIST = 15;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 
@@ -50,6 +51,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
         sUriMatcher.addURI(AUTH, "wininfo/money_list", MONEY_LIST);
         sUriMatcher.addURI(AUTH, "award/red_packet/#", RED_PACKET);
         sUriMatcher.addURI(AUTH, "wininfo/no_money_list", NO_MONEY_LIST);
+        sUriMatcher.addURI(AUTH, "wininfo/no_money_no_award_list", NO_MONEY_AND_NO_AWARD_LIST);
     }
 
     public AwardAndEmployeeInfoProvider() {
@@ -147,7 +149,7 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                 return db.query(TABLE_WIN_INFO, null, null, null, null, null, null);
             case WIN_ID:
                 String wid = uri.getPathSegments().get(1);
-                String q = "select wininfo._id,info.info,award.name\n" +
+                String q = "select wininfo._id,info.info,award.name,wininfo.money\n" +
                         "from info join wininfo on (info._id = wininfo.info_id) join award on (award._id=wininfo.award_id)\n" +
                         "where wininfo.award_id = ?";
                 return db.rawQuery(q, new String[]{wid});
@@ -183,9 +185,14 @@ public class AwardAndEmployeeInfoProvider extends ContentProvider {
                         "where money > 0 " +
                         "group by info._id", null);
             case NO_MONEY_LIST:
+                uri.getQueryParameter("alsoNoAward");
                 return db.rawQuery("select info._id, info\n" +
                         "from info left join wininfo on (info._id = wininfo.info_id)\n" +
                         "where money = -1 or money is null", null);
+            case NO_MONEY_AND_NO_AWARD_LIST:
+                return db.rawQuery("select info._id, info\n" +
+                        "from info left join wininfo on (info._id = wininfo.info_id)\n" +
+                        "where (money = -1 or money is null) && wininfo.award_id is null", null);
         }
         return null;
     }

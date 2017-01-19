@@ -128,8 +128,16 @@ public class DbUtil {
         Uri u = Uri.withAppendedPath(URI, "wininfo/" + bean.getId());
         Cursor c = context.getContentResolver().query(u, null, null, null, null);
         if (c != null) {
-            while (c.moveToNext()) {
-                sb.append(c.getString(1)).append("\n");
+            if (bean.isSpecial()) {
+                while (c.moveToNext()) {
+                    sb.append(c.getString(1) + " ").append(c.getString(2)).append("\n");
+                }
+            } else {
+                while (c.moveToNext()) {
+                    sb.append(c.getString(1)).append("\n");
+
+                }
+
             }
             c.close();
         }
@@ -168,6 +176,19 @@ public class DbUtil {
 
     public static List<Person> getNoMoneyPersonList(Context context) {
         return internalGetMoneyPersonList(context, false);
+    }
+
+    public static List<Person> getNoMoneyAndNoAwardPersonList(Context context) {
+        List<Person> list = new ArrayList<>();
+        Cursor c = context.getContentResolver().query(ProviderContract.NO_MONEY_AND_NO_AWARD_LIST_URI, null, null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                Person p = new Person(c.getInt(0), c.getString(1));
+                p.setMoney(-1);
+                list.add(p);
+            }
+        }
+        return list;
     }
 
     private static List<Person> internalGetMoneyPersonList(Context context, boolean hasMoney) {
