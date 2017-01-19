@@ -40,8 +40,8 @@ public class SpecialAwardActionProvider extends ActionProvider {
         super.onPrepareSubMenu(subMenu);
         subMenu.clear();
         subMenu.addSubMenu("普通奖项")
-                .setIcon(R.drawable.ic_launcher);
+                .setIcon(R.drawable.normal_award);
         subMenu.addSubMenu("现金红包")
-                .setIcon(R.drawable.envelop_icon);
+                .setIcon(R.drawable.red_package);
     }
 }
