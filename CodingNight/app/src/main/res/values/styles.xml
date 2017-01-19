@@ -16,8 +16,6 @@
     <style name="AppTheme.NoActionBar.FullScreen" parent="AppTheme.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
     <style name="AppTheme.CustomActionBar" parent="AppTheme">
