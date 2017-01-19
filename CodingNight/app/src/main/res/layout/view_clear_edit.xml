@@ -2,6 +2,8 @@
 <cn.thundersoft.codingnight.ui.ClearableEditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/one"
@@ -12,9 +14,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColorHint="#ddd"
         android:hint="@string/search_input_search_text"
-        android:textColor="@android:color/white" />
+        android:imeOptions="flagNoExtractUi"
+        android:textColor="@android:color/white"
+        android:textColorHint="#ddd" />
 
     <ImageButton
         android:id="@+id/bt_clear"

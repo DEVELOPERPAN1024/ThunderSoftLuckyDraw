@@ -13,49 +13,68 @@
         app:cardBackgroundColor="#fff"
         app:cardElevation="2dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/content_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/prize_des_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/four"
+                android:layout_marginLeft="@dimen/six"
+                android:layout_marginTop="@dimen/four"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/lucky_draw_award_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:text="一等奖"
+                        android:textColor="#000"
+                        android:textSize="30sp" />
+                </HorizontalScrollView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/lucky_draw_award_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="简介爱上是丢返回爱胜率仅ifvadfiv爱抚啊对方vskdjfhvb自动回复vzdfjvh"
+                        android:textColor="#000"
+                        android:textSize="20sp" />
+                </ScrollView>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/lucky_draw_award_image"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/three"
+                android:layout_marginLeft="@dimen/three"
                 android:layout_marginRight="@dimen/eight"
                 android:layout_marginTop="@dimen/three"
-                android:layout_toRightOf="@+id/prize_des_ll"
+                android:layout_weight="1.5"
                 android:background="#0000"
                 android:minHeight="240dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/award_default"
                 android:tint="#0000" />
-
-            <LinearLayout
-                android:id="@+id/prize_des_ll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/six"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/lucky_draw_award_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="一等奖"
-                    android:textColor="#000"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/lucky_draw_award_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="简介"
-                    android:textColor="#000"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/fab_container"

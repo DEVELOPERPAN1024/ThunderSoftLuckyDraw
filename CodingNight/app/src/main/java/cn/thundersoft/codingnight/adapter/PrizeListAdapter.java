@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 
 import cn.thundersoft.codingnight.R;
+import cn.thundersoft.codingnight.db.ProviderContract;
 import cn.thundersoft.codingnight.models.Prize;
 import cn.thundersoft.codingnight.ui.PrizeIndicatorItem;
 
@@ -44,5 +45,17 @@ public class PrizeListAdapter extends CursorAdapter {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
         return Prize.parseFromCursor(getCursor());
+    }
+
+    public int getFirstUnDrawnPrizePosition() {
+        Cursor c = getCursor();
+        for (c.moveToFirst(); c.moveToNext(); ) {
+            int total = c.getInt(ProviderContract.AwardColumns.TOTAL_TIMES);
+            int drawn = c.getInt(ProviderContract.AwardColumns.DRAWN_TIMES);
+            if (total - drawn == 0) {
+                return c.getPosition();
+            }
+        }
+        return -1;
     }
 }

@@ -1,8 +1,5 @@
 package cn.thundersoft.codingnight.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,10 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -29,10 +24,8 @@ import cn.thundersoft.codingnight.models.Prize;
  * @author GreenShadow
  */
 public class PrizeFragment extends Fragment implements View.OnClickListener {
-    private View contentContainer;
     private ImageView prizeImage;
     private TextView name, detail;
-    private FrameLayout fabContainer;
     private ImageView fabStart;
 
     private Prize mPrize;
@@ -43,17 +36,15 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lucky_draw, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        contentContainer = view.findViewById(R.id.content_container);
         prizeImage = (ImageView) view.findViewById(R.id.lucky_draw_award_image);
         name = (TextView) view.findViewById(R.id.lucky_draw_award_name);
         detail = (TextView) view.findViewById(R.id.lucky_draw_award_detail);
-        fabContainer = (FrameLayout) view.findViewById(R.id.fab_container);
         fabStart = (ImageView) view.findViewById(R.id.fab_start);
 
         Bundle b = getArguments();
@@ -102,11 +93,11 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (mCurrentAward.isSpecial()) {
-                    if(mCurrentAward.getDrewTimes() > mCurrentAward.getTotalDrawTimes()){
+                    if (mCurrentAward.getDrewTimes() > mCurrentAward.getTotalDrawTimes()) {
                         detail.setText("已经抽完了");
                         detail.setTextColor(getContext().getResources()
                                 .getColor(R.color.colorPrimary));
-                    }else{
+                    } else {
                         detail.setText("谢谢老板!");
                         detail.setTextColor(getContext().getResources()
                                 .getColor(R.color.colorPrimary));
@@ -131,20 +122,5 @@ public class PrizeFragment extends Fragment implements View.OnClickListener {
             mAsyncTask.cancel(true);
             mAsyncTask = null;
         }
-    }
-
-    private void startRandomRolling() {
-        int width = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-        Animator fabMove = ObjectAnimator.ofFloat(fabContainer, "translationX",
-                (width - fabContainer.getWidth()) / 2 - 100);
-        Animator contentMoveX = ObjectAnimator.ofFloat(contentContainer, "translationX",
-                contentContainer.getWidth() * -1);
-        Animator contentMoveY = ObjectAnimator.ofFloat(contentContainer, "translationY",
-                contentContainer.getHeight() * -1);
-
-        AnimatorSet animator = new AnimatorSet();
-        animator.playTogether(fabMove, contentMoveX, contentMoveY);
-        animator.setDuration(333);
-        animator.start();
     }
 }
