@@ -112,14 +112,14 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
         final Bundle bundle = new Bundle();
         bundle.putParcelable(Prize.PRIZE_BUNDLE_KEY, prize);
         FragmentManager fm = getSupportFragmentManager();
-        List<Fragment> fragments = fm.getFragments();
-        if (fragments != null && fragments.size() > 0) {
-            Iterator<Fragment> iterator = fragments.iterator();
-            while (iterator.hasNext()) {
-                fm.beginTransaction().remove(iterator.next()).commit();
-            }
-        }
-        ((FrameLayout) findViewById(R.id.content)).removeAllViews();
+//        List<Fragment> fragments = fm.getFragments();
+//        if (fragments != null && fragments.size() > 0) {
+//            Iterator<Fragment> iterator = fragments.iterator();
+//            while (iterator.hasNext()) {
+//                fm.beginTransaction().remove(iterator.next()).commit();
+//            }
+//        }
+//        ((FrameLayout) findViewById(R.id.content)).removeAllViews();
         if (prize.isFinish()||prize.isSpecial()) {
             Fragment prizeFragment = new PrizeFragment();
             FragmentTransaction ft = fm.beginTransaction();
@@ -128,7 +128,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             prizeFragment.setArguments(b);
             prizeFragment.setEnterTransition(mEnvelopeEnterTransitions);
             prizeFragment.setArguments(bundle);
-            ft.replace(R.id.content, prizeFragment, "prize");
+            ft.replace(R.id.content, prizeFragment);
             ft.commit();
         } else {
             Fragment fragment = new EnvelopeAnimatorFragment();
@@ -136,7 +136,7 @@ public class LuckyDrawActivityNew extends AppCompatActivity implements
             //if (fragment == null) {
             fragment.setEnterTransition(mEnvelopeEnterTransitions);
             fragment.setArguments(bundle);
-            ft.replace(R.id.content, fragment, "envelope");
+            ft.replace(R.id.content, fragment);
             ft.commit();
         }
 

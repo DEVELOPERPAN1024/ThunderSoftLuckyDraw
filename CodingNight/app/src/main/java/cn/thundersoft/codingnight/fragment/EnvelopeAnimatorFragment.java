@@ -82,10 +82,10 @@ public class EnvelopeAnimatorFragment extends Fragment {
         }
         setExitTransition(new Fade().setInterpolator(new AccelerateDecelerateInterpolator()));
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        Fragment old = fm.findFragmentByTag("prize");
-        if (old != null) {
-            fm.beginTransaction().remove(old).commit();
-        }
+//        Fragment old = fm.findFragmentByTag("prize");
+//        if (old != null) {
+//            fm.beginTransaction().remove(old).commit();
+//        }
         Fragment prizeFragment = new PrizeFragment();
         Bundle b = new Bundle();
         b.putParcelable(Prize.PRIZE_BUNDLE_KEY, mPrize);
@@ -97,7 +97,7 @@ public class EnvelopeAnimatorFragment extends Fragment {
         prizeFragment.setExitTransition(null);
         FragmentTransaction ft = fm.beginTransaction();
 
-        ft.replace(R.id.content, prizeFragment, "prize")
+        ft.replace(R.id.content, prizeFragment)
                 .addSharedElement(imagePreview, getString(R.string.img_transition_name))
                 .addToBackStack(null)
                 .commit();
