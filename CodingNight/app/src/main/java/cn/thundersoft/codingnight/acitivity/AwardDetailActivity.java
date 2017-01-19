@@ -1,6 +1,8 @@
 package cn.thundersoft.codingnight.acitivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -12,7 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Objects;
 
 import butterknife.Bind;
@@ -33,16 +42,23 @@ public class AwardDetailActivity extends AppCompatActivity {
     TextView mCheckAwardPeopleListBtn;
 
     private Award mMainBean;
+    private final static int EXPORT_FILE_SUCCESS = 1000;
+    private final static int SHOW_AWARD_LIST= 1001;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            new AlertDialog.Builder(AwardDetailActivity.this)
-                    .setTitle(mMainBean.getName()+"中将名单")
-                    .setMessage(msg.getData().getString("peoplelist"))
-                    .create()
-                    .show();
+            if(msg.what == SHOW_AWARD_LIST) {
+                new AlertDialog.Builder(AwardDetailActivity.this)
+                        .setTitle(mMainBean.getName() + "中将名单")
+                        .setMessage(msg.getData().getString("peoplelist"))
+                        .create()
+                        .show();
+            }else if(msg.what == EXPORT_FILE_SUCCESS){
+                Toast.makeText(AwardDetailActivity.this,
+                        "导出"+mMainBean.getName()+"中奖名单成功",Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -87,8 +103,9 @@ public class AwardDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem item = menu.add("删除");
-//        item.setIcon(R.drawable.ic_delete);
         item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        MenuItem item1 = menu.add("导出中奖名单");
+        item1.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -98,9 +115,39 @@ public class AwardDetailActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (Objects.equals(item.getTitle(), "删除")) {
-            DbUtil.deleteAward(this, mMainBean);
-            finish();
+            new AlertDialog.Builder(AwardDetailActivity.this)
+                    .setTitle(mMainBean.getName() + "中将名单")
+                    .setMessage("确定要删除吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DbUtil.deleteAward(AwardDetailActivity.this, mMainBean);
+                            finish();
+                        }
+                    })
+                    .create()
+                    .show();
             return true;
+        }else if(Objects.equals(item.getTitle(), "导出中奖名单")){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String peopleList = DbUtil.getAwardPeopleList(AwardDetailActivity.this, mMainBean);
+                    File file = new File(Environment.getExternalStorageDirectory()
+                            +File.separator+mMainBean.getName()
+                            +System.currentTimeMillis()+".txt");
+                    try {
+                        if (!file.exists()) {
+                            file.createNewFile();
+                        }
+                        OutputStream outputStream = new FileOutputStream(file);
+                        outputStream.write(peopleList.getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mHandler.sendEmptyMessage(EXPORT_FILE_SUCCESS);
+                }
+            }).start();
         }
         return super.onOptionsItemSelected(item);
     }
