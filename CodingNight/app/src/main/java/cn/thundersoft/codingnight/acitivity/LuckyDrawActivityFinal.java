@@ -3,31 +3,22 @@ package cn.thundersoft.codingnight.acitivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.thundersoft.codingnight.R;
 import cn.thundersoft.codingnight.db.DbUtil;
@@ -38,8 +29,7 @@ import cn.thundersoft.codingnight.util.StringUtil;
 
 public class LuckyDrawActivityFinal extends AppCompatActivity {
 
-    public static final int REQ_CODE = 2017;
-    private static final int STOP_DRAW = 1;
+    private static final int EMPTY_DRAW = 1;
     private static final int START_DRAW = 0;
 
     private static final int PLACE_NAME_IN_SEQUENCE = 2;
@@ -56,13 +46,11 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     // view
     private FrameLayout mDrawBtnLayout;
     private ImageView mDrawButton;
-    private ScrollView mRandomScrollView;
     private TextView mHintTextView;
     private TextView mRandomTextView;
     // data
     private Award mCurrentAward;
     private List<String> mAwardNameList = new ArrayList<>();
-    private List<Person> mRandomNameList = new ArrayList<>();
 
     private List<Person> mTotalPersons = new ArrayList<>();
     private List<Person> mPersonsToShow = new ArrayList<>();
@@ -73,9 +61,6 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
     private boolean hasMoneyAttached = false;
     private boolean mIsRedPackage;
 
-    private int mBackPressTime = 0;
-
-    private Timer mTimer;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -84,6 +69,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 case START_DRAW:
                     updateRandomList();
                     break;
+                case EMPTY_DRAW:
+                    mDrawBtnLayout.setEnabled(true);
+                    mRandomTextView.append("所有人都中奖啦~\n添加一个允许重复的奖项试一下咯");
+                    updateButtonState();
+                    break;
+                /*
                 case STOP_DRAW:
                     updateRandomList();
                     for (int i = 0; i < mPersonsToShow.size(); i++) {
@@ -93,6 +84,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
                     }
                     break;
+                */
                 case PLACE_NAME_IN_SEQUENCE:
                     updateRandomList();
                     Person p = (Person) msg.obj;
@@ -131,6 +123,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 
     @Override
     public void onBackPressed() { // need test
+        if (mTotalPersons.size() == 0) {
+            super.onBackPressed();
+            return;
+        }
         if (isDrawEnd()) {
             finish();
             overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
@@ -170,8 +166,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
             }
         }
 
-        mIsRedPackage = mCurrentAward.isSpecial();
-        mIsDrawing = true; // 打开该Activity即开始滚动
+        if (mTotalPersons.size() == 0) {
+            mHandler.sendEmptyMessage(EMPTY_DRAW);
+        } else {
+            mIsRedPackage = mCurrentAward.isSpecial();
+            mIsDrawing = true; // 打开该Activity即开始滚动
+        }
 
         mRes = getResources();
     }
@@ -200,6 +200,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 mPersonsToShow.clear();
                 int count = getDrawCountForThisTime(RANDOM_REAL);
                 for (int i = 0; i < count; i++) {
+                    if (mTotalPersons.size() == 0) {
+                        mHandler.sendEmptyMessage(EMPTY_DRAW);
+                        return;
+                    }
                     Person p = MyRandom.getRandomPersion(mTotalPersons);
                     mPersonsToShow.add(p);
                     Message msg = new Message();
@@ -251,7 +255,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
                     return;
                 }
-                
+
                 if (mIsRedPackage) {
                     if (mIsDrawing) {
                         mCurrentAward.increaseDrewTimes();
@@ -276,6 +280,11 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 //                        overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
 //                        return;
 //                    }
+                    if (mTotalPersons.size() == 0) {
+                        finish();
+                        overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
+                        return;
+                    }
                     if (mIsDrawing) { // stop
                         mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
@@ -308,7 +317,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                         break;
                     }
                     mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime(RANDOM_FAKE));
-                    mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
+                    if (mPersonsToShow.size() == 0) {
+                        mIsDrawing = false;
+                        mHandler.sendEmptyMessage(EMPTY_DRAW);
+                    } else {
+                        mHandler.sendEmptyMessage(START_DRAW); //按钮停止再发
+                    }
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
@@ -347,6 +361,10 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
 //    }
 
     private void updateButtonState() {
+        if (mTotalPersons.size() == 0) {
+            mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
+            return;
+        }
         //不同样式控制？
         if (isDrawEnd()) {
             Log.d("DBW", "disable button");

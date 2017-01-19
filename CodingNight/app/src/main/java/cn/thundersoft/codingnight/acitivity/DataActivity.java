@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +43,7 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
         PersonView.Reloadable, AbsListView.OnScrollListener,
         ScrollBarView.OnProgressChangeListener {
     private final Uri CONTENT_URI = Uri.parse("content://tscodingnight/info");
+    private static final String KEY_IS_RELOAD = "key_is_reload";
 
     private static final int REQUEST_SELECT_FILE = 0;
 
@@ -97,6 +100,18 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(KEY_IS_RELOAD, isReload);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        isReload = savedInstanceState.getBoolean(KEY_IS_RELOAD, false);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_person_actvity, menu);
         return true;
@@ -143,7 +158,6 @@ public class DataActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.menu_reload:
                 isReload = true;
-                reload();
                 mImportButton.performClick();
                 break;
             default:

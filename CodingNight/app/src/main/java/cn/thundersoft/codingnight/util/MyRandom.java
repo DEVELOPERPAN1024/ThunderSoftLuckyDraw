@@ -90,9 +90,9 @@ public class MyRandom implements Runnable {
 
     public static List<Person> getRandomListFake(List<Person> allPersons, int count) {
         List<Person> list = new ArrayList<>();
-        while (list.size() < count) {
+        while (list.size() < count && allPersons.size() > 0) {
             int f = (int) (System.currentTimeMillis() % 1000);
-            int randomPosition = f % (allPersons.size() - 1);
+            int randomPosition = f % (allPersons.size());
             Person p = allPersons.get(randomPosition);
             list.add(p);
             allPersons.remove(p);
