@@ -41,9 +41,6 @@ public class LuckyDrawActivityFinal extends BaseActivity {
     private static final int PLACE_NAME_IN_SEQUENCE = 2;
     private static final int PLACE_NAME_DONE = 3;
 
-    private static final int RANDOM_FAKE = 1;
-    private static final int RANDOM_REAL = 0;
-
     private static final int SINGLE_NAME_LENGTH = 18;
     private static final int SINGLE_NAME_LENGTH_SHORT = 16;
     private static final int SINGLE_MONEY_LENGTH = 8;
@@ -200,6 +197,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                 mRandomTextView.setText("");
                 mRandomTextView.setAlpha(1);
                 mIsDrawing = false;
+                mCurrentAward.increaseDrewTimes();
                 if (!mIsRedPackage)
                     updateButtonState();
                 else
@@ -215,7 +213,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
             @Override
             public void run() {
                 mPersonsToShow.clear();
-                int count = getDrawCountForThisTime(RANDOM_REAL);
+                int count = getDrawCountForThisTime();
                 if (mIsRedPackage) {
                     mRedPackageMoneys = MyRandom.getMoneys(count, Integer.parseInt(mCurrentAward.getDetail()));
                 }
@@ -295,7 +293,6 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                         return;
                     }
                     if (mIsDrawing) { // stop
-                        mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
                         updateHintText();
                     } else { // start
@@ -320,7 +317,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                     if (mTotalPersons.size() < 1) {
                         break;
                     }
-                    mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime(RANDOM_FAKE));
+                    mPersonsToShow = MyRandom.getRandomListFake(mTotalPersons, getDrawCountForThisTime());
                     if (mPersonsToShow.size() == 0) {
                         mIsDrawing = false;
                         mHandler.sendEmptyMessage(EMPTY_DRAW);
@@ -338,9 +335,14 @@ public class LuckyDrawActivityFinal extends BaseActivity {
     }
 
 
-    private int getDrawCountForThisTime(int randomStyle) {
+    private int getDrawCountForThisTime() {
         int total = mCurrentAward.getCount();
-        int drewTimes = mCurrentAward.getDrewTimes() + randomStyle;
+        int drewTimes;
+        if (mIsDrawing) {
+            drewTimes = mCurrentAward.getDrewTimes() + 1;
+        } else {
+            drewTimes = mCurrentAward.getDrewTimes();
+        }
         boolean hasDevideRemainder = total % mCurrentAward.getTotalDrawTimes() != 0;
 
         if (drewTimes == mCurrentAward.getTotalDrawTimes()) {
@@ -389,7 +391,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
+        if (getDrawCountForThisTime() > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
@@ -409,7 +411,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         }
 
         mRandomTextView.setText(str);
-        calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
+        calculateRandomTextShowStyleByLines(getDrawCountForThisTime());
     }
 
     private void updateRandomListWithMoney() {
@@ -418,7 +420,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
             return;
         }
 
-        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
+        if (getDrawCountForThisTime() > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
                     str += (controlHTMLStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
@@ -456,7 +458,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         }
 
         mRandomTextView.setText(Html.fromHtml(str));
-        calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
+        calculateRandomTextShowStyleByLines(getDrawCountForThisTime());
     }
 
     private void calculateRandomTextShowStyleByLines(int lines) {
