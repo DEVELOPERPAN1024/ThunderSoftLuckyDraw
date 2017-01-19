@@ -130,7 +130,7 @@ public class DbUtil {
         if (c != null) {
             if (bean.isSpecial()) {
                 while (c.moveToNext()) {
-                    sb.append(c.getString(1) + " ").append(c.getString(2)).append("\n");
+                    sb.append(c.getString(1) + " ").append(c.getString(3)).append("\n");
                 }
             } else {
                 while (c.moveToNext()) {

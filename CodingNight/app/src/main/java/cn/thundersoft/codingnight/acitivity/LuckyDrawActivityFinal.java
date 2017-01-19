@@ -90,9 +90,16 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                 case PLACE_NAME_IN_SEQUENCE:
                     updateRandomList();
                     Person p = (Person) msg.obj;
-                    DbUtil.insertWinner(LuckyDrawActivityFinal.this,
-                            p.getId(),
-                            mCurrentAward.getId());
+                    if (p.getMoney() < 0) {
+                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                p.getId(),
+                                mCurrentAward.getId());
+                    } else {
+                        DbUtil.insertWinner(LuckyDrawActivityFinal.this,
+                                p.getId(),
+                                mCurrentAward.getId(),
+                                p.getMoney());
+                    }
                     //insertWinner(mPersonsToShow.get(mPersonsToShow.size() - 1).getId());
                     break;
                 case PLACE_NAME_DONE:
