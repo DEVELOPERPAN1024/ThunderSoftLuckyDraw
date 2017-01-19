@@ -106,6 +106,7 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     DbUtil.updateAward(LuckyDrawActivityFinal.this, mCurrentAward);
                     if (mCurrentAward.isSpecial()) {
                         mDrawButton.setImageResource(R.drawable.ic_money);
+                        mCurrentAward.decreaseDrewTimes(); // 保证红包按钮状态更新后不会因为isDrawEnd结束
                     }
                     break;
                 default:
@@ -244,12 +245,20 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
         mDrawBtnLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isDrawEnd()) {
+                    updateButtonState();
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
+                    return;
+                }
+                
                 if (mIsRedPackage) {
                     if (mIsDrawing) {
                         mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
                         updateHintText();
                     } else if (!hasMoneyAttached) {
+                        mCurrentAward.increaseDrewTimes(); // 保证红包按钮状态更新后不会因为isDrawEnd结束
                         updateRandomListWithMoney();
                         attachMoney();
                         mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
@@ -261,12 +270,12 @@ public class LuckyDrawActivityFinal extends AppCompatActivity {
                     // 按钮状态切换
                     // hint信息切换
                     // 获奖列表更新
-                    if (isDrawEnd()) {
-                        updateButtonState();
-                        finish();
-                        overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
-                        return;
-                    }
+//                    if (isDrawEnd()) {
+//                        updateButtonState();
+//                        finish();
+//                        overridePendingTransition(R.anim.enter_from_left, R.anim.out_to_right);
+//                        return;
+//                    }
                     if (mIsDrawing) { // stop
                         mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
