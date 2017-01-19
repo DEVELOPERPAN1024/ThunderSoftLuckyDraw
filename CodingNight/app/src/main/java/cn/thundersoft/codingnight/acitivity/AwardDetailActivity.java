@@ -113,7 +113,7 @@ public class AwardDetailActivity extends BaseActivity {
             return true;
         } else if (Objects.equals(item.getTitle(), "删除")) {
             new AlertDialog.Builder(AwardDetailActivity.this)
-                    .setTitle(mMainBean.getName() + "中奖名单")
+                    .setTitle("删除奖项")
                     .setMessage("确定要删除吗？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
