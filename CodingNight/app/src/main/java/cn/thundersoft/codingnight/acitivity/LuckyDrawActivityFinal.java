@@ -265,11 +265,8 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                         return;
                     }
                     if (mIsDrawing) { // stop
-                        mCurrentAward.increaseDrewTimes();
                         animateStopDrawing();
-                        updateHintText();
                     } else if (!hasMoneyAttached) {
-//                        mCurrentAward.increaseDrewTimes(); // 保证红包按钮状态更新后不会因为isDrawEnd结束
                         updateRandomListWithMoney();
                         hasMoneyAttached = true;
                         mDrawButton.setImageResource(R.drawable.ic_arrow_left_white_24dp);
@@ -281,7 +278,6 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                     // 按钮状态切换
                     // hint信息切换
                     // 获奖列表更新
-
                     if (isDrawEnd()) {
                         updateButtonState();
                         finish();
