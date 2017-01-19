@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -411,11 +412,15 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
             for (int i = 0; i < mPersonsToShow.size(); ++i) {
                 if (i + 1 < mPersonsToShow.size()) {
-                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH)
-                            + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
-                            + controlStringLength(mRedPackageMoneys.get(i).toString(), SINGLE_MONEY_LENGTH)
-                            + "\n");
+                    str += (controlHTMLStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                            + "<font color=\"#ff0000\">"
+                            + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
+                            + "</font>"
+                            + controlHTMLStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH_SHORT)
+                            + "<font color=\"#ff0000\">"
+                            + controlHTMLStringLength("¥" + mRedPackageMoneys.get(i).toString() + ".00", SINGLE_MONEY_LENGTH)
+                            + "</font>"
+                            + "<br />");
                 } else {
                     str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
                             + "  "
@@ -429,7 +434,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
             }
         }
 
-        mRandomTextView.setText(str);
+        mRandomTextView.setText(Html.fromHtml(str));
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));
     }
 
@@ -466,10 +471,28 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         return str;
     }
 
+    private String getNumbersHTMLOfSpace(int num) {
+        String str = "";
+        for (int i = 0; i < num; i++) {
+            str += "&emsp;";
+        }
+        return str;
+    }
+
     private String controlStringLength(String str, int length) {
         int strRealLength = StringUtil.getStringRealLength(str);
         if (strRealLength < length) {
             str += getNumbersOfSpace(length - strRealLength);
+        } else {
+            str = str.substring(0, length - 1); // 这个会有问题
+        }
+        return str;
+    }
+
+    private String controlHTMLStringLength(String str, int length) {
+        int strRealLength = StringUtil.getStringRealLength(str);
+        if (strRealLength < length) {
+            str += getNumbersHTMLOfSpace(length - strRealLength);
         } else {
             str = str.substring(0, length - 1); // 这个会有问题
         }
