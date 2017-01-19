@@ -198,6 +198,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                 mRandomTextView.setAlpha(1);
                 mIsDrawing = false;
                 mCurrentAward.increaseDrewTimes();
+                updateHintText();
                 if (!mIsRedPackage)
                     updateButtonState();
                 else
@@ -294,7 +295,6 @@ public class LuckyDrawActivityFinal extends BaseActivity {
                     }
                     if (mIsDrawing) { // stop
                         animateStopDrawing();
-                        updateHintText();
                     } else { // start
                         mIsDrawing = true;
                         getNameList();
