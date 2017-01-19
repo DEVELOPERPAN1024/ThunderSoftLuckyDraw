@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_lucky_draw_final"
+    android:id="@+id/lucky_draw_final_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
     android:orientation="horizontal"
     android:padding="@dimen/one">
 

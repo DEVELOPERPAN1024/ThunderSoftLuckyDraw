@@ -13,8 +13,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +53,7 @@ public class LuckyDrawActivityFinal extends BaseActivity {
     private ImageView mDrawButton;
     private TextView mHintTextView;
     private TextView mRandomTextView;
+    private LinearLayout mMainBGLL;
     // data
     private Award mCurrentAward;
     private List<String> mAwardNameList = new ArrayList<>();
@@ -116,6 +123,15 @@ public class LuckyDrawActivityFinal extends BaseActivity {
             mRandomTextView.setText("已经抽完了\n去首页奖项中查看中将名单及完成更多其它操作");
             updateRandomTextStyle(18f, 0, 0);
         }
+    }
+
+    private void initBg() {
+        Glide.with(this).load(R.drawable.background1).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                mMainBGLL.setBackground(resource);
+            }
+        });
     }
 
     @Override
@@ -230,6 +246,8 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         mRandomTextView = (TextView) findViewById(R.id.lucky_draw_final_text_random);
         mHintTextView = (TextView) findViewById(R.id.lucky_draw_final_text_hint);
         mDrawBtnLayout = (FrameLayout) findViewById(R.id.fab_container);
+        mMainBGLL = (LinearLayout) findViewById(R.id.lucky_draw_final_ll);
+        initBg();
         updateHintText();
         updateButtonState();
     }
@@ -361,24 +379,24 @@ public class LuckyDrawActivityFinal extends BaseActivity {
         if (mPersonsToShow.size() < 1) {
             return;
         }
-            if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
-                for (int i = 0; i < mPersonsToShow.size(); ++i) {
-                    if (i + 1 < mPersonsToShow.size()) {
-                        str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
-                                + "  "
-                                + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH)
-                                + "\n");
-                    } else {
-                        str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
-                                + "  "
-                                + getNumbersOfSpace(SINGLE_NAME_LENGTH);
-                    }
-                }
-            } else {
-                for (int i = 0; i < mPersonsToShow.size(); ++i) {
-                    str += (mPersonsToShow.get(i).getInfo() + "\n");
+        if (getDrawCountForThisTime(RANDOM_REAL) > 10) {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                if (i + 1 < mPersonsToShow.size()) {
+                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH)
+                            + "  "
+                            + controlStringLength(mPersonsToShow.get(++i).getInfo(), SINGLE_NAME_LENGTH)
+                            + "\n");
+                } else {
+                    str += (controlStringLength(mPersonsToShow.get(i).getInfo(), SINGLE_NAME_LENGTH))
+                            + "  "
+                            + getNumbersOfSpace(SINGLE_NAME_LENGTH);
                 }
             }
+        } else {
+            for (int i = 0; i < mPersonsToShow.size(); ++i) {
+                str += (mPersonsToShow.get(i).getInfo() + "\n");
+            }
+        }
 
         mRandomTextView.setText(str);
         calculateRandomTextShowStyleByLines(getDrawCountForThisTime(RANDOM_REAL));

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -154,6 +155,13 @@ public class AwardActivity extends BaseActivity implements LoaderManager.LoaderC
             } else {
                 awardViewHolder = (AwardViewHolder) convertView.getTag();
             }
+            if (mList.get(position).isSpecial()) {
+                awardViewHolder.mAwardCardView.setCardBackgroundColor(getResources()
+                        .getColor(R.color.special_color));
+            } else {
+                awardViewHolder.mAwardCardView.setCardBackgroundColor(getResources()
+                        .getColor(R.color.cardview_light_background));
+            }
             awardViewHolder.mAwardNameTV.setText(mList.get(position).getName());
             awardViewHolder.mAwardDetailTV.setText(mList.get(position).getDetail());
             awardViewHolder.mAwardCountTV.setText("共" + mList.get(position).getCount() + "名");
@@ -166,8 +174,10 @@ public class AwardActivity extends BaseActivity implements LoaderManager.LoaderC
         public TextView mAwardNameTV;
         public TextView mAwardCountTV;
         public TextView mAwardDetailTV;
+        public CardView mAwardCardView;
 
         public AwardViewHolder(View itemView) {
+            mAwardCardView = (CardView) itemView.findViewById(R.id.main_award_cv);
             mAwardNameTV = (TextView) itemView.findViewById(R.id.item_award_name_tv);
             mAwardCountTV = (TextView) itemView.findViewById(R.id.item_award_count_tv);
             mAwardDetailTV = (TextView) itemView.findViewById(R.id.item_award_detail_tv);

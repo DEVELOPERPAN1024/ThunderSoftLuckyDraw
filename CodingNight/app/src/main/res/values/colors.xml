@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#f44336</color>
     <color name="colorPrimaryDark">#ff8a80</color>
-    <color name="colorAccent">#fdd835</color>
+    <color name="colorAccent">#f44336</color>
 
     <color name="colorMainTitle">#555</color>
     <color name="colorSubTitle">#777</color>
@@ -11,4 +11,5 @@
 
     <color name="prize_item_enabled">#F00</color>
     <color name="prize_item_disabled">#999</color>
+    <color name="special_color">#ffebee</color>
 </resources>
